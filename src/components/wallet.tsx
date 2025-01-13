@@ -1,4 +1,5 @@
 import * as React from "react";
+import { FaWallet } from "react-icons/fa";
 // import { IoWallet } from "react-icons/io5";
 import { Connector, useConnect } from "wagmi";
 
@@ -33,13 +34,16 @@ function WalletOption({
   return (
     <div className="flex items-center">
       <button
-        className="text-white h-10 w-44 flex justify-center items-center rounded-xl ml-4 bg-button-bg-primary
+        className="text-white ml-[1155px] h-10 w-44 flex justify-center items-center rounded-xl bg-button-bg-primary
          hover:bg-gray-600"
         disabled={!ready}
         onClick={onClick}
       >
         {/* {connector.name} */}
-        <p className="pr-1.5">Test</p>Connect Wallet
+        <p className="pr-1.5 -mt-0.5">
+          <FaWallet />
+        </p>
+        Connect Wallet
       </button>
     </div>
   );

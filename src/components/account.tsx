@@ -1,3 +1,4 @@
+import { FaWallet } from "react-icons/fa";
 import { useAccount, useDisconnect, useEnsAvatar, useEnsName } from "wagmi";
 
 export function Account() {
@@ -15,8 +16,8 @@ export function Account() {
     <div className="flex">
       {ensAvatar && <img alt="ENS Avatar" src={ensAvatar} />}
       {address && (
-        <div className="flex justify-center items-center h-10 w-44 ml-4 bg-accent hover:bg-purple-600 rounded-xl">
-          <p className="mr-1.5">Test</p>
+        <div className="ml-[1155px] flex justify-center items-center h-10 w-44 bg-accent hover:bg-purple-600 rounded-xl">
+          <FaWallet className="mr-1.5 -mt-0.5" />
           {ensName
             ? `${ensName} (${abbreviateAddress(address)})`
             : abbreviateAddress(address)}

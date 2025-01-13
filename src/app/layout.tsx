@@ -6,6 +6,7 @@ import { getConfig } from "@/utils/configuracao";
 import { headers } from "next/headers";
 import { ConnectWallet, Providers } from "@/components/provider";
 import Link from "next/link";
+import { IoSearchOutline } from "react-icons/io5";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,10 +53,12 @@ export function TopBar() {
         <div className="size-10 ml-4 -mt-1 rounded-full bg-white" />
         <h1 className="ml-2 text-[22px]">Vault Marketplace</h1>
         <Link href="../test">
-          <h2 className="ml-10">🔍 Explore vaults</h2>
+          <h2 className="ml-10 flex">
+            <IoSearchOutline className="mt-1 mr-1" /> Explore vaults
+          </h2>
         </Link>
         <Link href="../test">
-          <h3 className="ml-8 mr-[1135px] flex text-white items-center">
+          <h3 className="ml-8 flex text-white items-center">
             <p
               className="size-4 bg-white flex rounded-full items-center justify-center text-lg 
             font-semibold mr-1.5 -mt-0.5 text-black"
