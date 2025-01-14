@@ -48,19 +48,20 @@ export default async function RootLayout({
 
 export function TopBar() {
   return (
-    <div className="h-[86px] w-100% bg-background-alt">
+    <div className="h-[90px] w-100% bg-background-alt">
       <div className="h-full w-full flex items-center">
         <div className="size-10 ml-4 -mt-1 rounded-full bg-white" />
-        <h1 className="ml-2 text-[22px]">Vault Marketplace</h1>
+        <h1 className="ml-2 text-[22px] ">Vault Marketplace</h1>
         <Link href="../test">
-          <h2 className="ml-10 flex">
-            <IoSearchOutline className="mt-1 mr-1" /> Explore vaults
+          <h2 className="ml-10 flex hover:underline">
+            <IoSearchOutline className="size-[18px] mt-0.5 mr-1 " /> Explore
+            vaults
           </h2>
         </Link>
         <Link href="../test">
-          <h3 className="ml-8 flex text-white items-center">
+          <h3 className="ml-8 flex text-text-foreground items-center hover:underline">
             <p
-              className="size-4 bg-white flex rounded-full items-center justify-center text-lg 
+              className="size-4 bg-text-foreground flex rounded-full items-center justify-center text-lg 
             font-semibold mr-1.5 -mt-0.5 text-black"
             >
               +

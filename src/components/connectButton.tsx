@@ -32,15 +32,15 @@ function WalletOption({
   }, [connector]);
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center ml-auto">
       <button
-        className="text-white ml-[1155px] h-10 w-44 flex justify-center items-center rounded-xl bg-button-bg-primary
+        className="text-white h-10 w-44 flex justify-center items-center rounded-xl bg-button-bg-primary
          hover:bg-gray-600"
         disabled={!ready}
         onClick={onClick}
       >
         {/* {connector.name} */}
-        <p className="pr-1.5 -mt-0.5">
+        <p className="pr-1.5">
           <FaWallet />
         </p>
         Connect Wallet

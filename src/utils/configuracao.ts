@@ -11,7 +11,7 @@ export function getConfig(test: CreateConnectorFn[] = []) {
   return createConfig({
     chains: [mainnet, sepolia, base],
     ssr: true,
-    // connectors: test,
+    connectors: test,
     storage: createStorage({
       storage: cookieStorage,
     }),

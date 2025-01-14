@@ -12,7 +12,7 @@ import {
 } from "wagmi";
 import { metaMask, safe, walletConnect } from "wagmi/connectors";
 import { getConfig } from "../utils/configuracao";
-import { WalletOptions } from "../components/wallet";
+import { WalletOptions } from "./connectButton";
 import { Account } from "./account";
 
 type Props = {
@@ -27,15 +27,15 @@ export function ConnectWallet() {
   return <WalletOptions />;
 }
 
-const connectors = [
-  injected(),
-  walletConnect({ projectId: "My-project-id" }),
-  metaMask(),
-  safe(),
-];
+// const connectors = [
+//   injected(),
+//   // walletConnect({ projectId: "My-project-id" }),
+//   // metaMask(),
+//   // safe(),
+// ];
 
 export function Providers({ children, initialState }: Props) {
-  const [config] = useState(() => getConfig(connectors));
+  const [config] = useState(() => getConfig());
   const [queryClient] = useState(() => new QueryClient());
 
   return (
