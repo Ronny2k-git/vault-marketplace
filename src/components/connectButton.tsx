@@ -2,6 +2,7 @@ import * as React from "react";
 import { FaWallet } from "react-icons/fa";
 // import { IoWallet } from "react-icons/io5";
 import { Connector, useConnect } from "wagmi";
+import { Button } from "./button";
 
 export function WalletOptions() {
   const { connectors, connect } = useConnect();
@@ -11,6 +12,8 @@ export function WalletOptions() {
       key={connector.uid}
       connector={connector}
       onClick={() => connect({ connector })}
+      intent="primary"
+      size="large"
     />
   ));
 }
@@ -18,9 +21,13 @@ export function WalletOptions() {
 function WalletOption({
   connector,
   onClick,
+  intent,
+  size,
 }: {
   connector: Connector;
   onClick: () => void;
+  intent: "primary" | "secondary";
+  size: "small" | "medium" | "mediumLarge" | "large";
 }) {
   const [ready, setReady] = React.useState(false);
 
@@ -32,19 +39,14 @@ function WalletOption({
   }, [connector]);
 
   return (
-    <div className="flex items-center ml-auto">
-      <button
-        className="text-white h-10 w-44 flex justify-center items-center rounded-xl bg-button-bg-primary
-         hover:bg-gray-600"
-        disabled={!ready}
-        onClick={onClick}
-      >
+    <div className="flex items-center ml-auto mr-4">
+      <Button intent={intent} size={size} onClick={onClick}>
         {/* {connector.name} */}
-        <p className="pr-1.5">
+        <p>
           <FaWallet />
         </p>
         Connect Wallet
-      </button>
+      </Button>
     </div>
   );
 }

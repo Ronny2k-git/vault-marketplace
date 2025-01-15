@@ -23,6 +23,9 @@ export default {
         accent: "#8F51FB",
         "red-accent": "#EA6A6A",
       },
+      fontFamily: {
+        SpaceGrotesk: ["SpaceGrotesk", "Arial", "Helvetica", "sans-serif"],
+      },
     },
   },
   plugins: [],

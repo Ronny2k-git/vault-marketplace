@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* //DEFINIR A FONTE */
-
-/* :root {
+:root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -16,8 +14,13 @@
   }
 }
 
+@font-face {
+  font-family: "SpaceGrotesk";
+  src: url('/font/SpaceGrotesk.ttf') format('truetype');
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-} */
+  font-family: "SpaceGrotesk", Arial, Helvetica, sans-serif;
+}

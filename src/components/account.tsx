@@ -1,5 +1,6 @@
 import { FaWallet } from "react-icons/fa";
 import { useAccount, useDisconnect, useEnsAvatar, useEnsName } from "wagmi";
+import { Button } from "./button";
 
 export function Account() {
   const { address } = useAccount();
@@ -13,15 +14,15 @@ export function Account() {
   };
 
   return (
-    <div className="flex">
+    <div className="flex ml-auto mr-4">
       {ensAvatar && <img alt="ENS Avatar" src={ensAvatar} />}
       {address && (
-        <div className="ml-[1155px] flex justify-center items-center h-10 w-44 bg-accent hover:bg-purple-600 rounded-xl">
-          <FaWallet className="mr-1.5 -mt-0.5" />
+        <Button intent={"secondary"} size={"large"}>
+          <FaWallet />
           {ensName
             ? `${ensName} (${abbreviateAddress(address)})`
             : abbreviateAddress(address)}
-        </div>
+        </Button>
       )}
       <button
         className="absolute size-6 right-0 rounded-full mt-10 bg-purple-600"
