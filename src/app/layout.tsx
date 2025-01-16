@@ -2,11 +2,15 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cookieToInitialState } from "wagmi";
-import { getConfig } from "@/utils/configuracao";
+import { getConfig } from "@/utils/configWagmi";
 import { headers } from "next/headers";
-import { ConnectWallet, Providers } from "@/components/provider";
+import { Providers } from "@/components/provider";
 import Link from "next/link";
 import { IoSearchOutline } from "react-icons/io5";
+
+import "@rainbow-me/rainbowkit/styles.css";
+
+import { ButtonStyle } from "@/components/connectButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,7 +73,14 @@ export function TopBar() {
             Create a vault
           </h3>
         </Link>
-        <ConnectWallet />
+        <div className=" ml-auto mr-4">
+          <ButtonStyle />
+          {/* <ConnectButton
+            accountStatus="address"
+            chainStatus={"none"}
+            showBalance={false}
+          /> */}
+        </div>
       </div>
     </div>
   );

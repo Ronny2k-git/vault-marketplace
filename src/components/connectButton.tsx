@@ -1,52 +1,94 @@
-import * as React from "react";
-import { FaWallet } from "react-icons/fa";
-// import { IoWallet } from "react-icons/io5";
-import { Connector, useConnect } from "wagmi";
+"use client";
+
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Button } from "./button";
+import { FaWallet } from "react-icons/fa";
 
-export function WalletOptions() {
-  const { connectors, connect } = useConnect();
+const abbreviateAddress = (address: string) => {
+  if (!address) return "";
+  return `${address.slice(0, 7)}...${address.slice(-5)}`.toLowerCase();
+};
 
-  return connectors.map((connector) => (
-    <WalletOption
-      key={connector.uid}
-      connector={connector}
-      onClick={() => connect({ connector })}
-      intent="primary"
-      size="large"
-    />
-  ));
-}
-
-function WalletOption({
-  connector,
-  onClick,
-  intent,
-  size,
-}: {
-  connector: Connector;
-  onClick: () => void;
-  intent: "primary" | "secondary";
-  size: "small" | "medium" | "mediumLarge" | "large";
-}) {
-  const [ready, setReady] = React.useState(false);
-
-  React.useEffect(() => {
-    (async () => {
-      const provider = await connector.getProvider();
-      setReady(!!provider);
-    })();
-  }, [connector]);
-
+export const ButtonStyle = () => {
   return (
-    <div className="flex items-center ml-auto mr-4">
-      <Button intent={intent} size={size} onClick={onClick}>
-        {/* {connector.name} */}
-        <p>
-          <FaWallet />
-        </p>
-        Connect Wallet
-      </Button>
-    </div>
+    <ConnectButton.Custom>
+      {({
+        account,
+        chain,
+        openAccountModal,
+        openChainModal,
+        openConnectModal,
+        authenticationStatus,
+        mounted,
+      }) => {
+        const ready = mounted && authenticationStatus !== "loading";
+        const connected =
+          ready &&
+          account &&
+          chain &&
+          (!authenticationStatus || authenticationStatus === "authenticated");
+
+        return (
+          <div
+            {...(!ready && {
+              "aria-hidden": true,
+              style: {
+                opacity: 0,
+                pointerEvents: "none",
+                userSelect: "none",
+              },
+            })}
+          >
+            {(() => {
+              if (!connected) {
+                return (
+                  <div className="flex">
+                    <Button
+                      intent={"primary"}
+                      size={"large"}
+                      onClick={openConnectModal}
+                      type="button"
+                    >
+                      <FaWallet /> Connect Wallet
+                    </Button>
+                  </div>
+                );
+              }
+
+              if (chain.unsupported) {
+                return (
+                  <button onClick={openChainModal} type="button">
+                    Wrong network
+                  </button>
+                );
+              }
+
+              return (
+                <div className="flex" style={{ display: "flex", gap: 12 }}>
+                  <button
+                    onClick={openChainModal}
+                    style={{ display: "flex", alignItems: "center" }}
+                    type="button"
+                  ></button>
+
+                  <Button
+                    intent={"secondary"}
+                    size={"large"}
+                    onClick={openAccountModal}
+                    type="button"
+                  >
+                    <FaWallet />
+                    {account &&
+                      account.address &&
+                      abbreviateAddress(account.address)}
+                    {/* {account.displayName} */}
+                  </Button>
+                </div>
+              );
+            })()}
+          </div>
+        );
+      }}
+    </ConnectButton.Custom>
   );
-}
+};
