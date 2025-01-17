@@ -5,7 +5,7 @@ import { Button } from "./button";
 import { Card } from "./card";
 import Link from "next/link";
 
-export default function CardLive() {
+export function CardLive() {
   return (
     <div>
       <Card intent={"primary"} size={"small"}>

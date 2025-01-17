@@ -2,10 +2,10 @@
 
 import { Button } from "./button";
 import { Card } from "./card";
-import CardLive from "./vaultCardLive";
-import CardTokens from "./vaultCardTokens";
+import { CardLive } from "./vaultCardLive";
+import { CardTokens } from "./vaultCardTokens";
 
-export default function TokenVaults() {
+export function TokenVaults() {
   const cardTokensArray = new Array(10).fill(null);
   return (
     <div>

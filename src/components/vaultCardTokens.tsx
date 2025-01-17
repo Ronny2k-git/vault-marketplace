@@ -5,7 +5,7 @@ import { Button } from "./button";
 import { Card } from "./card";
 import Link from "next/link";
 
-export default function CardTokens() {
+export function CardTokens() {
   return (
     <div>
       <Card className="flex items-center" intent={"primary"} size={"long"}>
@@ -22,6 +22,23 @@ export default function CardTokens() {
             <FaArrowRightLong />
           </Button>
         </Link>
+      </Card>
+    </div>
+  );
+}
+
+export function TransactionTokens() {
+  return (
+    <div>
+      <Card
+        className="flex gap-2 text-white text-[12px]"
+        intent={"primary"}
+        size={"mediumLong"}
+      >
+        <div className="w-20 ml-2">5</div>
+        <div className="w-32">0x54dF...3456</div>
+        <div className="w-20">8 days ago</div>
+        <div className="text-live-accent">Deposit</div>
       </Card>
     </div>
   );

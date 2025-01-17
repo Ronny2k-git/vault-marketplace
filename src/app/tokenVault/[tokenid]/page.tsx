@@ -1,8 +1,11 @@
 "use client";
 
 import { Card } from "@/components/card";
+import { TransactionTokens } from "@/components/vaultCardTokens";
 
 export default function Token() {
+  const cardTokensArray = new Array(10).fill(null);
+
   return (
     <div className="h-screen w-[calc(screen-1px)] bg-background font-SpaceGrotesk">
       <div className="h-full w-full flex flex-col justify-center items-center">
@@ -16,25 +19,42 @@ export default function Token() {
             </div>
           </div>
         </Card>
-        <div className="mt-4 flex gap-5 mr-48 mb-52">
+        <div className="mt-4 flex gap-5 mr-48 mb-4">
           <div>
             <div className="text-sm">Start date</div>
-            <div className="text-xs">00/00/0000</div>
+            <div className="text-xs text-text-foreground">00/00/0000</div>
           </div>
           <div>
             <div className="text-sm">End date</div>
-            <div className="text-xs">00/00/0000</div>
+            <div className="text-xs text-text-foreground">00/00/0000</div>
           </div>
           <div>
             <div className="text-sm">Max.deposite per wallet.</div>
-            <div className="text-xs">5,400.50 USDC</div>
+            <div className="text-xs text-text-foreground">5,400.50 USDC</div>
           </div>
           <div>
             <div className="text-sm">Min.deposit per wallet.</div>
-            <div className="text-xs">500 USDC</div>
+            <div className="text-xs text-text-foreground">500 USDC</div>
           </div>
         </div>
-        test
+        <div className="flex gap-2.5">
+          <div className="flex flex-col">
+            <Card
+              className="rounded-t-xl text-xs"
+              intent={"primary"}
+              size={"mediumLong"}
+            >
+              <div className="w-20 ml-2">AMOUNT</div>
+              <div className="w-32">ACCOUNT</div>
+              <div className="w-20">TIME</div>
+              <div className="w-28">TYPE</div>
+            </Card>
+            {cardTokensArray.map((_, index) => (
+              <TransactionTokens key={index} />
+            ))}
+          </div>
+          <Card intent={"secondary"} size={"mediumLarge"}></Card>
+        </div>
       </div>
     </div>
   );

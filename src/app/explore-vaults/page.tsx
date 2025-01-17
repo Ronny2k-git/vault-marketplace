@@ -1,6 +1,6 @@
 "use client";
 
-import TokenVaults from "@/components/homePage";
+import { TokenVaults } from "@/components/homePage";
 
 export default function Home() {
   return (
