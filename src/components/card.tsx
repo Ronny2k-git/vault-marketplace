@@ -10,7 +10,7 @@ const cardStyle = cva("flex", {
       small: ["w-60", "h-[265px]", "rounded-xl", "text-[12px]", "flex-col"],
       medium: ["w-72", "h-44", "rounded-2xl"],
       mediumLarge: ["w-72", "h-60", "rounded-2xl"],
-      large: ["w-[722px]", "h-64", "rounded-2xl"],
+      large: ["w-[722px]", "h-64", "rounded-2xl", "gap-2.5"],
       long: ["h-11", "w-[730px]", "text-[11px]", "mb-0.5"],
     },
     defaultVariants: {

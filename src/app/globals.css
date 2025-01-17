@@ -17,7 +17,7 @@
 
 @font-face {
   font-family: "SpaceGrotesk";
-  src: url('/font/SpaceGrotesk.ttf') format('truetype');
+  src: url('/fonts/SpaceGrotesk.ttf') format('truetype');
 }
 
 body {

@@ -43,7 +43,7 @@ export default function CardLive() {
           <div className="text-live-accent">Live</div>
         </div>
         <div className="ml-4 mt-2">
-          <Link href={`/tokenVault`}>
+          <Link href={`/tokenVault/1`}>
             <Button intent={"primary"} size={"small"}>
               View now
               <FaArrowRightLong />
