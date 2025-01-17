@@ -11,7 +11,7 @@ const cardStyle = cva("flex", {
       medium: ["w-72", "h-44", "rounded-2xl"],
       mediumLarge: ["w-72", "h-60", "rounded-2xl"],
       large: ["w-[722px]", "h-64", "rounded-2xl"],
-      long: ["h-11", "w-[730px]", "text-[11px]", "mb-1"],
+      long: ["h-11", "w-[730px]", "text-[11px]", "mb-0.5"],
     },
     defaultVariants: {
       intent: "primary",

@@ -3,6 +3,7 @@
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "./button";
 import { Card } from "./card";
+import Link from "next/link";
 
 export default function CardLive() {
   return (
@@ -42,10 +43,12 @@ export default function CardLive() {
           <div className="text-live-accent">Live</div>
         </div>
         <div className="ml-4 mt-2">
-          <Button intent={"primary"} size={"small"}>
-            View now
-            <FaArrowRightLong />
-          </Button>
+          <Link href={`/tokenVault`}>
+            <Button intent={"primary"} size={"small"}>
+              View now
+              <FaArrowRightLong />
+            </Button>
+          </Link>
         </div>
       </Card>
     </div>

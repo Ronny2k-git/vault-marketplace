@@ -56,13 +56,13 @@ export function TopBar() {
       <div className="h-full w-full flex items-center">
         <div className="size-12 ml-4 -mt-1 rounded-full bg-white" />
         <h1 className="ml-2 text-[22px]">Vault Marketplace</h1>
-        <Link href="../test">
+        <Link href={`/explore-vaults/`}>
           <h2 className="ml-10 flex hover:underline text-text-foreground">
             <IoSearchOutline className="size-[18px] mt-0.5 mr-1" /> Explore
             vaults
           </h2>
         </Link>
-        <Link href="../test">
+        <Link href="/createVault">
           <h3 className="ml-8 flex text-white items-center hover:underline">
             <p
               className="size-3.5 bg-text-foreground flex rounded-full items-center justify-center text-sm 

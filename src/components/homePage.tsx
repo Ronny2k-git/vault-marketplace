@@ -6,6 +6,7 @@ import CardLive from "./vaultCardLive";
 import CardTokens from "./vaultCardTokens";
 
 export default function TokenVaults() {
+  const cardTokensArray = new Array(10).fill(null);
   return (
     <div>
       <div className="flex flex-col font-SpaceGrotesk">
@@ -40,18 +41,10 @@ export default function TokenVaults() {
           <div className="w-32">TOTAL DEPOSITED</div>
           <div className="w-32">START DATE</div>
         </Card>
-        <CardTokens />
-        <CardTokens />
-        <CardTokens />
-        <CardTokens />
-        <CardTokens />
-        <CardTokens />
-        <CardTokens />
-        <CardTokens />
-        <CardTokens />
-        <CardTokens />
-        <CardTokens />
-        test
+        {cardTokensArray.map((_, index) => (
+          <CardTokens key={index} />
+        ))}
+        <div className="mt-12">.</div>
       </div>
     </div>
   );
