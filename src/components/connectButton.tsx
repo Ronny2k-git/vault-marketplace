@@ -1,7 +1,7 @@
 "use client";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Button } from "./button";
+import { Button } from "./interface/button";
 import { FaWallet } from "react-icons/fa";
 
 const abbreviateAddress = (address: string) => {

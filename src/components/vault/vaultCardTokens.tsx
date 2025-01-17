@@ -1,8 +1,8 @@
 "use client";
 
 import { FaArrowRightLong } from "react-icons/fa6";
-import { Button } from "./button";
-import { Card } from "./card";
+import { Button } from "../interface/button";
+import { Card } from "../interface/card";
 import Link from "next/link";
 
 export function CardTokens() {
@@ -16,7 +16,7 @@ export function CardTokens() {
         <div className="w-[100px]">5</div>
         <div className="w-32">100,000.23 USDC</div>
         <div className="w-60">01/01/2001 12:20</div>
-        <Link href={`/tokenVault/1`}>
+        <Link href={`/token-vault/1`}>
           <Button intent={"primary"} size={"small"}>
             View now
             <FaArrowRightLong />

@@ -1,9 +1,10 @@
 "use client";
 
-import { Button } from "./button";
-import { Card } from "./card";
-import { CardLive } from "./vaultCardLive";
-import { CardTokens } from "./vaultCardTokens";
+import Link from "next/link";
+import { Button } from "./interface/button";
+import { Card } from "./interface/card";
+import { CardLive } from "./vault/vaultCardLive";
+import { CardTokens } from "./vault/vaultCardTokens";
 
 export function TokenVaults() {
   const cardTokensArray = new Array(10).fill(null);
@@ -12,12 +13,14 @@ export function TokenVaults() {
       <div className="flex flex-col font-SpaceGrotesk">
         <div className="flex pt-11">
           <h1 className="w-[570px] text-3xl pr-10">Token Vaults</h1>
-          <Button intent={"secondary"} size={"medium"}>
-            <div className="size-3 text-accent flex justify-center items-center bg-white rounded-full">
-              +
-            </div>
-            Create a token vault
-          </Button>
+          <Link href={`/create-vault`}>
+            <Button intent={"secondary"} size={"medium"}>
+              <div className="size-3 text-accent flex justify-center items-center bg-white rounded-full">
+                +
+              </div>
+              Create a token vault
+            </Button>
+          </Link>
         </div>
         <h2 className="text-base pl-1 pb-10">
           Explore lives and upcoming vaults on Vault Marketplace

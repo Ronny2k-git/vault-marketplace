@@ -35,4 +35,4 @@ export const Input: React.FC<InputProps> = ({
   intent,
   size,
   ...props
-}) => <div className={inputStyle({ intent, size, className })} {...props} />;
+}) => <input className={inputStyle({ intent, size, className })} {...props} />;

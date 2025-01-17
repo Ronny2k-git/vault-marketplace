@@ -1,24 +1,26 @@
 "use client";
 
 import { FaArrowRightLong } from "react-icons/fa6";
-import { Button } from "./button";
-import { Card } from "./card";
+import { Button } from "../interface/button";
+import { Card } from "../interface/card";
 import Link from "next/link";
 
 export function CardLive() {
   return (
     <div>
       <Card intent={"primary"} size={"small"}>
-        <img
-          className="rounded-t-xl w-full h-36 object-cover"
-          src="/usdc.png"
-        />
-        <div className="flex relative bottom-11">
-          <img className="absolute ml-2 size-8" src="/icons/usdcLogo.png" />
-          <div className="absolute ml-11 font-normal text-white text-base">
-            USDC Vault
-            <br />
-            <div className="text-[10px] -mt-2">Sepolia</div>
+        <div className="relative w-full h-fit aspect-video overflow-hidden flex-grow-0">
+          <img
+            className="rounded-t-xl size-full object-cover"
+            src="/usdc.png"
+          />
+          <div className="flex z-40 bottom-2 gap-2 left-2 absolute">
+            <img className="size-8" src="/icons/usdcLogo.png" />
+            <div className=" font-normal text-white text-base">
+              USDC Vault
+              <br />
+              <div className="text-[10px] -mt-2">Sepolia</div>
+            </div>
           </div>
         </div>
         <div className="flex mt-4 ml-4 font-SpaceGrotesk justify-between mr-4">
@@ -43,7 +45,7 @@ export function CardLive() {
           <div className="text-live-accent">Live</div>
         </div>
         <div className="ml-4 mt-2">
-          <Link href={`/tokenVault/1`}>
+          <Link href={`/token-vault/1`}>
             <Button intent={"primary"} size={"small"}>
               View now
               <FaArrowRightLong />
