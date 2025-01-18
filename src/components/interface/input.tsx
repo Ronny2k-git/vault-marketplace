@@ -8,7 +8,15 @@ const inputStyle = cva(
         primary: ["bg-background-alt-2", "text-white", "hover:bg-gray-600"],
       },
       size: {
-        medium: ["w-48", "py-2", "px-1.5", "gap-2.5", "rounded-md"],
+        medium: [
+          "w-48",
+          "h-7",
+          "py-2",
+          "px-1.5",
+          "gap-2.5",
+          "rounded-md",
+          "text-xs",
+        ],
         mediumLarge: [
           "w-64",
           "py-2",
