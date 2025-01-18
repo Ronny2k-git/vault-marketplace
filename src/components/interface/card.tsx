@@ -22,6 +22,14 @@ const cardStyle = cva("", {
       ],
       large: ["w-[755px]", "h-64", "rounded-2xl", "gap-2.5"],
       long: ["h-11", "w-[730px]", "text-[11px]", "mb-0.5"],
+      high: [
+        "w-[477px]",
+        "h-[575px]",
+        "rounded-2xl",
+        "py-5",
+        "px-5",
+        "gap-2.5",
+      ],
     },
     defaultVariants: {
       intent: "primary",
