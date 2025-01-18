@@ -1,18 +1,20 @@
 import { cva, VariantProps } from "class-variance-authority";
 
-const cardStyle = cva("flex", {
+const cardStyle = cva("", {
   variants: {
     intent: {
       primary: ["bg-background-foreground", "text-text-foreground"],
       secondary: ["bg-background-alt-2"],
+      tertiary: ["bg-background-alt-2", "border-border-primary"],
     },
     size: {
       small: ["w-60", "h-[265px]", "rounded-xl", "text-[12px]", "flex-col"],
-      medium: ["w-72", "h-44", "rounded-2xl"],
-      mediumLarge: ["w-72", "h-60", "rounded-2xl"],
+      mediumSmall: ["w-[270px]", "h-14", "border-2", "rounded-md"],
+      medium: ["w-[294px]", "h-56", "rounded-2xl"],
+      mediumLarge: ["w-[294px]", "h-72", "rounded-2xl"],
       mediumLong: [
         "h-6",
-        "py-4",
+        "py-2.5",
         "px-2.5",
         "items-center",
         "gap-2.5",

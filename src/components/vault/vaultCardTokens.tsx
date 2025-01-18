@@ -36,7 +36,7 @@ export function TransactionTokens() {
         size={"mediumLong"}
       >
         <div className="w-20 ml-2">5</div>
-        <div className="w-32">0x54dF...3456</div>
+        <div className="w-28">0x54dF...3456</div>
         <div className="w-20">8 days ago</div>
         <div className="text-live-accent">Deposit</div>
       </Card>
