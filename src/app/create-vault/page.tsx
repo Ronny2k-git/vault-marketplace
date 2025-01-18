@@ -6,8 +6,8 @@ export default function () {
   return (
     <div className="h-screen w-[calc(screen-1px)] bg-background">
       <div className="h-full w-full flex flex-col items-center">
-        <h1 className="mt-11 text-3xl mr-[520px]">Create a Vault</h1>
-        <h2 className="text-base pl-5 pb-8 mr-[515px]">
+        <h1 className="mt-11 text-3xl w-[722px]">Create a Vault</h1>
+        <h2 className="text-base pb-8 w-[722px]">
           Create your own token vault.
         </h2>
         <div className="flex">
