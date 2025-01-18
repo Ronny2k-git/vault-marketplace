@@ -3,6 +3,7 @@
 import { Button } from "@/components/interface/button";
 import { Card } from "@/components/interface/card";
 import { Input } from "@/components/interface/input";
+import CardCreate from "@/components/vault/vaultCardCreate";
 
 export default function () {
   return (
@@ -107,7 +108,7 @@ export default function () {
               />
             </div>
           </Card>
-          <Card intent={"primary"} size={"small"}></Card>
+          <CardCreate />
         </div>
         <div className="flex w-[730px] mb-11">
           <Button className="mr-2.5" intent={"primary"} size="mediumLarge">

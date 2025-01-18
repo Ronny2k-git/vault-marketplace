@@ -62,7 +62,7 @@ export function TopBar() {
             vaults
           </h2>
         </Link>
-        <Link href="/create-vault">
+        <Link href="/create-vault-page">
           <h3 className="ml-8 flex text-white items-center hover:underline">
             <p
               className="size-3.5 bg-text-foreground flex rounded-full items-center justify-center text-sm 
