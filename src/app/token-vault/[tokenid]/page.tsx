@@ -87,7 +87,7 @@ export default function Token() {
                   </div>
                   <div className="flex">
                     <Input
-                      className="text-xs text-text-foreground hover:bg-transparent"
+                      className="text-xs text-text-foreground hover:bg-transparent border-transparent"
                       intent={"primary"}
                       size={"large"}
                     ></Input>
