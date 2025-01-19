@@ -121,7 +121,7 @@ export default function () {
             >
               +
             </div>
-            <div className="text-[10px] pl-2.5">Create Vault</div>
+            <div className="text-[10px]">Create Vault</div>
           </Button>
         </div>
       </div>

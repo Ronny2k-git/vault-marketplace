@@ -90,6 +90,7 @@ export default function Token() {
                       className="text-xs text-text-foreground hover:bg-transparent border-transparent"
                       intent={"primary"}
                       size={"large"}
+                      placeholder="0"
                     ></Input>
                     <div className="text-xs mt-0.5 text-white">USDC</div>
                     <img className="size-5 ml-0.5" src="/icons/usdcLogo.png" />
@@ -97,7 +98,11 @@ export default function Token() {
                 </Card>
               </div>
               <div className="flex justify-center">
-                <Button className="mt-2.5" intent={"secondary"} size={"small"}>
+                <Button
+                  className="mt-2.5 w-[270px]"
+                  intent={"secondary"}
+                  size={"mediumLarge"}
+                >
                   Deposit USDC
                 </Button>
               </div>
