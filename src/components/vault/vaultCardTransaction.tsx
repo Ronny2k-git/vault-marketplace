@@ -20,13 +20,13 @@ export function CardTransaction() {
             <Tabs.List className="w-full flex justify-center">
               <Tabs.Trigger
                 value="Deposit"
-                className="pl-11 hover:bg-gray-500 w-36 py-1.5 gap-2.5 rounded-ss-xl"
+                className="pl-11 text-xs text-white hover:bg-gray-500 w-36 py-1.5 gap-2.5 rounded-ss-xl"
               >
                 Deposit
               </Tabs.Trigger>
               <Tabs.Trigger
                 value="Withdraw"
-                className="w-36 py-1.5 hover:bg-gray-500 px-4 pl-10 rounded-tr-xl"
+                className="w-36 text-xs py-1.5 text-white hover:bg-gray-500 px-4 pl-10 rounded-tr-xl"
               >
                 Withdraw
               </Tabs.Trigger>

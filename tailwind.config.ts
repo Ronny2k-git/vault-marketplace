@@ -22,6 +22,7 @@ export default {
         "background-alt-2": "#363B41",
         accent: "#8F51FB",
         "red-accent": "#EA6A6A",
+        shadow: "#B083FE",
       },
       fontFamily: {
         SpaceGrotesk: ["SpaceGrotesk", "Arial", "Helvetica", "sans-serif"],
