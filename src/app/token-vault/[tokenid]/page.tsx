@@ -96,13 +96,17 @@ export default function Token() {
                   </div>
                 </Card>
               </div>
-              <Button className="mt-2.5" intent={"secondary"} size={"small"}>
-                Deposit USDC
-              </Button>
+              <div className="flex justify-center">
+                <Button className="mt-2.5" intent={"secondary"} size={"small"}>
+                  Deposit USDC
+                </Button>
+              </div>
             </Card>
           </Card>
         </div>
-        <div className="text-[13px] mr-72 mt-2">1 2 3 ... 20</div>
+        <div className="text-[13px] mr-72 mt-2">
+          {"<"} 1 2 3 ... 20 {">"}
+        </div>
       </div>
     </div>
   );

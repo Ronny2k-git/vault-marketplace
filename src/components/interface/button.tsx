@@ -7,8 +7,16 @@ const buttonStyle = cva("flex justify-center font-SpaceGrotesk items-center", {
       secondary: ["bg-accent", "text-white", "hover:bg-purple-600", ,],
     },
     size: {
-      small: ["py-1.5", "px-3", "gap-2", "rounded-md", "text-[10px]"],
-      medium: ["py-2", "px-3", "gap-1.5", "rounded-xl", "text-sm"],
+      small: [
+        "w-[270px]",
+        "h-6",
+        "py-1.5",
+        "px-3",
+        "gap-2",
+        "rounded-md",
+        "text-[10px]",
+      ],
+      medium: ["py-2", "px-4", "gap-1.5", "rounded-xl", "text-sm"],
       mediumLarge: ["py-1.5", "px-4", "2.5", "rounded-lg", "text-[10px]"],
       large: ["py-2.5", "px-4", "gap-2.5", "rounded-xl", "text-base"],
     },
