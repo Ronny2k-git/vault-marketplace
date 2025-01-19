@@ -1,13 +1,14 @@
 "use client";
 
-import { Tabs } from "@radix-ui/themes";
-import { Button } from "../interface/button";
+import { Tabs, Text } from "@radix-ui/themes";
 import { Card } from "../interface/card";
-import { Input } from "../interface/input";
 import CardDeposit from "./vaultCardDeposit";
 import CardRemove from "./vaultCardRemove";
+import { useState } from "react";
 
 export default function CardTransaction() {
+  const [activeTab, setActiveTab] = useState("Deposit");
+
   return (
     <div>
       <Card className="flex flex-col" intent={"secondary"} size={"mediumLarge"}>
@@ -18,7 +19,7 @@ export default function CardTransaction() {
           01 : 20 : 55
         </div>
         <Card className="flex flex-col" intent={"primary"} size={"medium"}>
-          <Tabs.Root>
+          <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
             <Tabs.List className="w-full flex justify-center">
               <Tabs.Trigger
                 value="Deposit"
