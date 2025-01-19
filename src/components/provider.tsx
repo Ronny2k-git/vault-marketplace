@@ -5,6 +5,7 @@ import { ReactNode, useState } from "react";
 import { WagmiProvider } from "wagmi";
 import { getClientConfig } from "@/utils/configRainbow";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { Theme } from "@radix-ui/themes";
 
 type Props = {
   children: ReactNode;
@@ -19,7 +20,7 @@ export function Providers({ children, initialState }: Props) {
     <WagmiProvider config={config} initialState={initialState}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider modalSize="wide" theme={darkTheme()}>
-          {children}
+          <Theme>{children}</Theme>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
