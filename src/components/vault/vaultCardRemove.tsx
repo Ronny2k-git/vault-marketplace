@@ -4,7 +4,7 @@ import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
 
-export default function CardRemove() {
+export function CardRemove() {
   return (
     <div>
       <h1 className="ml-4 mb-2.5 text-white text-xl">Withdraw USDC</h1>

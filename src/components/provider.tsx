@@ -20,7 +20,7 @@ export function Providers({ children, initialState }: Props) {
     <WagmiProvider config={config} initialState={initialState}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider modalSize="wide" theme={darkTheme()}>
-          <Theme>{children}</Theme>
+          <Theme accentColor="gold">{children}</Theme>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

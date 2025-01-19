@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/interface/card";
 import { TransactionTokens } from "@/components/vault/vaultCardTokens";
-import CardTransaction from "@/components/vault/vaultCardTransaction";
+import { CardTransaction } from "@/components/vault/vaultCardTransaction";
 
 export default function Token() {
   const cardTokensArray = new Array(10).fill(null);

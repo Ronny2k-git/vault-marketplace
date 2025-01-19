@@ -1,6 +1,6 @@
 "use client";
 
-import CardTransaction from "@/components/vault/vaultCardTransaction";
+import { CardTransaction } from "@/components/vault/vaultCardTransaction";
 import { Box, Button, Flex, Tabs, Text } from "@radix-ui/themes";
 
 export default function Test() {

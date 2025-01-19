@@ -2,7 +2,7 @@
 
 import { Box, Tabs, Text } from "@radix-ui/themes";
 
-export default function cardTabs() {
+export function cardTabs() {
   return (
     <Tabs.Root defaultValue="Deposit">
       <Tabs.List>

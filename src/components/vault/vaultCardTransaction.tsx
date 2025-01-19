@@ -2,13 +2,10 @@
 
 import { Tabs, Text } from "@radix-ui/themes";
 import { Card } from "../interface/card";
-import CardDeposit from "./vaultCardDeposit";
-import CardRemove from "./vaultCardRemove";
-import { useState } from "react";
+import { CardDeposit } from "./vaultCardDeposit";
+import { CardRemove } from "./vaultCardRemove";
 
-export default function CardTransaction() {
-  const [activeTab, setActiveTab] = useState("Deposit");
-
+export function CardTransaction() {
   return (
     <div>
       <Card className="flex flex-col" intent={"secondary"} size={"mediumLarge"}>
@@ -19,17 +16,17 @@ export default function CardTransaction() {
           01 : 20 : 55
         </div>
         <Card className="flex flex-col" intent={"primary"} size={"medium"}>
-          <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
+          <Tabs.Root defaultValue="Deposit">
             <Tabs.List className="w-full flex justify-center">
               <Tabs.Trigger
                 value="Deposit"
-                className="pl-11 w-36 py-1.5 gap-2.5 rounded-ss-xl hover:bg-button-bg-primary"
+                className="pl-11 hover:bg-gray-500 w-36 py-1.5 gap-2.5 rounded-ss-xl"
               >
                 Deposit
               </Tabs.Trigger>
               <Tabs.Trigger
                 value="Withdraw"
-                className="w-36 py-1.5 px-4 pl-10 rounded-tr-xl hover:bg-button-bg-primary"
+                className="w-36 py-1.5 hover:bg-gray-500 px-4 pl-10 rounded-tr-xl"
               >
                 Withdraw
               </Tabs.Trigger>

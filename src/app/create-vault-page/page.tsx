@@ -3,7 +3,7 @@
 import { Button } from "@/components/interface/button";
 import { Card } from "@/components/interface/card";
 import { Input } from "@/components/interface/input";
-import CardCreate from "@/components/vault/vaultCardCreate";
+import { CardCreate } from "@/components/vault/vaultCardCreate";
 
 export default function () {
   return (
