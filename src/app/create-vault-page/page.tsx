@@ -94,7 +94,7 @@ export default function () {
               <h3 className="text-white text-xs w-52">Start date</h3>
               <h3 className="text-white text-xs">End date</h3>
             </div>
-            <div className="flex">
+            <div className="flex relative">
               <Input
                 className="mr-3"
                 placeholder="00/00/0000 00:00"
@@ -105,6 +105,14 @@ export default function () {
                 placeholder="00/00/0000 00:00"
                 intent={"primary"}
                 size={"medium"}
+              />
+              <img
+                className="absolute right-[252px] mt-1.5"
+                src="/icons/calendar.png"
+              />
+              <img
+                className="absolute right-12 mt-1.5"
+                src="/icons/calendar.png"
               />
             </div>
           </Card>
