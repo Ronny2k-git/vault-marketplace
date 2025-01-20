@@ -114,11 +114,7 @@ export default function () {
           <Button className="mr-2.5" intent={"primary"} size="mediumLarge">
             Reset
           </Button>
-          <Button
-            className="shadow-[2px_2px_0px_0px] shadow-shadow"
-            intent={"secondary"}
-            size={"mediumLarge"}
-          >
+          <Button intent={"secondary"} size={"mediumLarge"}>
             <div
               className="size-3.5 bg-white flex justify-center items-center text-base text-accent 
             rounded-full font-semibold"

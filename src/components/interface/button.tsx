@@ -4,7 +4,13 @@ const buttonStyle = cva("flex justify-center font-SpaceGrotesk items-center", {
   variants: {
     intent: {
       primary: ["bg-button-bg-primary", "text-white", "hover:bg-gray-600"],
-      secondary: ["bg-accent", "text-white", "hover:bg-purple-600", ,],
+      secondary: [
+        "bg-accent",
+        "text-white",
+        "hover:bg-purple-600",
+        "shadow-[2px_2px_0px_0px]",
+        "shadow-shadow",
+      ],
     },
     size: {
       small: ["py-1.5", "px-3", "gap-2", "rounded-md", "text-[10px]"],

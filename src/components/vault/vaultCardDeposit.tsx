@@ -31,7 +31,7 @@ export function CardDeposit() {
       </div>
       <div className="flex justify-center">
         <Button
-          className="mt-2.5 w-[270px] shadow-[2px_2px_0px_0px] shadow-shadow"
+          className="mt-2.5 w-[270px]"
           intent={"secondary"}
           size={"mediumLarge"}
         >
