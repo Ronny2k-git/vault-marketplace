@@ -1,0 +1,11 @@
+import { atom } from "jotai";
+
+// Criando átomos para armazenar os valores dos inputs
+export const networkAtom = atom("Sepolia");
+export const vaultNameAtom = atom("");
+export const vaultLogoAtom = atom("");
+export const bannerUrlAtom = atom("");
+export const minDepositAtom = atom("");
+export const maxDepositAtom = atom("");
+export const startDateAtom = atom("");
+export const endDateAtom = atom("");

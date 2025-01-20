@@ -2,8 +2,28 @@
 
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
+import { useAtom } from "jotai";
+import {
+  networkAtom,
+  vaultNameAtom,
+  vaultLogoAtom,
+  bannerUrlAtom,
+  minDepositAtom,
+  maxDepositAtom,
+  startDateAtom,
+  endDateAtom,
+} from "../../utils/atoms";
 
 export function CardCreate() {
+  const [network, setNetwork] = useAtom(networkAtom);
+  const [vaultName, setVaultName] = useAtom(vaultNameAtom);
+  const [vaultLogo, setVaultLogo] = useAtom(vaultLogoAtom);
+  const [bannerUrl, setBannerUrl] = useAtom(bannerUrlAtom);
+  const [minDeposit, setMinDeposit] = useAtom(minDepositAtom);
+  const [maxDeposit, setMaxDeposit] = useAtom(maxDepositAtom);
+  const [startDate, setStartDate] = useAtom(startDateAtom);
+  const [endDate, setEndDate] = useAtom(endDateAtom);
+
   return (
     <div>
       <Card className="mr-2.5 mb-2.5" intent={"primary"} size={"high"}>
