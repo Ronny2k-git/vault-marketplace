@@ -29,7 +29,11 @@ export function CardCreate() {
       <Card className="mr-2.5 mb-2.5" intent={"primary"} size={"high"}>
         <h3 className="text-white text-xs">Network</h3>
         <div className="relative">
-          <select className="py-1 pl-5 mb-2.5 text-white px-1.5 rounded-md text-xs bg-button-bg-primary">
+          <select
+            className="py-1 pl-5 mb-2.5 text-white px-1.5 rounded-md text-xs bg-button-bg-primary"
+            value={network}
+            onChange={(event) => setNetwork(event.target.value)}
+          >
             <option value="Sepolia">Sepolia</option>
             <option value="Arbitrum">Arbitrum</option>
             <option value="Base">Base</option>
@@ -47,6 +51,8 @@ export function CardCreate() {
           placeholder="Enter name"
           intent={"primary"}
           size={"mediumLarge"}
+          value={vaultName}
+          onChange={(event) => setVaultName(event.target.value)}
         />
         <h3 className="text-white text-xs mb-1">Vault Logo</h3>
         <h4 className="text-text-foreground text-[10px] mb-1">
@@ -56,6 +62,8 @@ export function CardCreate() {
           placeholder="Enter URL"
           intent={"primary"}
           size={"mediumLarge"}
+          value={vaultLogo}
+          onChange={(event) => setVaultLogo(event.target.value)}
         />
         <h3 className="text-white text-xs mb-1">Banner Url</h3>
         <h4 className="text-text-foreground text-[10px] mb-1">
@@ -65,6 +73,8 @@ export function CardCreate() {
           placeholder="Enter URL"
           intent={"primary"}
           size={"mediumLarge"}
+          value={bannerUrl}
+          onChange={(event) => setBannerUrl(event.target.value)}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1 flex">
@@ -80,6 +90,8 @@ export function CardCreate() {
           placeholder="Enter value"
           intent={"primary"}
           size={"mediumLarge"}
+          value={minDeposit}
+          onChange={(event) => setMinDeposit(event.target.value)}
         />
         <h3 className="text-white text-xs mb-1 flex">
           Maximum Deposit per wallet
@@ -94,6 +106,8 @@ export function CardCreate() {
           placeholder="Enter value"
           intent={"primary"}
           size={"mediumLarge"}
+          value={maxDeposit}
+          onChange={(event) => setMaxDeposit(event.target.value)}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1">Dates</h3>
@@ -111,11 +125,15 @@ export function CardCreate() {
             placeholder="00/00/0000 00:00"
             intent={"primary"}
             size={"medium"}
+            value={startDate}
+            onChange={(event) => setStartDate(event.target.value)}
           />
           <Input
             placeholder="00/00/0000 00:00"
             intent={"primary"}
             size={"medium"}
+            value={endDate}
+            onChange={(event) => setEndDate(event.target.value)}
           />
           <img
             className="absolute right-[252px] mt-1.5"

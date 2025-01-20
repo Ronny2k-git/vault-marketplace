@@ -5,6 +5,8 @@ import { Card } from "../interface/card";
 import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
 
+console.log("Rendering CardTransaction");
+
 export function CardTransaction() {
   return (
     <div>
