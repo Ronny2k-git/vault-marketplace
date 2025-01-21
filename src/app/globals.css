@@ -25,3 +25,37 @@ body {
   background: var(--background);
   font-family: "SpaceGrotesk", Arial, Helvetica, sans-serif;
 }
+
+.react-datepicker {
+  @apply bg-background-foreground text-white border-border-primary rounded-lg shadow-lg !important;
+}
+
+.react-datepicker .react-datepicker__day {
+  @apply text-white !important; 
+}
+
+.react-datepicker__day-name {
+  @apply text-white !important;
+}
+
+.react-datepicker__header {
+  @apply bg-background-foreground border-border-primary text-white !important;
+}
+
+.react-datepicker__day:hover {
+  @apply bg-background-alt text-white !important;
+}
+
+.react-datepicker__day--selected {
+  @apply bg-background-alt text-white !important;
+}
+
+.react-datepicker__current-month {
+  @apply text-white font-normal text-base font-SpaceGrotesk !important;
+}
+
+.react-datepicker__day--today {
+  @apply text-white bg-background-alt !important;
+}
+
+

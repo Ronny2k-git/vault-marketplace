@@ -139,10 +139,10 @@ export function CardCreate() {
             onChange={(event) => setEndDate(event.target.value)}
           />
           <div className="absolute right-[252px] mt-1">
-            <SelectDate />
+            <SelectDate position="top" />
           </div>
           <div className="absolute right-12 mt-1">
-            <SelectDate />
+            <SelectDate position="top" />
           </div>
         </div>
       </Card>

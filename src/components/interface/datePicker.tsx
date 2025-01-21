@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function SelectDate() {
+interface SelectDateProps {
+  position?: "top" | "bottom";
+}
+
+export default function SelectDate({ position = "bottom" }: SelectDateProps) {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
 
@@ -18,12 +22,18 @@ export default function SelectDate() {
         <img src="/icons/calendar.png" />
       </button>
       {showCalendar && (
-        <DatePicker
-          className="text-black bg-red-500 mr-10"
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-          inline
-        />
+        <div
+          className={`absolute z-40 ${
+            position === "top" ? "bottom-full mb-2" : "top-full mt-2"
+          }`}
+        >
+          <DatePicker
+            className=""
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            inline
+          />
+        </div>
       )}
     </div>
   );
