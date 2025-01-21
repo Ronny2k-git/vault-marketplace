@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/interface/button";
 import { CardCreate } from "@/components/vault/vaultCardCreate";
-import { CardInfo } from "@/components/vault/vaultCardInfo";
+import { CardPreview } from "@/components/vault/vaultCardPreview";
 
 export default function () {
   return (
@@ -14,7 +14,7 @@ export default function () {
         </h2>
         <div className="flex">
           <CardCreate />
-          <CardInfo />
+          <CardPreview />
         </div>
         <div className="flex w-[730px] mb-11">
           <Button className="mr-2.5" intent={"primary"} size="mediumLarge">

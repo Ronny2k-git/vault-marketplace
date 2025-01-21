@@ -14,6 +14,9 @@ import {
   endDateAtom,
 } from "../../utils/atoms";
 
+import "react-datepicker/dist/react-datepicker.css";
+import SelectDate from "../interface/datePicker";
+
 export function CardCreate() {
   const [network, setNetwork] = useAtom(networkAtom);
   const [vaultName, setVaultName] = useAtom(vaultNameAtom);
@@ -135,11 +138,12 @@ export function CardCreate() {
             value={endDate}
             onChange={(event) => setEndDate(event.target.value)}
           />
-          <img
-            className="absolute right-[252px] mt-1.5"
-            src="/icons/calendar.png"
-          />
-          <img className="absolute right-12 mt-1.5" src="/icons/calendar.png" />
+          <div className="absolute right-[252px] mt-1">
+            <SelectDate />
+          </div>
+          <div className="absolute right-12 mt-1">
+            <SelectDate />
+          </div>
         </div>
       </Card>
     </div>

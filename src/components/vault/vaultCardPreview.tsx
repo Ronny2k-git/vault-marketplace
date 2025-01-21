@@ -2,7 +2,7 @@
 
 import { Card } from "../interface/card";
 
-export function CardInfo() {
+export function CardPreview() {
   return (
     <div>
       <Card intent={"primary"} size={"small"}>

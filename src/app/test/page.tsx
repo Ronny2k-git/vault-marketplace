@@ -1,33 +1,30 @@
 "use client";
 
-import { Box, Tabs, Text } from "@radix-ui/themes";
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Test() {
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  const clickCalendar = () => {
+    setShowCalendar(!showCalendar);
+  };
+
   return (
-    <div className="h-screen w-screen bg-gray-700">
-      <Tabs.Root defaultValue="account">
-        <Tabs.List>
-          <Tabs.Trigger value="account">Account</Tabs.Trigger>
-          <Tabs.Trigger value="documents">Documents</Tabs.Trigger>
-          <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
-        </Tabs.List>
-
-        <Box pt="3">
-          <Tabs.Content value="account">
-            <Text size="2">Make changes to your account.</Text>
-          </Tabs.Content>
-
-          <Tabs.Content value="documents">
-            <Text size="2">Access and update your documents.</Text>
-          </Tabs.Content>
-
-          <Tabs.Content value="settings">
-            <Text size="2">
-              Edit your profile or update contact information.
-            </Text>
-          </Tabs.Content>
-        </Box>
-      </Tabs.Root>
+    <div className="Absolute">
+      <button onClick={clickCalendar}>
+        <img src="/icons/calendar.png" />
+      </button>
+      {showCalendar && (
+        <DatePicker
+          className="text-black bg-red-500 mr-10"
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          inline
+        />
+      )}
     </div>
   );
 }
