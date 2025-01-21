@@ -12,7 +12,7 @@ export function TokenVaults() {
     <div>
       <div className="flex flex-col font-SpaceGrotesk">
         <div className="flex pt-11">
-          <h1 className="w-[570px] text-3xl pr-10">Token Vaults</h1>
+          <h1 className="w-[570px] text-3xl pr-10 text-white">Token Vaults</h1>
           <Link href={`/create-vault-page`}>
             <Button intent={"secondary"} size={"medium"}>
               <div className="size-3 text-accent flex justify-center items-center bg-white rounded-full">
@@ -22,7 +22,7 @@ export function TokenVaults() {
             </Button>
           </Link>
         </div>
-        <h2 className="text-base pl-1 pb-10">
+        <h2 className="text-base pl-1 pb-10 text-text-foreground">
           Explore lives and upcoming vaults on Vault Marketplace
         </h2>
         <div className="flex gap-2.5 mb-24">
@@ -30,7 +30,9 @@ export function TokenVaults() {
           <CardLive />
           <CardLive />
         </div>
-        <div className="text-3xl w-[537px] ">Completed Token Vaults</div>
+        <div className="text-3xl w-[537px] text-white">
+          Completed Token Vaults
+        </div>
         <div className="text-base text-text-foreground mb-6">
           Take a glance on previous token vaults.
         </div>

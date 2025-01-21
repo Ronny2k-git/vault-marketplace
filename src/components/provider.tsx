@@ -6,6 +6,7 @@ import { WagmiProvider } from "wagmi";
 import { getClientConfig } from "@/utils/configRainbow";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css"; /*This fucked me up*/
 
 type Props = {
   children: ReactNode;

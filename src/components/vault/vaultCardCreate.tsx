@@ -129,7 +129,7 @@ export function CardCreate() {
         </div>
         <div className="flex relative">
           <Input
-            className="mr-3"
+            className="mr-3 placeholder:text-[11px]"
             placeholder="00/00/0000 00:00"
             intent={"primary"}
             size={"medium"}
@@ -141,6 +141,7 @@ export function CardCreate() {
             }}
           />
           <Input
+            className="placeholder:text-[11px]"
             placeholder="00/00/0000 00:00"
             intent={"primary"}
             size={"medium"}
@@ -151,14 +152,14 @@ export function CardCreate() {
               setEndDate(date);
             }}
           />
-          <div className="absolute right-[252px] mt-1">
+          <div className="absolute right-[252px] mt-1.5">
             <SelectDate
               position="top"
               selectedDate={startDate}
               onDateChange={setStartDate}
             />
           </div>
-          <div className="absolute right-12 mt-1 ">
+          <div className="absolute right-12 mt-1.5">
             <SelectDate
               position="top"
               selectedDate={endDate}

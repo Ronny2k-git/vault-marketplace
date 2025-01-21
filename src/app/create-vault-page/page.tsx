@@ -8,8 +8,8 @@ export default function () {
   return (
     <div className="min-h-screen w-[calc(screen-1px)] bg-background">
       <div className="h-full w-full flex flex-col items-center">
-        <h1 className="mt-11 text-3xl w-[722px]">Create a Vault</h1>
-        <h2 className="text-base pb-8 w-[722px]">
+        <h1 className="mt-11 text-3xl w-[722px] text-white">Create a Vault</h1>
+        <h2 className="text-base pb-8 w-[722px] text-text-foreground">
           Create your own token vault.
         </h2>
         <div className="flex">
@@ -27,7 +27,7 @@ export default function () {
             >
               +
             </div>
-            <div className="text-[10px] ">Create Vault</div>
+            <div className="text-[10px]">Create Vault</div>
           </Button>
         </div>
       </div>

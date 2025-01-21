@@ -22,19 +22,19 @@ export default function Token() {
         </Card>
         <div className="mt-4 flex gap-5 mr-56 mb-4">
           <div>
-            <div className="text-sm">Start date</div>
+            <div className="text-sm text-white">Start date</div>
             <div className="text-xs text-text-foreground">00/00/0000</div>
           </div>
           <div>
-            <div className="text-sm">End date</div>
+            <div className="text-sm text-white">End date</div>
             <div className="text-xs text-text-foreground">00/00/0000</div>
           </div>
           <div>
-            <div className="text-sm">Max.deposite per wallet.</div>
+            <div className="text-sm text-white">Max.deposite per wallet.</div>
             <div className="text-xs text-text-foreground">5,400.50 USDC</div>
           </div>
           <div>
-            <div className="text-sm">Min.deposit per wallet.</div>
+            <div className="text-sm text-white">Min.deposit per wallet.</div>
             <div className="text-xs text-text-foreground">500 USDC</div>
           </div>
         </div>
