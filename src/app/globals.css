@@ -26,35 +26,35 @@ body {
   font-family: "SpaceGrotesk", Arial, Helvetica, sans-serif;
 }
 
-.react-datepicker {
+.react-datepicker { /*General styles*/
   @apply bg-background-foreground text-white border-border-primary rounded-lg shadow-lg !important;
 }
 
-.react-datepicker .react-datepicker__day {
+.react-datepicker .react-datepicker__day { /*Color of days */
   @apply text-white !important; 
 }
 
-.react-datepicker__day-name {
+.react-datepicker__day-name { /*Days week*/
   @apply text-white !important;
 }
 
-.react-datepicker__header {
+.react-datepicker__header { /*Header of calendar*/
   @apply bg-background-foreground border-border-primary text-white !important;
 }
 
-.react-datepicker__day:hover {
+.react-datepicker__day:hover { /*Everyday hover*/
   @apply bg-background-alt text-white !important;
 }
 
-.react-datepicker__day--selected {
+.react-datepicker__day--selected { /*Day selected*/
   @apply bg-background-alt text-white !important;
 }
 
-.react-datepicker__current-month {
+.react-datepicker__current-month { /*Current month */
   @apply text-white font-normal text-base font-SpaceGrotesk !important;
 }
 
-.react-datepicker__day--today {
+.react-datepicker__day--today { /*Today*/
   @apply text-white bg-background-alt !important;
 }
 
