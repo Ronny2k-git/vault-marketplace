@@ -27,6 +27,11 @@ export function CardCreate() {
   const [startDate, setStartDate] = useAtom(startDateAtom);
   const [endDate, setEndDate] = useAtom(endDateAtom);
 
+  const formatDate = (date: Date | null) => {
+    if (!date) return "";
+    return date.toLocaleDateString("en-US");
+  };
+
   return (
     <div>
       <Card className="mr-2.5 mb-2.5" intent={"primary"} size={"high"}>
@@ -128,21 +133,37 @@ export function CardCreate() {
             placeholder="00/00/0000 00:00"
             intent={"primary"}
             size={"medium"}
-            value={startDate}
-            onChange={(event) => setStartDate(event.target.value)}
+            value={formatDate(startDate)}
+            onChange={(event) => {
+              const value = event.target.value;
+              const date = value ? new Date(value) : null;
+              setStartDate(date);
+            }}
           />
           <Input
             placeholder="00/00/0000 00:00"
             intent={"primary"}
             size={"medium"}
-            value={endDate}
-            onChange={(event) => setEndDate(event.target.value)}
+            value={formatDate(endDate)}
+            onChange={(event) => {
+              const value = event.target.value;
+              const date = value ? new Date(value) : null;
+              setEndDate(date);
+            }}
           />
           <div className="absolute right-[252px] mt-1">
-            <SelectDate position="top" />
+            <SelectDate
+              position="top"
+              selectedDate={startDate}
+              onDateChange={setStartDate}
+            />
           </div>
-          <div className="absolute right-12 mt-1">
-            <SelectDate position="top" />
+          <div className="absolute right-12 mt-1 ">
+            <SelectDate
+              position="top"
+              selectedDate={endDate}
+              onDateChange={setEndDate}
+            />
           </div>
         </div>
       </Card>

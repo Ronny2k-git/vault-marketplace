@@ -6,10 +6,15 @@ import "react-datepicker/dist/react-datepicker.css";
 
 interface SelectDateProps {
   position?: "top" | "bottom";
+  selectedDate: Date | null;
+  onDateChange: (date: Date | null) => void;
 }
 
-export default function SelectDate({ position = "bottom" }: SelectDateProps) {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+export default function SelectDate({
+  position = "bottom",
+  selectedDate,
+  onDateChange,
+}: SelectDateProps) {
   const [showCalendar, setShowCalendar] = useState(false);
 
   const clickCalendar = () => {
@@ -17,7 +22,7 @@ export default function SelectDate({ position = "bottom" }: SelectDateProps) {
   };
 
   return (
-    <div className="Absolute">
+    <div className="Absolute text-[10px]">
       <button onClick={clickCalendar}>
         <img src="/icons/calendar.png" />
       </button>
@@ -29,9 +34,10 @@ export default function SelectDate({ position = "bottom" }: SelectDateProps) {
         >
           <DatePicker
             className=""
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
+            selected={selectedDate}
+            onChange={onDateChange}
             inline
+            dateFormat={"MM/dd/yyyy"}
           />
         </div>
       )}

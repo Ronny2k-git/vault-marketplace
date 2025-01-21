@@ -7,5 +7,5 @@ export const vaultLogoAtom = atom("");
 export const bannerUrlAtom = atom("");
 export const minDepositAtom = atom("");
 export const maxDepositAtom = atom("");
-export const startDateAtom = atom("");
-export const endDateAtom = atom("");
+export const startDateAtom = atom<Date | null>(null);
+export const endDateAtom = atom<Date | null>(null);
