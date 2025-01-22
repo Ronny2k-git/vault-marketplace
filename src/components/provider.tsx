@@ -27,13 +27,3 @@ export function Providers({ children, initialState }: Props) {
     </WagmiProvider>
   );
 }
-
-// export function ConnectWallet() {
-//   const { isConnected } = useAccount();
-//   if (isConnected) return <Account />;
-//   return <WalletOptions />;
-// }
-
-// export const YourApp = () => {
-//   return <ConnectButton />;
-// };
