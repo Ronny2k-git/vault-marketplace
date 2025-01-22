@@ -5,8 +5,6 @@ import { Card } from "../interface/card";
 import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
 
-console.log("Rendering CardTransaction");
-
 export function CardTransaction() {
   return (
     <div>
@@ -22,27 +20,26 @@ export function CardTransaction() {
             <Tabs.List
               size="1"
               color="gray"
-              className=" pl-14 h-7 text-xs rounded-t-xl data-[state=active]:bg-button-bg-primary flex 
-              space-x-14"
+              className="h-7 text-xs data-[state=active]:bg-button-bg-primary  "
             >
               <Tabs.Trigger
-                className="data-[state=active]:bg-button-bg-primary"
+                className="data-[state=active]:bg-button-bg-primary !text-white !w-36 !rounded-br-2xl 
+                !rounded-tl-xl !font-SpaceGrotesk"
                 value="Deposit"
               >
                 Deposit
               </Tabs.Trigger>
               <Tabs.Trigger
-                className="data-[state=active]:bg-button-bg-primary"
+                className="data-[state=active]:bg-button-bg-primary !text-white !w-36 
+                !rounded-bl-2xl !rounded-tr-xl !font-SpaceGrotesk"
                 value="Withdraw"
               >
                 Withdraw
               </Tabs.Trigger>
             </Tabs.List>
-            {""}
             <Tabs.Content value="Deposit">
               <CardDeposit />
             </Tabs.Content>
-            {""}
             <Tabs.Content value="Withdraw">
               <CardRemove />
             </Tabs.Content>

@@ -10,8 +10,8 @@ const cardStyle = cva("", {
     size: {
       small: ["w-60", "h-[265px]", "rounded-xl", "text-[12px]", "flex-col"],
       mediumSmall: ["w-[270px]", "h-14", "border-2", "rounded-md"],
-      medium: ["w-[294px]", "h-56", "rounded-2xl"],
-      mediumLarge: ["w-[294px]", "h-72", "rounded-2xl"],
+      medium: ["w-[290px]", "h-56", "rounded-2xl"],
+      mediumLarge: ["w-[290px]", "h-72", "rounded-2xl"],
       mediumLong: [
         "h-6",
         "py-2.5",
@@ -20,7 +20,7 @@ const cardStyle = cva("", {
         "gap-2.5",
         "mb-0.5",
       ],
-      large: ["w-[755px]", "h-64", "rounded-2xl", "gap-2.5"],
+      large: ["w-[745px]", "h-64", "rounded-2xl", "gap-2.5"],
       long: ["h-11", "w-[730px]", "text-[11px]", "mb-0.5"],
       high: [
         "w-[477px]",
