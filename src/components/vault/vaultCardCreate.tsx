@@ -76,7 +76,6 @@ export function CardCreate() {
           placeholder="Enter URL"
           intent={"primary"}
           size={"mediumLarge"}
-          {...register("bannerUrl")}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1 flex">
