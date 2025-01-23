@@ -1,31 +1,29 @@
 "use client";
 
+import { useForm, Controller } from "react-hook-form";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
-import { useAtom } from "jotai";
-import {
-  networkAtom,
-  vaultNameAtom,
-  vaultLogoAtom,
-  bannerUrlAtom,
-  minDepositAtom,
-  maxDepositAtom,
-  startDateAtom,
-  endDateAtom,
-} from "../../utils/atoms";
-
 import "react-datepicker/dist/react-datepicker.css";
 import SelectDate from "../interface/datePicker";
 
 export function CardCreate() {
-  const [network, setNetwork] = useAtom(networkAtom);
-  const [vaultName, setVaultName] = useAtom(vaultNameAtom);
-  const [vaultLogo, setVaultLogo] = useAtom(vaultLogoAtom);
-  const [bannerUrl, setBannerUrl] = useAtom(bannerUrlAtom);
-  const [minDeposit, setMinDeposit] = useAtom(minDepositAtom);
-  const [maxDeposit, setMaxDeposit] = useAtom(maxDepositAtom);
-  const [startDate, setStartDate] = useAtom(startDateAtom);
-  const [endDate, setEndDate] = useAtom(endDateAtom);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      network: "Sepolia",
+      vaultName: "",
+      vaultLogo: "",
+      bannerUrl: "",
+      minDeposit: "",
+      maxDeposit: "",
+      startDate: "",
+      endDate: "",
+    },
+  });
 
   const formatDate = (date: Date | null) => {
     if (!date) return "";
@@ -39,8 +37,7 @@ export function CardCreate() {
         <div className="relative">
           <select
             className="py-1 pl-5 mb-2.5 text-white px-1.5 rounded-md text-xs bg-button-bg-primary"
-            value={network}
-            onChange={(event) => setNetwork(event.target.value)}
+            {...register("network")}
           >
             <option value="Sepolia">Sepolia</option>
             <option value="Arbitrum">Arbitrum</option>
@@ -56,11 +53,10 @@ export function CardCreate() {
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1">Vault Name</h3>
         <Input
+          {...register("vaultName")}
           placeholder="Enter name"
           intent={"primary"}
           size={"mediumLarge"}
-          value={vaultName}
-          onChange={(event) => setVaultName(event.target.value)}
         />
         <h3 className="text-white text-xs mb-1">Vault Logo</h3>
         <h4 className="text-text-foreground text-[10px] mb-1">
@@ -70,8 +66,7 @@ export function CardCreate() {
           placeholder="Enter URL"
           intent={"primary"}
           size={"mediumLarge"}
-          value={vaultLogo}
-          onChange={(event) => setVaultLogo(event.target.value)}
+          {...register("vaultLogo")}
         />
         <h3 className="text-white text-xs mb-1">Banner Url</h3>
         <h4 className="text-text-foreground text-[10px] mb-1">
@@ -81,8 +76,7 @@ export function CardCreate() {
           placeholder="Enter URL"
           intent={"primary"}
           size={"mediumLarge"}
-          value={bannerUrl}
-          onChange={(event) => setBannerUrl(event.target.value)}
+          {...register("bannerUrl")}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1 flex">
@@ -98,8 +92,7 @@ export function CardCreate() {
           placeholder="Enter value"
           intent={"primary"}
           size={"mediumLarge"}
-          value={minDeposit}
-          onChange={(event) => setMinDeposit(event.target.value)}
+          {...register("minDeposit")}
         />
         <h3 className="text-white text-xs mb-1 flex">
           Maximum Deposit per wallet
@@ -114,8 +107,7 @@ export function CardCreate() {
           placeholder="Enter value"
           intent={"primary"}
           size={"mediumLarge"}
-          value={maxDeposit}
-          onChange={(event) => setMaxDeposit(event.target.value)}
+          {...register("maxDeposit")}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1">Dates</h3>
@@ -133,37 +125,27 @@ export function CardCreate() {
             placeholder="00/00/0000 00:00"
             intent={"primary"}
             size={"medium"}
-            value={formatDate(startDate)}
-            onChange={(event) => {
-              const value = event.target.value;
-              const date = value ? new Date(value) : null;
-              setStartDate(date);
-            }}
+            {...register("startDate")}
           />
           <Input
             className="placeholder:text-[11px]"
             placeholder="00/00/0000 00:00"
             intent={"primary"}
             size={"medium"}
-            value={formatDate(endDate)}
-            onChange={(event) => {
-              const value = event.target.value;
-              const date = value ? new Date(value) : null;
-              setEndDate(date);
-            }}
+            {...register("endDate")}
           />
           <div className="absolute right-[252px] mt-1.5">
             <SelectDate
               position="top"
-              selectedDate={startDate}
-              onDateChange={setStartDate}
+              // selectedDate={startDate}
+              // onDateChange={setStartDate}
             />
           </div>
           <div className="absolute right-12 mt-1.5">
             <SelectDate
               position="top"
-              selectedDate={endDate}
-              onDateChange={setEndDate}
+              // selectedDate={endDate}
+              // onDateChange={setEndDate}
             />
           </div>
         </div>
