@@ -6,11 +6,14 @@ import { Input } from "../interface/input";
 import "react-datepicker/dist/react-datepicker.css";
 import SelectDate from "../interface/datePicker";
 
+const validateUrl = new RegExp(
+  "/^(https?://)?([a-z0-9.-]+(.[a-z]{2,})?(:d+)?(/[^s]*)?)$/i"
+);
+
 export function CardCreate() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -37,7 +40,7 @@ export function CardCreate() {
         <div className="relative">
           <select
             className="py-1 pl-5 mb-2.5 text-white px-1.5 rounded-md text-xs bg-button-bg-primary"
-            {...register("network")}
+            {...register("network", { required: "NEtwork is required" })}
           >
             <option value="Sepolia">Sepolia</option>
             <option value="Arbitrum">Arbitrum</option>
@@ -53,7 +56,17 @@ export function CardCreate() {
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1">Vault Name</h3>
         <Input
-          {...register("vaultName")}
+          {...register("vaultName", {
+            required: true,
+            minLength: {
+              value: 5,
+              message: "Vault Name must be at least 5 characters",
+            },
+            maxLength: {
+              value: 20,
+              message: "Vault Name must be at most 20 characters",
+            },
+          })}
           placeholder="Enter name"
           intent={"primary"}
           size={"mediumLarge"}
@@ -66,7 +79,13 @@ export function CardCreate() {
           placeholder="Enter URL"
           intent={"primary"}
           size={"mediumLarge"}
-          {...register("vaultLogo")}
+          {...register("vaultLogo", {
+            required: true,
+            validate: {
+              validUrl: (value) =>
+                validateUrl.test(value) || "Please enter a valid URL",
+            },
+          })}
         />
         <h3 className="text-white text-xs mb-1">Banner Url</h3>
         <h4 className="text-text-foreground text-[10px] mb-1">
@@ -76,6 +95,7 @@ export function CardCreate() {
           placeholder="Enter URL"
           intent={"primary"}
           size={"mediumLarge"}
+          {...register("bannerUrl", { required: true })}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1 flex">
@@ -91,7 +111,7 @@ export function CardCreate() {
           placeholder="Enter value"
           intent={"primary"}
           size={"mediumLarge"}
-          {...register("minDeposit")}
+          {...register("minDeposit", {})}
         />
         <h3 className="text-white text-xs mb-1 flex">
           Maximum Deposit per wallet
@@ -106,7 +126,7 @@ export function CardCreate() {
           placeholder="Enter value"
           intent={"primary"}
           size={"mediumLarge"}
-          {...register("maxDeposit")}
+          {...register("maxDeposit", {})}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1">Dates</h3>
@@ -124,14 +144,14 @@ export function CardCreate() {
             placeholder="00/00/0000 00:00"
             intent={"primary"}
             size={"medium"}
-            {...register("startDate")}
+            {...register("startDate", { required: true })}
           />
           <Input
             className="placeholder:text-[11px]"
             placeholder="00/00/0000 00:00"
             intent={"primary"}
             size={"medium"}
-            {...register("endDate")}
+            {...register("endDate", { required: true })}
           />
           <div className="absolute right-[252px] mt-1.5">
             <SelectDate
