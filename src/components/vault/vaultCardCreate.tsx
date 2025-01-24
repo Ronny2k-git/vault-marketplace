@@ -6,10 +6,6 @@ import { Input } from "../interface/input";
 import "react-datepicker/dist/react-datepicker.css";
 import SelectDate from "../interface/datePicker";
 
-const validateUrl = new RegExp(
-  "/^(https?://)?([a-z0-9.-]+(.[a-z]{2,})?(:d+)?(/[^s]*)?)$/i"
-);
-
 export function CardCreate() {
   const {
     register,
@@ -81,10 +77,8 @@ export function CardCreate() {
           size={"mediumLarge"}
           {...register("vaultLogo", {
             required: true,
-            validate: {
-              validUrl: (value) =>
-                validateUrl.test(value) || "Please enter a valid URL",
-            },
+            pattern:
+              /^(https?:\/\/)?([a-z0-9.-]+(\.[a-z]{2,})?(:\d+)?(\/[^\s]*)?)$/i,
           })}
         />
         <h3 className="text-white text-xs mb-1">Banner Url</h3>
