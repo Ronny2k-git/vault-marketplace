@@ -8,6 +8,7 @@ import SelectDate from "../interface/datePicker";
 
 export function CardCreate() {
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -19,8 +20,8 @@ export function CardCreate() {
       bannerUrl: "",
       minDeposit: "",
       maxDeposit: "",
-      startDate: "",
-      endDate: "",
+      startDate: null,
+      endDate: null,
     },
   });
 
@@ -133,34 +134,50 @@ export function CardCreate() {
           <h3 className="text-white text-xs">End date</h3>
         </div>
         <div className="flex relative">
-          <Input
-            className="mr-3 placeholder:text-[11px]"
-            placeholder="00/00/0000 00:00"
-            intent={"primary"}
-            size={"medium"}
-            {...register("startDate", { required: true })}
+          <Controller
+            control={control}
+            name="startDate"
+            render={({ field: { value, onChange } }) => (
+              <div className="mr-3">
+                <Input
+                  value={value ? formatDate(value) : ""}
+                  onChange={() => {}}
+                  placeholder="00/00/0000 00:00"
+                  intent={"primary"}
+                  size={"medium"}
+                />
+                <div className="absolute left-44  -mt-5">
+                  <SelectDate
+                    position="top"
+                    selectedDate={value}
+                    onDateChange={(date) => onChange(date)}
+                  />
+                </div>
+              </div>
+            )}
           />
-          <Input
-            className="placeholder:text-[11px]"
-            placeholder="00/00/0000 00:00"
-            intent={"primary"}
-            size={"medium"}
-            {...register("endDate", { required: true })}
+          <Controller
+            control={control}
+            name="endDate"
+            render={({ field: { value, onChange } }) => (
+              <div>
+                <Input
+                  value={value ? formatDate(value) : ""}
+                  onChange={() => {}}
+                  placeholder="00/00/0000 00:00"
+                  intent={"primary"}
+                  size={"medium"}
+                />
+                <div className="absolute right-12 -mt-5">
+                  <SelectDate
+                    position="top"
+                    selectedDate={value}
+                    onDateChange={(date) => onChange(date)}
+                  />
+                </div>
+              </div>
+            )}
           />
-          <div className="absolute right-[252px] mt-1.5">
-            <SelectDate
-              position="top"
-              // selectedDate={startDate}
-              // onDateChange={setStartDate}
-            />
-          </div>
-          <div className="absolute right-12 mt-1.5">
-            <SelectDate
-              position="top"
-              // selectedDate={endDate}
-              // onDateChange={setEndDate}
-            />
-          </div>
         </div>
       </Card>
     </div>

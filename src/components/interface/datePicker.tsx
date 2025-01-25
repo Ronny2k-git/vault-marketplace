@@ -21,6 +21,11 @@ export default function SelectDate({
     setShowCalendar(!showCalendar);
   };
 
+  const handleDateChange = (date: Date | null) => {
+    onDateChange(date);
+    setShowCalendar(false);
+  };
+
   return (
     <div className="Absolute text-[10px]">
       <button onClick={clickCalendar}>
@@ -33,9 +38,8 @@ export default function SelectDate({
           }`}
         >
           <DatePicker
-            className=""
             selected={selectedDate}
-            onChange={onDateChange}
+            onChange={handleDateChange}
             inline
             dateFormat={"MM/dd/yyyy"}
           />
