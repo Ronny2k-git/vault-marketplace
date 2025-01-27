@@ -44,13 +44,3 @@ export function getConfig(test: CreateConnectorFn[] = []) {
     },
   });
 }
-
-// import { getDefaultConfig } from "@rainbow-me/rainbowkit";
-// import { arbitrum, base, mainnet, optimism, polygon } from "viem/chains";
-
-// export const configRainbow = getDefaultConfig({
-//   appName: "My RainbowKit App",
-//   projectId: "Project ID",
-//   chains: [mainnet, polygon, optimism, arbitrum, base],
-//   ssr: true,
-// });

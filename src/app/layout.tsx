@@ -75,11 +75,6 @@ export function TopBar() {
         </Link>
         <div className=" ml-auto mr-4">
           <ButtonStyle />
-          {/* <ConnectButton
-            accountStatus="address"
-            chainStatus={"none"}
-            showBalance={false}
-          /> */}
         </div>
       </div>
     </div>

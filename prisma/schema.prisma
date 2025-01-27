@@ -9,15 +9,18 @@ datasource db {
 }
 
 model Vault {
-  id         Int      @id @default(autoincrement())
-  address    String   
-  name       String   
-  logo       String   
-  banner     String   
-  startsAt   DateTime
-  endsAt     DateTime
-  chainId    Int
-  swaps      Swap[]
+  id                 Int      @id @default(autoincrement())
+  address            String   
+  name               String   
+  logo               String   
+  banner             String   
+  startsAt           DateTime
+  endsAt             DateTime
+  chainId            Int
+  swaps              Swap[]
+  assetTokenSymbol   String
+  assetTokenName     String
+  assetTokenDecimals Int
 }
 
 model Swap {
