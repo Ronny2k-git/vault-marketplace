@@ -5,6 +5,8 @@ import { Card } from "../interface/card";
 import { Input } from "../interface/input";
 import "react-datepicker/dist/react-datepicker.css";
 import SelectDate from "../interface/datePicker";
+import { useSimulateContract } from "wagmi";
+import { abi } from "@/utils/abiContract";
 
 export function CardCreate() {
   const {
@@ -29,6 +31,22 @@ export function CardCreate() {
     if (!date) return "";
     return date.toLocaleDateString("en-US");
   };
+
+  const result = useSimulateContract({
+    abi,
+    address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+    functionName: "createVault",
+    args: [
+      "0xc08385eC8C8cC3fdE37C7E9CC3022e069a965650",
+      1672531200,
+      1704067200,
+      1000000000000000000n,
+      5000000000000000000n,
+      12345,
+    ],
+  });
+
+  console.log(result);
 
   return (
     <div>
