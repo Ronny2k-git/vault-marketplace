@@ -14,6 +14,8 @@ export function CardCreate() {
     control,
     register,
     handleSubmit,
+    watch,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -21,7 +23,8 @@ export function CardCreate() {
       vaultName: "",
       vaultLogo: "",
       bannerUrl: "",
-      test: "",
+      assetToken: "",
+      salt: 0,
       minDeposit: "",
       maxDeposit: "",
       startDate: null,
@@ -29,23 +32,51 @@ export function CardCreate() {
     },
   });
 
+  const onSubmit = (date: any) => console.log("Form Date", date);
+
   const formatDate = (date: Date | null) => {
     if (!date) return "";
     return date.toLocaleDateString("en-US");
   };
 
-  const result = useSimulateContract({
+  const formValues = watch();
+
+  const {
+    vaultName,
+    vaultLogo,
+    bannerUrl,
+    assetToken,
+    salt,
+    minDeposit,
+    maxDeposit,
+    startDate,
+    endDate,
+  } = formValues;
+
+  const convertUint40 = (date: Date | null) => {
+    if (!date) return 0;
+    return Math.floor(date.getTime() / 1000);
+  };
+
+  const { data, isLoading } = useSimulateContract({
     abi,
     address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
     functionName: "createVault",
-    args: [],
+    args: [
+      assetToken,
+      convertUint40(startDate),
+      convertUint40(endDate),
+      minDeposit ? BigInt(minDeposit) : 0n,
+      maxDeposit ? BigInt(maxDeposit) : 0n,
+      salt,
+    ],
   });
 
-  console.log(result);
+  console.log(data);
 
   return (
     <div>
-      <Card className="mr-2.5 mb-2.5" intent={"primary"} size={"high"}>
+      <Card className="mr-2.5 mb-2.5 " intent={"primary"} size={"high"}>
         <h3 className="text-white text-xs">Network</h3>
         <div className="relative">
           <select
@@ -105,12 +136,22 @@ export function CardCreate() {
           size={"mediumLarge"}
           {...register("bannerUrl", { required: true })}
         />
-        <h3 className="text-white text-xs mb-1">Test</h3>
+        <h3 className="text-white text-xs mb-1">Asset Token</h3>
         <Input
-          placeholder="Test..."
+          placeholder="Enter address"
           intent={"primary"}
           size={"mediumLarge"}
-          {...register("test", { required: true })}
+          {...register("assetToken", {
+            required: true,
+            pattern: /^0x[a-fA-F0-9]{40}$/,
+          })}
+        />
+        <h3 className="text-white text-xs mb-1">Salt</h3>
+        <Input
+          placeholder="Enter salt (unique value)"
+          intent={"primary"}
+          size={"mediumLarge"}
+          {...register("salt", { required: true })}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1 flex">
@@ -201,10 +242,19 @@ export function CardCreate() {
         </div>
       </Card>
       <div className="flex mb-11">
-        <Button className="mr-2.5" intent={"primary"} size="mediumLarge">
+        <Button
+          className="mr-2.5"
+          intent={"primary"}
+          size="mediumLarge"
+          onClick={() => reset()}
+        >
           Reset
         </Button>
-        <Button intent={"secondary"} size={"mediumLarge"}>
+        <Button
+          intent={"secondary"}
+          size={"mediumLarge"}
+          onClick={handleSubmit(onSubmit)}
+        >
           <div
             className="size-3.5 bg-white flex justify-center items-center text-base text-accent
             rounded-full font-semibold"
@@ -213,6 +263,24 @@ export function CardCreate() {
           </div>
           <div className="text-[10px]">Create Vault</div>
         </Button>
+        <div
+          className="ml-12 h-6 font-semibold text-white w-60 rounded-2xl flex justify-center items-center
+           bg-white text-xs"
+        >
+          {isLoading && (
+            <p className="text-orange-600">Simulating transaction...</p>
+          )}
+          {data && (
+            <p className="text-green-500">
+              Simulation Sucessfull: {JSON.stringify(data)}
+            </p>
+          )}
+          {errors && (
+            <p className="text-red-500">
+              Error in simulation {JSON.stringify(errors)}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
