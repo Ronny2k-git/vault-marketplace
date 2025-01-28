@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import SelectDate from "../interface/datePicker";
 import { useSimulateContract } from "wagmi";
 import { abi } from "@/utils/abiContract";
+import { Button } from "../interface/button";
 
 export function CardCreate() {
   const {
@@ -20,6 +21,7 @@ export function CardCreate() {
       vaultName: "",
       vaultLogo: "",
       bannerUrl: "",
+      test: "",
       minDeposit: "",
       maxDeposit: "",
       startDate: null,
@@ -36,14 +38,7 @@ export function CardCreate() {
     abi,
     address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
     functionName: "createVault",
-    args: [
-      "0xc08385eC8C8cC3fdE37C7E9CC3022e069a965650",
-      1672531200,
-      1704067200,
-      1000000000000000000n,
-      5000000000000000000n,
-      12345,
-    ],
+    args: [],
   });
 
   console.log(result);
@@ -109,6 +104,13 @@ export function CardCreate() {
           intent={"primary"}
           size={"mediumLarge"}
           {...register("bannerUrl", { required: true })}
+        />
+        <h3 className="text-white text-xs mb-1">Test</h3>
+        <Input
+          placeholder="Test..."
+          intent={"primary"}
+          size={"mediumLarge"}
+          {...register("test", { required: true })}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1 flex">
@@ -198,6 +200,20 @@ export function CardCreate() {
           />
         </div>
       </Card>
+      <div className="flex mb-11">
+        <Button className="mr-2.5" intent={"primary"} size="mediumLarge">
+          Reset
+        </Button>
+        <Button intent={"secondary"} size={"mediumLarge"}>
+          <div
+            className="size-3.5 bg-white flex justify-center items-center text-base text-accent
+            rounded-full font-semibold"
+          >
+            +
+          </div>
+          <div className="text-[10px]">Create Vault</div>
+        </Button>
+      </div>
     </div>
   );
 }

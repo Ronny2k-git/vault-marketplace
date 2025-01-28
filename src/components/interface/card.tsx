@@ -24,7 +24,7 @@ const cardStyle = cva("", {
       long: ["h-11", "w-[730px]", "text-[11px]", "mb-0.5"],
       high: [
         "w-[477px]",
-        "h-[585px]",
+        "h-[645px]",
         "rounded-2xl",
         "py-5",
         "px-5",

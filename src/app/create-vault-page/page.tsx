@@ -16,20 +16,6 @@ export default function () {
           <CardCreate />
           <CardPreview />
         </div>
-        <div className="flex w-[730px] mb-11">
-          <Button className="mr-2.5" intent={"primary"} size="mediumLarge">
-            Reset
-          </Button>
-          <Button intent={"secondary"} size={"mediumLarge"}>
-            <div
-              className="size-3.5 bg-white flex justify-center items-center text-base text-accent 
-            rounded-full font-semibold"
-            >
-              +
-            </div>
-            <div className="text-[10px]">Create Vault</div>
-          </Button>
-        </div>
       </div>
     </div>
   );
