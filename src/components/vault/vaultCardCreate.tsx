@@ -7,9 +7,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import SelectDate from "../interface/datePicker";
 import { abi } from "@/utils/abiContract";
 import { Button } from "../interface/button";
-import { simulateContract } from "wagmi/actions";
+import { simulateContract } from "@wagmi/core";
 import { wagmiConfig } from "../provider";
-import { hexToBigInt } from "viem";
+import { useAccount } from "wagmi";
+import { config } from "@/utils/config";
+import { hexToString } from "viem";
+import { getConfig } from "@/utils/configWagmi";
+import { getClientConfig } from "@/utils/configRainbow";
 
 export function CardCreate() {
   const {
@@ -28,8 +32,8 @@ export function CardCreate() {
       bannerUrl: "",
       assetToken: "",
       salt: 0,
-      minDeposit: "",
-      maxDeposit: "",
+      minDeposit: BigInt(""),
+      maxDeposit: BigInt(""),
       startDate: null,
       endDate: null,
     },
@@ -59,22 +63,47 @@ export function CardCreate() {
     return Math.floor(date.getTime() / 1000);
   };
 
+  const { isConnected } = useAccount();
+
   async function onSubmit() {
-    try {
-      const simulate = await simulateContract(wagmiConfig, {
-        abi,
-        address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
-        functionName: "createVault",
-        args: [
-          assetToken,
-          convertUint40(startDate),
-          convertUint40(endDate),
-          minDeposit ? BigInt(minDeposit) : 0n,
-          maxDeposit ? BigInt(maxDeposit) : 0n,
-          salt,
-        ],
-      });
-    } catch {}
+    if (!isConnected) {
+      alert("Please connect your wallet");
+      return;
+    }
+
+    console.log("Submitting ...");
+    // try {
+    const simulate = await simulateContract(getClientConfig(), {
+      abi,
+      address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+      functionName: "createVault",
+      args: [
+        assetToken,
+        convertUint40(startDate),
+        convertUint40(endDate),
+        minDeposit, // ? BigInt(minDeposit) : 0n,
+        maxDeposit,
+        salt,
+      ],
+    });
+
+    console.error("Result of simulation:", simulate);
+
+    // const receipt = await waitForTransactionReceipt(wagmiConfig, {
+    //   hash: simulate,
+    // });
+    // } catch {
+    //   errors;
+    // }
+    // {
+    //   console.error("Error in contract simulation:", errors);
+
+    //   if (errors instanceof Error) {
+    //     console.error("Error message:", errors.message);
+    //   }
+    //   // Logar o erro completo, caso ele seja um objeto complexo
+    //   console.error("Error details:", errors);
+    // }
   }
 
   return (
@@ -101,15 +130,15 @@ export function CardCreate() {
         <h3 className="text-white text-xs mb-1">Vault Name</h3>
         <Input
           {...register("vaultName", {
-            required: true,
-            minLength: {
-              value: 5,
-              message: "Vault Name must be at least 5 characters",
-            },
-            maxLength: {
-              value: 20,
-              message: "Vault Name must be at most 20 characters",
-            },
+            // required: true,
+            // minLength: {
+            //   value: 5,
+            //   message: "Vault Name must be at least 5 characters",
+            // },
+            // maxLength: {
+            //   value: 20,
+            //   message: "Vault Name must be at most 20 characters",
+            // },
           })}
           placeholder="Enter name"
           intent={"primary"}
@@ -124,9 +153,9 @@ export function CardCreate() {
           intent={"primary"}
           size={"mediumLarge"}
           {...register("vaultLogo", {
-            required: true,
-            pattern:
-              /^(https?:\/\/)?([a-z0-9.-]+(\.[a-z]{2,})?(:\d+)?(\/[^\s]*)?)$/i,
+            // required: true,
+            // pattern:
+            //   /^(https?:\/\/)?([a-z0-9.-]+(\.[a-z]{2,})?(:\d+)?(\/[^\s]*)?)$/i,
           })}
         />
         <h3 className="text-white text-xs mb-1">Banner Url</h3>
@@ -137,7 +166,9 @@ export function CardCreate() {
           placeholder="Enter URL"
           intent={"primary"}
           size={"mediumLarge"}
-          {...register("bannerUrl", { required: true })}
+          {...register("bannerUrl", {
+            // required: true
+          })}
         />
         <h3 className="text-white text-xs mb-1">Asset Token</h3>
         <Input
@@ -145,8 +176,8 @@ export function CardCreate() {
           intent={"primary"}
           size={"mediumLarge"}
           {...register("assetToken", {
-            required: true,
-            pattern: /^0x[a-fA-F0-9]{40}$/,
+            // required: true,
+            // pattern: /^0x[a-fA-F0-9]{40}$/,
           })}
         />
         <h3 className="text-white text-xs mb-1">Salt</h3>

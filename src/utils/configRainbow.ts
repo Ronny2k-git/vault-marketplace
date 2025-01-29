@@ -17,7 +17,7 @@ export const getClientConfig = () => {
     appName: "My RainbowKit App",
     projectId: "Project ID",
     chains: [mainnet, polygon, sepolia, optimism, arbitrum, base],
-    ssr: true,
+    ssr: false,
     transports: {
       [mainnet.id]: http(
         "https://eth-mainnet.g.alchemy.com/v2/tjpt7a_-Hkd4t7MG-0SuM542HkoIGvfg"
