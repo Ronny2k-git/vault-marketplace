@@ -2,7 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
-import { WagmiProvider } from "wagmi";
+import { Config, WagmiProvider } from "wagmi";
 import { getClientConfig } from "@/utils/configRainbow";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { Theme } from "@radix-ui/themes";
@@ -12,6 +12,8 @@ type Props = {
   children: ReactNode;
   initialState: any;
 };
+
+export let wagmiConfig: Config;
 
 export function Providers({ children, initialState }: Props) {
   const [config] = useState(() => getClientConfig());

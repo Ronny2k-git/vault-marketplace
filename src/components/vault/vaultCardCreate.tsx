@@ -5,9 +5,11 @@ import { Card } from "../interface/card";
 import { Input } from "../interface/input";
 import "react-datepicker/dist/react-datepicker.css";
 import SelectDate from "../interface/datePicker";
-import { useSimulateContract } from "wagmi";
 import { abi } from "@/utils/abiContract";
 import { Button } from "../interface/button";
+import { simulateContract } from "wagmi/actions";
+import { wagmiConfig } from "../provider";
+import { hexToBigInt } from "viem";
 
 export function CardCreate() {
   const {
@@ -17,6 +19,7 @@ export function CardCreate() {
     watch,
     reset,
     formState: { errors },
+    setError,
   } = useForm({
     defaultValues: {
       network: "Sepolia",
@@ -31,8 +34,6 @@ export function CardCreate() {
       endDate: null,
     },
   });
-
-  const onSubmit = (date: any) => console.log("Form Date", date);
 
   const formatDate = (date: Date | null) => {
     if (!date) return "";
@@ -58,21 +59,23 @@ export function CardCreate() {
     return Math.floor(date.getTime() / 1000);
   };
 
-  const { data, isLoading } = useSimulateContract({
-    abi,
-    address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
-    functionName: "createVault",
-    args: [
-      assetToken,
-      convertUint40(startDate),
-      convertUint40(endDate),
-      minDeposit ? BigInt(minDeposit) : 0n,
-      maxDeposit ? BigInt(maxDeposit) : 0n,
-      salt,
-    ],
-  });
-
-  console.log(data);
+  async function onSubmit() {
+    try {
+      const simulate = await simulateContract(wagmiConfig, {
+        abi,
+        address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+        functionName: "createVault",
+        args: [
+          assetToken,
+          convertUint40(startDate),
+          convertUint40(endDate),
+          minDeposit ? BigInt(minDeposit) : 0n,
+          maxDeposit ? BigInt(maxDeposit) : 0n,
+          salt,
+        ],
+      });
+    } catch {}
+  }
 
   return (
     <div>
@@ -267,7 +270,7 @@ export function CardCreate() {
           className="ml-12 h-6 font-semibold text-white w-60 rounded-2xl flex justify-center items-center
            bg-white text-xs"
         >
-          {isLoading && (
+          {/* {isLoading && (
             <p className="text-orange-600">Simulating transaction...</p>
           )}
           {data && (
@@ -275,11 +278,11 @@ export function CardCreate() {
               Simulation Sucessfull: {JSON.stringify(data)}
             </p>
           )}
-          {errors && (
+          {error && (
             <p className="text-red-500">
-              Error in simulation {JSON.stringify(errors)}
+              Error in transaction: {JSON.stringify(error)}
             </p>
-          )}
+          )} */}
         </div>
       </div>
     </div>
