@@ -14,7 +14,7 @@ import {
 } from "@wagmi/core";
 import { wagmiConfig } from "../provider";
 import { useAccount } from "wagmi";
-import { erc20Abi, Hex } from "viem";
+import { erc20Abi, Hex, parseUnits } from "viem";
 import { sepolia } from "wagmi/chains";
 
 export function CardCreate() {
@@ -76,6 +76,25 @@ export function CardCreate() {
     return tx;
   }
 
+  const handleApproveToken = async () => {
+    if (!isConnected) {
+      alert("Please connect your wallet");
+      return;
+    }
+    try {
+      const parsedAmount = parseUnits(minDeposit, 18);
+      const approveTxHash = await approveToken(
+        "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+        parsedAmount
+      );
+
+      console.log("Token approval transaction hash:", approveTxHash);
+      alert("Token approval successful!");
+    } catch (error) {
+      console.error("Error in transaction");
+    }
+  };
+
   const { isConnected } = useAccount();
 
   async function onSubmit() {
@@ -85,14 +104,6 @@ export function CardCreate() {
         return;
       }
       console.log("Submitting ...");
-
-      const aprovveTxHash = await approveToken(
-        "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
-        minDeposit
-      );
-
-      console.log("Token approval transaction hash:", aprovveTxHash);
-      alert("Token approval successful!");
 
       const simulate = await simulateContract(wagmiConfig, {
         abi,
@@ -291,6 +302,20 @@ export function CardCreate() {
           Reset
         </Button>
         <Button
+          className="mr-2"
+          intent={"secondary"}
+          size={"mediumLarge"}
+          onClick={handleApproveToken}
+        >
+          <div
+            className="size-3.5 bg-white flex justify-center items-center text-base text-accent
+            rounded-full font-semibold"
+          >
+            +
+          </div>
+          <div className="text-[10px]">Approve Token</div>
+        </Button>
+        <Button
           intent={"secondary"}
           size={"mediumLarge"}
           onClick={handleSubmit(onSubmit)}
@@ -303,11 +328,12 @@ export function CardCreate() {
           </div>
           <div className="text-[10px]">Create Vault</div>
         </Button>
-        <div
+
+        {/* <div
           className="ml-12 h-6 font-semibold text-white w-60 rounded-2xl flex justify-center items-center
            bg-white text-xs"
         >
-          {/* {isLoading && (
+          {isLoading && (
             <p className="text-orange-600">Simulating transaction...</p>
           )}
           {data && (
@@ -319,8 +345,8 @@ export function CardCreate() {
             <p className="text-red-500">
               Error in transaction: {JSON.stringify(error)}
             </p>
-          )} */}
-        </div>
+          )}
+        </div> */}
       </div>
     </div>
   );
