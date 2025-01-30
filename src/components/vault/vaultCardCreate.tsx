@@ -24,6 +24,7 @@ export function CardCreate() {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
     setError,
   } = useForm({
@@ -38,6 +39,7 @@ export function CardCreate() {
       maxDeposit: BigInt(""),
       startDate: null,
       endDate: null,
+      isApproved: false,
     },
   });
 
@@ -58,6 +60,7 @@ export function CardCreate() {
     maxDeposit,
     startDate,
     endDate,
+    isApproved,
   } = formValues;
 
   const convertTimestamp = (date: Date | null) => {
@@ -65,33 +68,36 @@ export function CardCreate() {
     return Math.floor(date.getTime() / 1000);
   };
 
-  async function approveToken(spenderAddress: Hex, amount: bigint) {
-    const tx = await writeContract(wagmiConfig, {
-      abi: erc20Abi,
-      address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3",
-      functionName: "approve",
-      chainId: sepolia.id,
-      args: [spenderAddress, amount],
-    });
-    return tx;
-  }
-
   const handleApproveToken = async () => {
+    async function approveToken(spenderAddress: Hex, amount: bigint) {
+      const tx = await writeContract(wagmiConfig, {
+        abi: erc20Abi,
+        address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3",
+        functionName: "approve",
+        chainId: sepolia.id,
+        args: [spenderAddress, amount],
+      });
+      return tx;
+    }
+
     if (!isConnected) {
       alert("Please connect your wallet");
       return;
     }
     try {
-      const parsedAmount = parseUnits(minDeposit, 18);
+      const parsedAmount = parseUnits(minDeposit.toString(), 18);
       const approveTxHash = await approveToken(
         "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
         parsedAmount
       );
 
       console.log("Token approval transaction hash:", approveTxHash);
+      setValue("isApproved", true);
+
       alert("Token approval successful!");
     } catch (error) {
       console.error("Error in transaction");
+      alert("Token approval failed!");
     }
   };
 
@@ -120,6 +126,10 @@ export function CardCreate() {
       });
 
       console.log("Result of simulation:", simulate);
+
+      // await waitForTransactionReceipt(wagmiConfig, {
+      //   hash: simulate,
+      // });
     } catch (error) {}
   }
 
@@ -319,6 +329,7 @@ export function CardCreate() {
           intent={"secondary"}
           size={"mediumLarge"}
           onClick={handleSubmit(onSubmit)}
+          // disabled={!isApproved}
         >
           <div
             className="size-3.5 bg-white flex justify-center items-center text-base text-accent

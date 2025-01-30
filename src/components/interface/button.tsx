@@ -26,7 +26,9 @@ const buttonStyle = cva("flex justify-center font-SpaceGrotesk items-center", {
 });
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled">,
-    VariantProps<typeof buttonStyle> {}
+    VariantProps<typeof buttonStyle> {
+  disabled?: boolean;
+}
 
 export const Button: React.FC<ButtonProps> = ({
   className,
