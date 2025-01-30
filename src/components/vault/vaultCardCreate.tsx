@@ -7,7 +7,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import SelectDate from "../interface/datePicker";
 import { abi } from "@/utils/abiContract";
 import { Button } from "../interface/button";
-import { simulateContract, writeContract } from "@wagmi/core";
+import {
+  simulateContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "@wagmi/core";
 import { wagmiConfig } from "../provider";
 import { useAccount } from "wagmi";
 import { erc20Abi, Hex } from "viem";
@@ -61,7 +65,7 @@ export function CardCreate() {
     return Math.floor(date.getTime() / 1000);
   };
 
-  async function aprroveToken(spenderAddress: Hex, amount: bigint) {
+  async function approveToken(spenderAddress: Hex, amount: bigint) {
     const tx = await writeContract(wagmiConfig, {
       abi: erc20Abi,
       address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3",
@@ -75,43 +79,37 @@ export function CardCreate() {
   const { isConnected } = useAccount();
 
   async function onSubmit() {
-    if (!isConnected) {
-      alert("Please connect your wallet");
-      return;
-    }
+    try {
+      if (!isConnected) {
+        alert("Please connect your wallet");
+        return;
+      }
+      console.log("Submitting ...");
 
-    console.log("Submitting ...");
-    // try {
-    const simulate = await simulateContract(wagmiConfig, {
-      abi,
-      address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
-      functionName: "createVault",
-      args: [
-        assetToken,
-        convertTimestamp(startDate),
-        convertTimestamp(endDate),
-        minDeposit,
-        maxDeposit,
-        salt,
-      ],
-    });
+      const aprovveTxHash = await approveToken(
+        "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+        minDeposit
+      );
 
-    console.log("Result of simulation:", simulate);
+      console.log("Token approval transaction hash:", aprovveTxHash);
+      alert("Token approval successful!");
 
-    // const receipt = await waitForTransactionReceipt(wagmiConfig, {
-    //   hash: simulate,
-    // });
-    // } catch {
-    //   errors;
-    // }
-    // {
-    //   console.error("Error in contract simulation:", errors);
+      const simulate = await simulateContract(wagmiConfig, {
+        abi,
+        address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+        functionName: "createVault",
+        args: [
+          assetToken,
+          convertTimestamp(startDate),
+          convertTimestamp(endDate),
+          minDeposit,
+          maxDeposit,
+          salt,
+        ],
+      });
 
-    //   if (errors instanceof Error) {
-    //     console.error("Error message:", errors.message);
-    //   }
-    //   console.error("Error details:", errors);
-    // }
+      console.log("Result of simulation:", simulate);
+    } catch (error) {}
   }
 
   return (
