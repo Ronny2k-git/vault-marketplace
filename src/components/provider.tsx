@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Config, WagmiProvider } from "wagmi";
 import { getClientConfig } from "@/utils/configRainbow";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
@@ -15,9 +15,18 @@ type Props = {
 
 export let wagmiConfig: Config;
 
+// const { connectors } = getDefaultWallets({
+//   appName: "My RainbowKit App",
+//   projectId: "My app",
+// });
+
 export function Providers({ children, initialState }: Props) {
   const [config] = useState(() => getClientConfig());
   const [queryClient] = useState(() => new QueryClient());
+
+  useEffect(() => {
+    wagmiConfig = config;
+  }, [config]);
 
   return (
     <WagmiProvider config={config} initialState={initialState}>

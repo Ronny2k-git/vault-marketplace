@@ -7,13 +7,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import SelectDate from "../interface/datePicker";
 import { abi } from "@/utils/abiContract";
 import { Button } from "../interface/button";
-import { simulateContract } from "@wagmi/core";
+import { simulateContract, writeContract } from "@wagmi/core";
 import { wagmiConfig } from "../provider";
 import { useAccount } from "wagmi";
-import { config } from "@/utils/config";
-import { hexToString } from "viem";
-import { getConfig } from "@/utils/configWagmi";
-import { getClientConfig } from "@/utils/configRainbow";
+import { erc20Abi, Hex } from "viem";
+import { sepolia } from "wagmi/chains";
 
 export function CardCreate() {
   const {
@@ -30,7 +28,7 @@ export function CardCreate() {
       vaultName: "",
       vaultLogo: "",
       bannerUrl: "",
-      assetToken: "",
+      assetToken: "" as `0x${string}`,
       salt: 0,
       minDeposit: BigInt(""),
       maxDeposit: BigInt(""),
@@ -58,10 +56,21 @@ export function CardCreate() {
     endDate,
   } = formValues;
 
-  const convertUint40 = (date: Date | null) => {
+  const convertTimestamp = (date: Date | null) => {
     if (!date) return 0;
     return Math.floor(date.getTime() / 1000);
   };
+
+  async function aprroveToken(spenderAddress: Hex, amount: bigint) {
+    const tx = await writeContract(wagmiConfig, {
+      abi: erc20Abi,
+      address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3",
+      functionName: "approve",
+      chainId: sepolia.id,
+      args: [spenderAddress, amount],
+    });
+    return tx;
+  }
 
   const { isConnected } = useAccount();
 
@@ -73,21 +82,21 @@ export function CardCreate() {
 
     console.log("Submitting ...");
     // try {
-    const simulate = await simulateContract(getClientConfig(), {
+    const simulate = await simulateContract(wagmiConfig, {
       abi,
       address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
       functionName: "createVault",
       args: [
         assetToken,
-        convertUint40(startDate),
-        convertUint40(endDate),
-        minDeposit, // ? BigInt(minDeposit) : 0n,
+        convertTimestamp(startDate),
+        convertTimestamp(endDate),
+        minDeposit,
         maxDeposit,
         salt,
       ],
     });
 
-    console.error("Result of simulation:", simulate);
+    console.log("Result of simulation:", simulate);
 
     // const receipt = await waitForTransactionReceipt(wagmiConfig, {
     //   hash: simulate,
@@ -101,7 +110,6 @@ export function CardCreate() {
     //   if (errors instanceof Error) {
     //     console.error("Error message:", errors.message);
     //   }
-    //   // Logar o erro completo, caso ele seja um objeto complexo
     //   console.error("Error details:", errors);
     // }
   }
@@ -176,8 +184,8 @@ export function CardCreate() {
           intent={"primary"}
           size={"mediumLarge"}
           {...register("assetToken", {
-            // required: true,
-            // pattern: /^0x[a-fA-F0-9]{40}$/,
+            required: true,
+            pattern: /^0x[a-fA-F0-9]{40}$/,
           })}
         />
         <h3 className="text-white text-xs mb-1">Salt</h3>
