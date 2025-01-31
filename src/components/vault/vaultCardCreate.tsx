@@ -214,8 +214,11 @@ export function CardCreate() {
           size={"mediumLarge"}
           {...register("vaultLogo", {
             required: { value: true, message: "The vault logo is required" },
-            // pattern:
-            //   /^(https?:\/\/)?([a-z0-9.-]+(\.[a-z]{2,})?(:\d+)?(\/[^\s]*)?)$/i,
+            pattern: {
+              value:
+                /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
+              message: "Invalid format URL",
+            },
           })}
         />
         <div className="flex">
@@ -235,6 +238,11 @@ export function CardCreate() {
           size={"mediumLarge"}
           {...register("bannerUrl", {
             required: { value: true, message: "The vault banner is required" },
+            pattern: {
+              value:
+                /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
+              message: "Invalid format URL",
+            },
           })}
         />
         <div className="flex">
