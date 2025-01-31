@@ -1,10 +1,40 @@
 "use client";
 
+import { erc20Abi, Hex, parseUnits } from "viem";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
+import { writeContract } from "wagmi/actions";
+import { wagmiConfig } from "../provider";
+import { sepolia } from "viem/chains";
 
 export function CardDeposit() {
+  const handleApproveToken = async () => {
+    async function approveToken(spenderAddress: Hex, amount: bigint) {
+      const tx = await writeContract(wagmiConfig, {
+        abi: erc20Abi,
+        address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3", //Token tUSDT
+        functionName: "approve",
+        chainId: sepolia.id,
+        args: [spenderAddress, amount],
+      });
+      return tx;
+    }
+
+    try {
+      const parsedAmount = parseUnits(test.toString(), 18);
+    } catch (error) {
+      console.log("Error in transaction");
+    }
+  };
+
+  async function deposit() {
+    try {
+    } catch {
+      console.log("Error in transaction");
+    }
+  }
+
   return (
     <div>
       <h1 className="ml-4 mb-2.5 text-white text-xl">Deposit USDC</h1>
