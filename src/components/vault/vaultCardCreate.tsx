@@ -68,6 +68,8 @@ export function CardCreate() {
     return Math.floor(date.getTime() / 1000);
   };
 
+  const { isConnected } = useAccount();
+
   const handleApproveToken = async () => {
     async function approveToken(spenderAddress: Hex, amount: bigint) {
       const tx = await writeContract(wagmiConfig, {
@@ -101,8 +103,6 @@ export function CardCreate() {
     }
   };
 
-  const { isConnected } = useAccount();
-
   async function onSubmit() {
     try {
       if (!isConnected) {
@@ -127,9 +127,9 @@ export function CardCreate() {
 
       console.log("Result of simulation:", simulate);
 
-      // await waitForTransactionReceipt(wagmiConfig, {
-      //   hash: simulate,
-      // });
+      if (simulate.result) {
+        console.log("Simulation sucessfull! Creating a vault ...");
+      }
 
       const vaultCreate = await writeContract(wagmiConfig, {
         abi,
@@ -144,7 +144,12 @@ export function CardCreate() {
           salt,
         ],
       });
-    } catch (error) {}
+
+      alert("Sucessfull creation a vault");
+      return vaultCreate;
+    } catch (error) {
+      alert("Error in the creation of a vault");
+    }
   }
 
   return (
