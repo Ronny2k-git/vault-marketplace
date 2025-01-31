@@ -14,8 +14,13 @@ import {
 } from "@wagmi/core";
 import { wagmiConfig } from "../provider";
 import { useAccount } from "wagmi";
-import { erc20Abi, Hex, parseUnits } from "viem";
-import { sepolia } from "wagmi/chains";
+
+type ContractParams = {
+  abi: any;
+  address: `0x${string}`;
+  functionName: string;
+  args: any[];
+};
 
 export function CardCreate() {
   const {
@@ -70,40 +75,54 @@ export function CardCreate() {
 
   const { isConnected } = useAccount();
 
-  const handleApproveToken = async () => {
-    async function approveToken(spenderAddress: Hex, amount: bigint) {
-      const tx = await writeContract(wagmiConfig, {
-        abi: erc20Abi,
-        address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3", //Token tUSDT
-        functionName: "approve",
-        chainId: sepolia.id,
-        args: [spenderAddress, amount],
-      });
-      return tx;
-    }
+  // const handleApproveToken = async () => {
+  //   async function approveToken(spenderAddress: Hex, amount: bigint) {
+  //     const tx = await writeContract(wagmiConfig, {
+  //       abi: erc20Abi,
+  //       address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3", //Token tUSDT
+  //       functionName: "approve",
+  //       chainId: sepolia.id,
+  //       args: [spenderAddress, amount],
+  //     });
+  //     return tx;
+  //   }
 
-    if (!isConnected) {
-      alert("Please connect your wallet");
-      return;
-    }
-    try {
-      const parsedAmount = parseUnits(minDeposit.toString(), 18);
-      const approveTxHash = await approveToken(
-        "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3", //Vault Contract
-        parsedAmount
-      );
+  //   if (!isConnected) {
+  //     alert("Please connect your wallet");
+  //     return;
+  //   }
+  //   try {
+  //     const parsedAmount = parseUnits(minDeposit.toString(), 18);
+  //     const approveTxHash = await approveToken(
+  //       "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3", //Vault Contract
+  //       parsedAmount
+  //     );
 
-      console.log("Token approval transaction hash:", approveTxHash);
-      setValue("isApproved", true);
+  //     console.log("Token approval transaction hash:", approveTxHash);
+  //     setValue("isApproved", true);
 
-      alert("Token approval successful!");
-    } catch (error) {
-      console.error("Error in transaction");
-      alert("Token approval failed!");
-    }
-  };
+  //     alert("Token approval successful!");
+  //   } catch (error) {
+  //     console.error("Error in transaction");
+  //     alert("Token approval failed!");
+  //   }
+  // };
 
   async function onSubmit() {
+    const configParams: ContractParams = {
+      abi,
+      address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+      functionName: "createVault",
+      args: [
+        assetToken,
+        convertTimestamp(startDate),
+        convertTimestamp(endDate),
+        minDeposit,
+        maxDeposit,
+        salt,
+      ],
+    };
+
     try {
       if (!isConnected) {
         alert("Please connect your wallet");
@@ -111,39 +130,15 @@ export function CardCreate() {
       }
       console.log("Submitting ...");
 
-      const simulate = await simulateContract(wagmiConfig, {
-        abi,
-        address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
-        functionName: "createVault",
-        args: [
-          assetToken,
-          convertTimestamp(startDate),
-          convertTimestamp(endDate),
-          minDeposit,
-          maxDeposit,
-          salt,
-        ],
-      });
+      const simulateVault = await simulateContract(wagmiConfig, configParams);
 
-      console.log("Result of simulation:", simulate);
+      console.log("Result of simulation:", simulateVault);
 
-      if (simulate.result) {
+      if (simulateVault.result) {
         console.log("Simulation sucessfull! Creating a vault ...");
       }
 
-      const vaultCreate = await writeContract(wagmiConfig, {
-        abi,
-        address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
-        functionName: "createVault",
-        args: [
-          assetToken,
-          convertTimestamp(startDate),
-          convertTimestamp(endDate),
-          minDeposit,
-          maxDeposit,
-          salt,
-        ],
-      });
+      const vaultCreate = await writeContract(wagmiConfig, configParams);
 
       alert("Sucessfull creation a vault");
       return vaultCreate;
@@ -370,7 +365,7 @@ export function CardCreate() {
         >
           Reset
         </Button>
-        <Button
+        {/* <Button
           className="mr-2"
           intent={"secondary"}
           size={"mediumLarge"}
@@ -383,7 +378,7 @@ export function CardCreate() {
             +
           </div>
           <div className="text-[10px]">Approve Token</div>
-        </Button>
+        </Button> */}
         <Button
           intent={"secondary"}
           size={"mediumLarge"}
