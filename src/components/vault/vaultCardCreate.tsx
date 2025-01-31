@@ -153,7 +153,7 @@ export function CardCreate() {
   }
 
   return (
-    <div>
+    <div className="relative">
       <Card className="mr-2.5 mb-2.5 " intent={"primary"} size={"high"}>
         <h3 className="text-white text-xs">Network</h3>
         <div className="relative">
@@ -173,24 +173,38 @@ export function CardCreate() {
           />
         </div>
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
-        <h3 className="text-white text-xs mb-1">Vault Name</h3>
+        <div className="flex">
+          <h3 className="text-white text-xs mb-1">Vault Name</h3>
+          {errors.vaultName && (
+            <p className="text-red-500 text-[11px] ml-2 text-semibold ">
+              {errors.vaultName.message}
+            </p>
+          )}
+        </div>
         <Input
           {...register("vaultName", {
-            // required: true,
-            // minLength: {
-            //   value: 5,
-            //   message: "Vault Name must be at least 5 characters",
-            // },
-            // maxLength: {
-            //   value: 20,
-            //   message: "Vault Name must be at most 20 characters",
-            // },
+            required: { value: true, message: "The vault name is required" },
+            minLength: {
+              value: 5,
+              message: "Vault Name must be at least 5 characters",
+            },
+            maxLength: {
+              value: 20,
+              message: "Vault Name must be at most 20 characters",
+            },
           })}
           placeholder="Enter name"
           intent={"primary"}
           size={"mediumLarge"}
         />
-        <h3 className="text-white text-xs mb-1">Vault Logo</h3>
+        <div className="flex">
+          <h3 className="text-white text-xs mb-1">Vault Logo</h3>
+          {errors.vaultLogo && (
+            <p className="text-red-500 text-[11px] ml-2 text-semibold ">
+              {errors.vaultLogo.message}
+            </p>
+          )}
+        </div>
         <h4 className="text-text-foreground text-[10px] mb-1">
           The card logo to be displayed on pages
         </h4>
@@ -199,12 +213,19 @@ export function CardCreate() {
           intent={"primary"}
           size={"mediumLarge"}
           {...register("vaultLogo", {
-            // required: true,
+            required: { value: true, message: "The vault logo is required" },
             // pattern:
             //   /^(https?:\/\/)?([a-z0-9.-]+(\.[a-z]{2,})?(:\d+)?(\/[^\s]*)?)$/i,
           })}
         />
-        <h3 className="text-white text-xs mb-1">Banner Url</h3>
+        <div className="flex">
+          <h3 className="text-white text-xs mb-1">Banner URL</h3>
+          {errors.bannerUrl && (
+            <p className="text-red-500 text-[11px] ml-2 text-semibold ">
+              {errors.bannerUrl.message}
+            </p>
+          )}
+        </div>
         <h4 className="text-text-foreground text-[10px] mb-1">
           The vault banner to be showed on pages
         </h4>
@@ -213,19 +234,30 @@ export function CardCreate() {
           intent={"primary"}
           size={"mediumLarge"}
           {...register("bannerUrl", {
-            // required: true
+            required: { value: true, message: "The vault banner is required" },
           })}
         />
-        <h3 className="text-white text-xs mb-1">Asset Token</h3>
+        <div className="flex">
+          <h3 className="text-white text-xs mb-1">Asset Token</h3>
+          {errors.assetToken && (
+            <p className="text-red-500 text-[11px] ml-2 text-semibold ">
+              {errors.assetToken.message}
+            </p>
+          )}
+        </div>
         <Input
           placeholder="Enter address"
           intent={"primary"}
           size={"mediumLarge"}
           {...register("assetToken", {
-            required: true,
-            pattern: /^0x[a-fA-F0-9]{40}$/,
+            required: { value: true, message: "The token address is required" },
+            pattern: {
+              value: /^0x[a-fA-F0-9]{40}$/,
+              message: "Invalid address format",
+            },
           })}
         />
+
         <h3 className="text-white text-xs mb-1">Salt</h3>
         <Input
           placeholder="Enter salt (unique value)"
@@ -358,25 +390,6 @@ export function CardCreate() {
           </div>
           <div className="text-[10px]">Create Vault</div>
         </Button>
-
-        {/* <div
-          className="ml-12 h-6 font-semibold text-white w-60 rounded-2xl flex justify-center items-center
-           bg-white text-xs"
-        >
-          {isLoading && (
-            <p className="text-orange-600">Simulating transaction...</p>
-          )}
-          {data && (
-            <p className="text-green-500">
-              Simulation Sucessfull: {JSON.stringify(data)}
-            </p>
-          )}
-          {error && (
-            <p className="text-red-500">
-              Error in transaction: {JSON.stringify(error)}
-            </p>
-          )}
-        </div> */}
       </div>
     </div>
   );
