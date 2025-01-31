@@ -72,7 +72,7 @@ export function CardCreate() {
     async function approveToken(spenderAddress: Hex, amount: bigint) {
       const tx = await writeContract(wagmiConfig, {
         abi: erc20Abi,
-        address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3",
+        address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3", //Token tUSDT
         functionName: "approve",
         chainId: sepolia.id,
         args: [spenderAddress, amount],
@@ -87,7 +87,7 @@ export function CardCreate() {
     try {
       const parsedAmount = parseUnits(minDeposit.toString(), 18);
       const approveTxHash = await approveToken(
-        "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+        "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3", //Vault Contract
         parsedAmount
       );
 
@@ -127,9 +127,9 @@ export function CardCreate() {
 
       console.log("Result of simulation:", simulate);
 
-      await waitForTransactionReceipt(wagmiConfig, {
-        hash: simulate,
-      });
+      // await waitForTransactionReceipt(wagmiConfig, {
+      //   hash: simulate,
+      // });
 
       const write = await writeContract(wagmiConfig, {
         abi,
@@ -219,7 +219,7 @@ export function CardCreate() {
           placeholder="Enter salt (unique value)"
           intent={"primary"}
           size={"mediumLarge"}
-          {...register("salt", { required: true })}
+          {...register("salt", { required: true, valueAsNumber: true })}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1 flex">
