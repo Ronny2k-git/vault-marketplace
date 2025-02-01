@@ -107,7 +107,7 @@ export function CardCreate() {
 
       console.log("Vault creation result:", vaultCreate);
 
-      const response = await fetch("/api/createVault", {
+      const response = await fetch("/api/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
