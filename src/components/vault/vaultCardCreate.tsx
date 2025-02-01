@@ -56,9 +56,6 @@ export function CardCreate() {
   const formValues = watch();
 
   const {
-    vaultName,
-    vaultLogo,
-    bannerUrl,
     assetToken,
     salt,
     minDeposit,
