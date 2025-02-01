@@ -44,7 +44,7 @@ export function CardCreate() {
       maxDeposit: BigInt(""),
       startDate: null,
       endDate: null,
-      isApproved: false,
+      // isApproved: false,
     },
   });
 
@@ -65,7 +65,7 @@ export function CardCreate() {
     maxDeposit,
     startDate,
     endDate,
-    isApproved,
+    // isApproved,
   } = formValues;
 
   const convertTimestamp = (date: Date | null) => {
@@ -74,39 +74,6 @@ export function CardCreate() {
   };
 
   const { isConnected } = useAccount();
-
-  // const handleApproveToken = async () => {
-  //   async function approveToken(spenderAddress: Hex, amount: bigint) {
-  //     const tx = await writeContract(wagmiConfig, {
-  //       abi: erc20Abi,
-  //       address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3", //Token tUSDT
-  //       functionName: "approve",
-  //       chainId: sepolia.id,
-  //       args: [spenderAddress, amount],
-  //     });
-  //     return tx;
-  //   }
-
-  //   if (!isConnected) {
-  //     alert("Please connect your wallet");
-  //     return;
-  //   }
-  //   try {
-  //     const parsedAmount = parseUnits(minDeposit.toString(), 18);
-  //     const approveTxHash = await approveToken(
-  //       "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3", //Vault Contract
-  //       parsedAmount
-  //     );
-
-  //     console.log("Token approval transaction hash:", approveTxHash);
-  //     setValue("isApproved", true);
-
-  //     alert("Token approval successful!");
-  //   } catch (error) {
-  //     console.error("Error in transaction");
-  //     alert("Token approval failed!");
-  //   }
-  // };
 
   async function onSubmit() {
     const configParams: ContractParams = {
@@ -365,20 +332,6 @@ export function CardCreate() {
         >
           Reset
         </Button>
-        {/* <Button
-          className="mr-2"
-          intent={"secondary"}
-          size={"mediumLarge"}
-          onClick={handleApproveToken}
-        >
-          <div
-            className="size-3.5 bg-white flex justify-center items-center text-base text-accent
-            rounded-full font-semibold"
-          >
-            +
-          </div>
-          <div className="text-[10px]">Approve Token</div>
-        </Button> */}
         <Button
           intent={"secondary"}
           size={"mediumLarge"}
