@@ -29,9 +29,8 @@ export function CardCreate() {
     handleSubmit,
     watch,
     reset,
-    setValue,
+
     formState: { errors },
-    setError,
   } = useForm({
     defaultValues: {
       network: "Sepolia",
@@ -47,13 +46,17 @@ export function CardCreate() {
       // isApproved: false,
     },
   });
+  const formValues = watch();
 
   const formatDate = (date: Date | null) => {
     if (!date) return "";
     return date.toLocaleDateString("en-US");
   };
 
-  const formValues = watch();
+  const convertTimestamp = (date: Date | null) => {
+    if (!date) return 0;
+    return Math.floor(date.getTime() / 1000);
+  };
 
   const {
     assetToken,
@@ -62,31 +65,29 @@ export function CardCreate() {
     maxDeposit,
     startDate,
     endDate,
+    vaultName,
+    vaultLogo,
+    bannerUrl,
     // isApproved,
   } = formValues;
 
-  const convertTimestamp = (date: Date | null) => {
-    if (!date) return 0;
-    return Math.floor(date.getTime() / 1000);
-  };
-
   const { isConnected } = useAccount();
 
-  async function onSubmit() {
-    const configParams: ContractParams = {
-      abi,
-      address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
-      functionName: "createVault",
-      args: [
-        assetToken,
-        convertTimestamp(startDate),
-        convertTimestamp(endDate),
-        minDeposit,
-        maxDeposit,
-        salt,
-      ],
-    };
+  const configParams: ContractParams = {
+    abi,
+    address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+    functionName: "createVault",
+    args: [
+      assetToken,
+      convertTimestamp(startDate),
+      convertTimestamp(endDate),
+      minDeposit,
+      maxDeposit,
+      salt,
+    ],
+  };
 
+  async function onSubmit() {
     try {
       if (!isConnected) {
         alert("Please connect your wallet");
@@ -104,8 +105,29 @@ export function CardCreate() {
 
       const vaultCreate = await writeContract(wagmiConfig, configParams);
 
-      alert("Sucessfull creation a vault");
-      return vaultCreate;
+      console.log("Vault creation result:", vaultCreate);
+
+      const response = await fetch("/api/createVault", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          address: simulateVault.result,
+          vaultName,
+          bannerUrl,
+          startDate,
+          endDate,
+          chainId: 11155111,
+          assetTokenDecimals: 18,
+          assetTokenName: "test USD Token",
+          assetTokenSymbol: "tUSDT",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.sucess) {
+        alert("Sucessfull creation a vault");
+      }
     } catch (error) {
       alert("Error in the creation of a vault");
     }
