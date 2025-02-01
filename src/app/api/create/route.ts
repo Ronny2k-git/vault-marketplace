@@ -1,8 +1,7 @@
-import { NextApiRequest } from "next";
 import { createVaultInDb } from "../prismacreate/createPrisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextApiRequest) {
+export async function POST(req: NextRequest) {
   if (req.method === "POST") {
     try {
       const vaultDate = req.body;
