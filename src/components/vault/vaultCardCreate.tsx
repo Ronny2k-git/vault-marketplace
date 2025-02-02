@@ -43,7 +43,6 @@ export function CardCreate() {
       maxDeposit: BigInt(""),
       startDate: null,
       endDate: null,
-      // isApproved: false,
     },
   });
   const formValues = watch();
@@ -103,9 +102,9 @@ export function CardCreate() {
         console.log("Simulation sucessfull! Creating a vault ...");
       }
 
-      // const vaultCreate = await writeContract(wagmiConfig, configParams);
+      const vaultCreate = await writeContract(wagmiConfig, configParams);
 
-      // console.log("Vault creation result:", vaultCreate);
+      console.log("Vault creation result:", vaultCreate);
 
       const response = await fetch("/api/create", {
         method: "POST",
@@ -126,7 +125,7 @@ export function CardCreate() {
 
       const data = await response.json();
 
-      if (data.sucess) {
+      if (data.success) {
         alert("Sucessfull creation a vault");
       }
     } catch (error) {
