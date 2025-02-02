@@ -103,9 +103,9 @@ export function CardCreate() {
         console.log("Simulation sucessfull! Creating a vault ...");
       }
 
-      const vaultCreate = await writeContract(wagmiConfig, configParams);
+      // const vaultCreate = await writeContract(wagmiConfig, configParams);
 
-      console.log("Vault creation result:", vaultCreate);
+      // console.log("Vault creation result:", vaultCreate);
 
       const response = await fetch("/api/create", {
         method: "POST",

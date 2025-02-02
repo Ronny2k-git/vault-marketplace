@@ -33,7 +33,7 @@ export const createVaultInDb = async (vaultDate: any) => {
     });
     return vault;
   } catch (error) {
-    console.error("Error saving vault to DB");
+    console.error("Error saving vault to DB", error);
     throw new Error("Failed to save vault to database");
   }
 };
