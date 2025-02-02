@@ -29,7 +29,6 @@ export function CardCreate() {
     handleSubmit,
     watch,
     reset,
-
     formState: { errors },
   } = useForm({
     defaultValues: {
