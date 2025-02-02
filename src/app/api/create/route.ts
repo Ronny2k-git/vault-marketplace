@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   if (req.method === "POST") {
     try {
-      const vaultDate = req.body;
+      const vaultDate = await req.json(); //Na versao antiga do Next accesava diretamente com req.body
 
       const createdVault = await createVaultInDb(vaultDate);
 

@@ -113,6 +113,7 @@ export function CardCreate() {
         body: JSON.stringify({
           address: simulateVault.result,
           vaultName,
+          vaultLogo,
           bannerUrl,
           startDate,
           endDate,
