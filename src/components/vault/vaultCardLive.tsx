@@ -6,6 +6,7 @@ import { Card } from "../interface/card";
 import Link from "next/link";
 
 export function CardLive() {
+  // const getDatabase = fetch({});
   return (
     <div>
       <Card intent={"primary"} size={"small"}>
