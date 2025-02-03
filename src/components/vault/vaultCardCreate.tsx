@@ -24,7 +24,7 @@ type ContractParams = {
   args: any[];
 };
 
-export async function CardCreate() {
+export function CardCreate() {
   const {
     control,
     register,
