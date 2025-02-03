@@ -8,12 +8,14 @@ import SelectDate from "../interface/datePicker";
 import { abi } from "@/utils/abiContract";
 import { Button } from "../interface/button";
 import {
+  readContract,
   simulateContract,
   waitForTransactionReceipt,
   writeContract,
 } from "@wagmi/core";
 import { wagmiConfig } from "../provider";
 import { useAccount } from "wagmi";
+import { erc20Abi, Hex } from "viem";
 
 type ContractParams = {
   abi: any;
@@ -22,7 +24,7 @@ type ContractParams = {
   args: any[];
 };
 
-export function CardCreate() {
+export async function CardCreate() {
   const {
     control,
     register,
@@ -85,6 +87,20 @@ export function CardCreate() {
     ],
   };
 
+  async function getContract(address: Hex) {
+    const name = await readContract(wagmiConfig, {
+      abi: erc20Abi,
+      address,
+      functionName: "name",
+    });
+    const symbol = await readContract(wagmiConfig, {
+      abi: erc20Abi,
+      address,
+      functionName: "symbol",
+    });
+    return { name, symbol };
+  }
+
   async function onSubmit() {
     try {
       if (!isConnected) {
@@ -100,6 +116,9 @@ export function CardCreate() {
       if (simulateVault.result) {
         console.log("Simulation sucessfull! Creating a vault ...");
       }
+
+      const tokenData = await getContract(assetToken);
+      const { name: assetTokenName, symbol: assetTokenSymbol } = tokenData;
 
       const vaultCreate = await writeContract(wagmiConfig, configParams);
 
@@ -117,8 +136,8 @@ export function CardCreate() {
           endDate,
           chainId: 11155111,
           assetTokenDecimals: 18,
-          assetTokenName: "test USD Token",
-          assetTokenSymbol: "tUSDT",
+          assetTokenName,
+          assetTokenSymbol,
         }),
       });
 
