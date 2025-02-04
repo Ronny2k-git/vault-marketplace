@@ -4,9 +4,36 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+type Vault = {
+  id: number;
+  name: string;
+  startsAt: string;
+  endsAt: string;
+};
 
 export function CardLive() {
-  // const getDatabase = fetch({});
+  const [vaultData, setVaultData] = useState<Vault[]>([]);
+
+  async function fetchVaultData() {
+    const response = await fetch("/api/getCardLive", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setVaultData(data.vaults);
+    }
+  }
+
+  useEffect(() => {
+    fetchVaultData;
+  }, []);
+
   return (
     <div>
       <Card intent={"primary"} size={"small"}>

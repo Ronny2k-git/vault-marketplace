@@ -3,15 +3,20 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export const getVaultInDb = async (vaultDate: any) => {
+export const getVaultInDb = async () => {
   try {
-    const { vaultName, startDate, endDate } = vaultDate;
-
-    const vault = await prisma.vault.findMany({});
+    const vaults = await prisma.vault.findMany({
+      select: {
+        name: true,
+        startsAt: true,
+        endsAt: true,
+      },
+    });
+    return vaults;
   } catch (error) {
     return NextResponse.json({
       success: false,
-      message: "Error in your operation ",
+      message: "Error fetchinf vault data",
     });
   }
 };
