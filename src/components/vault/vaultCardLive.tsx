@@ -30,8 +30,14 @@ export function CardLive() {
   }
 
   useEffect(() => {
-    fetchVaultData;
+    fetchVaultData();
   }, []);
+
+  if (vaultData.length === 0) {
+    return <div className="text-red-500">Loading...</div>;
+  }
+
+  const vault = vaultData[1];
 
   return (
     <div>
@@ -44,7 +50,7 @@ export function CardLive() {
           <div className="flex z-40 bottom-2 gap-2 left-2 absolute">
             <img className="size-8" src="/icons/usdcLogo.png" />
             <div className=" font-normal text-white text-base">
-              USDC Vault
+              {vault.name}
               <br />
               <div className="text-[10px] -mt-2">Sepolia</div>
             </div>
