@@ -3,10 +3,37 @@
 import { Card } from "@/components/interface/card";
 import { TransactionTokens } from "@/components/vault/vaultCardTokens";
 import { CardTransaction } from "@/components/vault/vaultCardTransaction";
+import { useEffect, useState } from "react";
 
-export default function Token() {
-  const cardTokensArray = new Array(10).fill(null);
+type Vault = {
+  id: number;
+  name: string;
+  startsAt: string;
+  endsAt: string;
+  banner: string;
+  logo: string;
+};
 
+const cardTokensArray = new Array(10).fill(null);
+export default function TokenId() {
+  const [vaultToken, setVaultToken] = useState<Vault[]>([]);
+
+  async function fetchVaultToken() {
+    const response = await fetch("/api/getTokenId", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setVaultToken(data.vaultToken);
+    }
+  }
+
+  useEffect(() => {
+    fetchVaultToken();
+  }, []);
   return (
     <div className="h-screen w-[calc(screen-1px)] bg-background font-SpaceGrotesk">
       <div className="h-full w-full flex flex-col pt-12 items-center">

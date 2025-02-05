@@ -9,17 +9,17 @@ export const getVaultInDb = async () => {
       select: {
         id: true,
         name: true,
-        banner: true,
         logo: true,
+        banner: true,
         startsAt: true,
         endsAt: true,
       },
     });
     return vaults;
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      message: "Error fetching vault data",
-    });
+    return NextResponse.json(
+      { success: false, message: "Error fetching vault data" },
+      { status: 500 }
+    );
   }
 };
