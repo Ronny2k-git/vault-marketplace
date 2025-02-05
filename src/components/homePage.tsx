@@ -5,9 +5,39 @@ import { Button } from "./interface/button";
 import { Card } from "./interface/card";
 import { CardLive } from "./vault/vaultCardLive";
 import { CardTokens } from "./vault/vaultCardTokens";
+import { useEffect, useState } from "react";
+
+type Vault = {
+  id: number;
+  name: string;
+  startsAt: string;
+  endsAt: string;
+  banner: string;
+  logo: string;
+};
+
+const cardTokensArray = new Array(10).fill(null);
 
 export function TokenVaults() {
-  const cardTokensArray = new Array(10).fill(null);
+  const [vaults, setVaults] = useState<Vault[]>([]);
+
+  async function fetchVaultData() {
+    const response = await fetch("api/getCardLive", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setVaults(data.vaults);
+    }
+  }
+
+  useEffect(() => {
+    fetchVaultData();
+  });
+
   return (
     <div>
       <div className="flex flex-col font-SpaceGrotesk">
@@ -26,9 +56,9 @@ export function TokenVaults() {
           Explore lives and upcoming vaults on Vault Marketplace
         </h2>
         <div className="flex gap-2.5 mb-24">
-          <CardLive />
-          <CardLive />
-          <CardLive />
+          {vaults.map((vault) => (
+            <CardLive key={vault.id} vault={vault} />
+          ))}
         </div>
         <div className="text-3xl w-[537px] text-white">
           Completed Token Vaults

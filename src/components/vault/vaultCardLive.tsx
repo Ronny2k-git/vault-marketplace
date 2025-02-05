@@ -11,33 +11,35 @@ type Vault = {
   name: string;
   startsAt: string;
   endsAt: string;
+  banner: string;
+  logo: string;
 };
 
-export function CardLive() {
-  const [vaultData, setVaultData] = useState<Vault[]>([]);
+export function CardLive({ vault }: { vault: Vault }) {
+  // const [vaultData, setVaultData] = useState<Vault[]>([]);
 
-  async function fetchVaultData() {
-    const response = await fetch("/api/getCardLive", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
+  // async function fetchVaultData() {
+  //   const response = await fetch("/api/getCardLive", {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //   });
 
-    const data = await response.json();
+  //   const data = await response.json();
 
-    if (data.success) {
-      setVaultData(data.vaults);
-    }
-  }
+  //   if (data.success) {
+  //     setVaultData(data.vaults);
+  //   }
+  // }
 
-  useEffect(() => {
-    fetchVaultData();
-  }, []);
+  // useEffect(() => {
+  //   fetchVaultData();
+  // }, [0]);
 
-  if (vaultData.length === 0) {
-    return <div className="text-red-500">Loading...</div>;
-  }
+  // if (vaultData.length === 0) {
+  //   return <div className="text-red-500">Loading...</div>;
+  // }
 
-  const vault = vaultData[1];
+  // const vault = vaultData[0];
 
   return (
     <div>
@@ -45,10 +47,10 @@ export function CardLive() {
         <div className="relative w-full h-fit aspect-video overflow-hidden flex-grow-0">
           <img
             className="rounded-t-xl size-full object-cover"
-            src="/usdc.png"
+            src={vault.banner}
           />
           <div className="flex z-40 bottom-2 gap-2 left-2 absolute">
-            <img className="size-8" src="/icons/usdcLogo.png" />
+            <img className="size-8 rounded-full" src={vault.logo} />
             <div className=" font-normal text-white text-base">
               {vault.name}
               <br />
