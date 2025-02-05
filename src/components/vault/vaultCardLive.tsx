@@ -20,7 +20,6 @@ export function CardLive() {
     const response = await fetch("/api/getCardLive", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
     });
 
     const data = await response.json();

@@ -7,12 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import SelectDate from "../interface/datePicker";
 import { abi } from "@/utils/abiContract";
 import { Button } from "../interface/button";
-import {
-  readContract,
-  simulateContract,
-  waitForTransactionReceipt,
-  writeContract,
-} from "@wagmi/core";
+import { readContract, simulateContract, writeContract } from "@wagmi/core";
 import { wagmiConfig } from "../provider";
 import { useAccount } from "wagmi";
 import { erc20Abi, Hex } from "viem";
@@ -68,7 +63,6 @@ export function CardCreate() {
     vaultName,
     vaultLogo,
     bannerUrl,
-    // isApproved,
   } = formValues;
 
   const { isConnected } = useAccount();
@@ -158,7 +152,7 @@ export function CardCreate() {
         <div className="relative">
           <select
             className="py-1 pl-5 mb-2.5 text-white px-1.5 rounded-md text-xs bg-button-bg-primary"
-            {...register("network", { required: "NEtwork is required" })}
+            {...register("network", { required: "Network is required" })}
           >
             <option value="Sepolia">Sepolia</option>
             <option value="Arbitrum">Arbitrum</option>
