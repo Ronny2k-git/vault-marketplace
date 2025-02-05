@@ -36,7 +36,7 @@ export function TokenVaults() {
 
   useEffect(() => {
     fetchVaultData();
-  });
+  }, []);
 
   return (
     <div>

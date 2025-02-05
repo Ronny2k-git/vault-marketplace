@@ -4,7 +4,6 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 type Vault = {
   id: number;
@@ -16,30 +15,20 @@ type Vault = {
 };
 
 export function CardLive({ vault }: { vault: Vault }) {
-  // const [vaultData, setVaultData] = useState<Vault[]>([]);
+  const getStatus = () => {
+    const currentDate = new Date();
+    const startDate = new Date(vault.startsAt);
+    const endDate = new Date(vault.endsAt);
 
-  // async function fetchVaultData() {
-  //   const response = await fetch("/api/getCardLive", {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   });
-
-  //   const data = await response.json();
-
-  //   if (data.success) {
-  //     setVaultData(data.vaults);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   fetchVaultData();
-  // }, [0]);
-
-  // if (vaultData.length === 0) {
-  //   return <div className="text-red-500">Loading...</div>;
-  // }
-
-  // const vault = vaultData[0];
+    if (startDate > currentDate) {
+      return "Coming soon";
+    }
+    if (startDate <= currentDate && currentDate < endDate) {
+      return "Live";
+    } else {
+      return "Finished";
+    }
+  };
 
   return (
     <div>
@@ -77,7 +66,13 @@ export function CardLive({ vault }: { vault: Vault }) {
             <img className="size-4 mr-1" src="/icons/time.png" />
             <div>Status:</div>
           </div>
-          <div className="text-live-accent">Live</div>
+          <div
+            className={`${
+              getStatus() === "Live" ? "text-live-accent" : "text-blue-300"
+            }`}
+          >
+            {getStatus()}
+          </div>
         </div>
         <div className="ml-4 mt-2">
           <Link href={`/token-vault/1`}>
