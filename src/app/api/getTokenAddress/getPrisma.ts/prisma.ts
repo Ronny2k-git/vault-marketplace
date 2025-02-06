@@ -9,6 +9,7 @@ export const getVaultInDb = async () => {
       select: {
         id: true,
         name: true,
+        address: true,
         logo: true,
         banner: true,
         startsAt: true,

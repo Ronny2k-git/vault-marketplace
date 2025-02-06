@@ -22,7 +22,7 @@ export default function TokenAddress({ vault }: { vault: Vault }) {
   const [vaultToken, setVaultToken] = useState<Vault[]>([]);
 
   async function fetchVaultToken() {
-    const response = await fetch("api/getTokenAddress", {
+    const response = await fetch("/api/getTokenAddress", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });

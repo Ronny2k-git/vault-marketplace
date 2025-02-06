@@ -23,7 +23,7 @@ export function TokenVaults() {
   const [vaults, setVaults] = useState<Vault[]>([]);
 
   async function fetchVaultData() {
-    const response = await fetch("api/getCardLive", {
+    const response = await fetch("/api/getCardLive", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
