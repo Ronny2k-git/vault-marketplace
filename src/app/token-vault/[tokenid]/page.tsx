@@ -3,10 +3,12 @@
 import { Card } from "@/components/interface/card";
 import { TransactionTokens } from "@/components/vault/vaultCardTokens";
 import { CardTransaction } from "@/components/vault/vaultCardTransaction";
+// import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 type Vault = {
   id: number;
+  address: string;
   name: string;
   startsAt: string;
   endsAt: string;
@@ -15,11 +17,12 @@ type Vault = {
 };
 
 const cardTokensArray = new Array(10).fill(null);
-export default function TokenId() {
+
+export default function TokenAddress({ vault }: { vault: Vault }) {
   const [vaultToken, setVaultToken] = useState<Vault[]>([]);
 
   async function fetchVaultToken() {
-    const response = await fetch("/api/getTokenId", {
+    const response = await fetch("api/getTokenAddress", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -27,13 +30,14 @@ export default function TokenId() {
     const data = await response.json();
 
     if (data.success) {
-      setVaultToken(data.vaultToken);
+      setVaultToken(data.vault);
     }
   }
 
   useEffect(() => {
     fetchVaultToken();
   }, []);
+
   return (
     <div className="h-screen w-[calc(screen-1px)] bg-background font-SpaceGrotesk">
       <div className="h-full w-full flex flex-col pt-12 items-center">
@@ -42,7 +46,7 @@ export default function TokenId() {
           <div className="flex absolute bottom-3">
             <img className="size-11 ml-4 mr-1" src="/icons/usdcLogo.png" />
             <div className="flex flex-col">
-              <div className="text-2xl font-bold">USDC Vault</div>
+              <div className="text-2xl font-bold"></div>
               <div className="-mt-1 text-base">Sepolia</div>
             </div>
           </div>

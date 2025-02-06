@@ -7,6 +7,7 @@ import Link from "next/link";
 
 type Vault = {
   id: number;
+  address: string;
   name: string;
   startsAt: string;
   endsAt: string;
@@ -75,7 +76,7 @@ export function CardLive({ vault }: { vault: Vault }) {
           </div>
         </div>
         <div className="ml-4 mt-2">
-          <Link href={`/token-vault/1`}>
+          <Link href={`/token-vault/${vault.address}`}>
             <Button intent={"primary"} size={"small"}>
               View now
               <FaArrowRightLong />

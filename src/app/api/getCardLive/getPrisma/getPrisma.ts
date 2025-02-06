@@ -8,6 +8,7 @@ export const getVaultInDb = async () => {
     const vaults = await prisma.vault.findMany({
       select: {
         id: true,
+        address: true,
         name: true,
         banner: true,
         logo: true,

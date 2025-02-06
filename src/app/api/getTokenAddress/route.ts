@@ -4,9 +4,9 @@ import { getVaultInDb } from "./getPrisma.ts/prisma";
 export async function GET(req: NextRequest) {
   if (req.method === "GET") {
     try {
-      const vaults = await getVaultInDb();
+      const vault = await getVaultInDb();
 
-      return NextResponse.json({ success: true, vaults }, { status: 200 });
+      return NextResponse.json({ success: true, vault }, { status: 200 });
     } catch (error) {
       return NextResponse.json(
         { success: false, message: "Error fetching vault data" },

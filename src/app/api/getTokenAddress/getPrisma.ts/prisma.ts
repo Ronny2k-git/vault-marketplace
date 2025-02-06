@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export const getVaultInDb = async () => {
   try {
-    const vaults = await prisma.vault.findMany({
+    const vault = await prisma.vault.findMany({
       select: {
         id: true,
         name: true,
@@ -15,7 +15,7 @@ export const getVaultInDb = async () => {
         endsAt: true,
       },
     });
-    return vaults;
+    return vault;
   } catch (error) {
     return NextResponse.json(
       { success: false, message: "Error fetching vault data" },
