@@ -76,7 +76,7 @@ export function CardLive({ vault }: { vault: Vault }) {
           </div>
         </div>
         <div className="ml-4 mt-2">
-          <Link href={`/token-vault/${vault.address}`}>
+          <Link href={`/token-vault/${vault.id}`}>
             <Button intent={"primary"} size={"small"}>
               View now
               <FaArrowRightLong />

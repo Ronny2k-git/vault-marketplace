@@ -1,10 +1,14 @@
 "use client";
 
 import { Card } from "@/components/interface/card";
+import { wagmiConfig } from "@/components/provider";
 import { TransactionTokens } from "@/components/vault/vaultCardTokens";
 import { CardTransaction } from "@/components/vault/vaultCardTransaction";
+import { abi } from "@/utils/abiContract";
+import { format } from "path";
 // import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { readContract } from "wagmi/actions";
 
 type Vault = {
   id: number;
@@ -19,7 +23,7 @@ type Vault = {
 const cardTokensArray = new Array(10).fill(null);
 
 export default function TokenAddress({ vault }: { vault: Vault }) {
-  const [vaultToken, setVaultToken] = useState<Vault[]>([]);
+  const [vaultToken, setVaults] = useState<Vault | null>(null);
 
   async function fetchVaultToken() {
     const response = await fetch("/api/getTokenAddress", {
@@ -30,23 +34,37 @@ export default function TokenAddress({ vault }: { vault: Vault }) {
     const data = await response.json();
 
     if (data.success) {
-      setVaultToken(data.vault);
+      setVaults(data.vault[0]);
     }
+
+    console.log(data);
   }
 
   useEffect(() => {
     fetchVaultToken();
   }, []);
 
+  if (!vaultToken) {
+    return <div className="text-red-500">Loading...</div>;
+  }
+
+  const formatStartDate = new Date(vaultToken.startsAt).toLocaleDateString(
+    "en-US"
+  );
+  const formatEndDate = new Date(vaultToken.endsAt).toLocaleDateString("en-US");
+
   return (
     <div className="h-screen w-[calc(screen-1px)] bg-background font-SpaceGrotesk">
       <div className="h-full w-full flex flex-col pt-12 items-center">
         <Card className="relative" intent={"primary"} size={"large"}>
-          <img className="size-full object-cover rounded-2xl" src="/usdc.png" />
+          <img
+            className="size-full object-cover rounded-2xl"
+            src={vaultToken.banner}
+          />
           <div className="flex absolute bottom-3">
-            <img className="size-11 ml-4 mr-1" src="/icons/usdcLogo.png" />
+            <img className="size-11 ml-4 mr-1" src={vaultToken.logo} />
             <div className="flex flex-col">
-              <div className="text-2xl font-bold"></div>
+              <div className="text-2xl font-bold">{vaultToken.name}</div>
               <div className="-mt-1 text-base">Sepolia</div>
             </div>
           </div>
@@ -54,11 +72,13 @@ export default function TokenAddress({ vault }: { vault: Vault }) {
         <div className="mt-4 flex gap-5 mr-56 mb-4">
           <div>
             <div className="text-sm text-white">Start date</div>
-            <div className="text-xs text-text-foreground">00/00/0000</div>
+            <div className="text-xs text-text-foreground">
+              {formatStartDate}
+            </div>
           </div>
           <div>
             <div className="text-sm text-white">End date</div>
-            <div className="text-xs text-text-foreground">00/00/0000</div>
+            <div className="text-xs text-text-foreground">{formatEndDate}</div>
           </div>
           <div>
             <div className="text-sm text-white">Max.deposite per wallet.</div>
@@ -87,7 +107,7 @@ export default function TokenAddress({ vault }: { vault: Vault }) {
           </div>
           <CardTransaction />
         </div>
-        <div className="text-[13px] mr-72 mt-2">
+        <div className="text-white text-[13px] mr-72 mt-2">
           {"<"} 1 2 3 ... 20 {">"}
         </div>
       </div>

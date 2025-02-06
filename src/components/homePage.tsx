@@ -58,7 +58,7 @@ export function TokenVaults() {
         </h2>
         <div className="flex gap-2.5 mb-24">
           {vaults.map((vault) => (
-            <CardLive key={vault.address} vault={vault} />
+            <CardLive key={vault.id} vault={vault} />
           ))}
         </div>
         <div className="text-3xl w-[537px] text-white">
