@@ -4,8 +4,39 @@ import { Tabs } from "@radix-ui/themes";
 import { Card } from "../interface/card";
 import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
+import { useEffect, useState } from "react";
+
+type Vault = {
+  id: number;
+  address: string;
+  name: string;
+  startsAt: string;
+  endsAt: string;
+  banner: string;
+  logo: string;
+};
 
 export function CardTransaction() {
+  const [vaultToken, setVaults] = useState<Vault | null>(null);
+
+  async function fetchVaultToken() {
+    const response = await fetch("/api/getTokenAddress", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setVaults(data.vault[2]);
+    }
+
+    console.log(data);
+  }
+
+  useEffect(() => {
+    fetchVaultToken();
+  }, []);
   return (
     <div>
       <Card className="flex flex-col" intent={"secondary"} size={"mediumLarge"}>

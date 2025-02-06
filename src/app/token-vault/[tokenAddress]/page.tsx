@@ -25,6 +25,14 @@ const cardTokensArray = new Array(10).fill(null);
 export default function TokenAddress({ vault }: { vault: Vault }) {
   const [vaultToken, setVaults] = useState<Vault | null>(null);
 
+  // async function getContract() {
+  //   const name = readContract(wagmiConfig, {
+  //     abi: abi,
+  //     address: "0xc15bE636cB7263551a5b25d542adAE123f909f8b",
+  //     functionName: "",
+  //   });
+  // }
+
   async function fetchVaultToken() {
     const response = await fetch("/api/getTokenAddress", {
       method: "GET",
@@ -34,7 +42,7 @@ export default function TokenAddress({ vault }: { vault: Vault }) {
     const data = await response.json();
 
     if (data.success) {
-      setVaults(data.vault[0]);
+      setVaults(data.vault[2]);
     }
 
     console.log(data);
@@ -82,11 +90,15 @@ export default function TokenAddress({ vault }: { vault: Vault }) {
           </div>
           <div>
             <div className="text-sm text-white">Max.deposite per wallet.</div>
-            <div className="text-xs text-text-foreground">5,400.50 USDC</div>
+            <div className="text-xs text-text-foreground">
+              5,400.50 {vaultToken.name}
+            </div>
           </div>
           <div>
             <div className="text-sm text-white">Min.deposit per wallet.</div>
-            <div className="text-xs text-text-foreground">500 USDC</div>
+            <div className="text-xs text-text-foreground">
+              500 {vaultToken.name}
+            </div>
           </div>
         </div>
         <div className="flex gap-2.5">
