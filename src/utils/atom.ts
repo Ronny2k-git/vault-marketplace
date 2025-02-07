@@ -1,3 +1,4 @@
+import { Vault } from "@/components/homePage";
 import { atom } from "jotai";
 
 // // Criando átomos para armazenar os valores dos inputs
@@ -10,4 +11,4 @@ import { atom } from "jotai";
 // export const startDateAtom = atom<Date | null>(null);
 // export const endDateAtom = atom<Date | null>(null);
 export const vaultAtom = atom(null);
-export const vaultExplore = atom(null);
+export const vaultExplore = atom<Vault[] | null>(null);
