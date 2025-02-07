@@ -1,4 +1,4 @@
-// import { atom } from "jotai";
+import { atom } from "jotai";
 
 // // Criando átomos para armazenar os valores dos inputs
 // export const networkAtom = atom("Sepolia");
@@ -9,3 +9,4 @@
 // export const maxDepositAtom = atom("");
 // export const startDateAtom = atom<Date | null>(null);
 // export const endDateAtom = atom<Date | null>(null);
+export const vaultAtom = atom(null);

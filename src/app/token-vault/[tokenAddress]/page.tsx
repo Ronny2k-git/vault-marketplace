@@ -1,14 +1,11 @@
 "use client";
 
 import { Card } from "@/components/interface/card";
-import { wagmiConfig } from "@/components/provider";
 import { TransactionTokens } from "@/components/vault/vaultCardTokens";
 import { CardTransaction } from "@/components/vault/vaultCardTransaction";
-import { abi } from "@/utils/abiContract";
-import { format } from "path";
-// import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { readContract } from "wagmi/actions";
+import { vaultAtom } from "@/utils/atom";
+import { useAtom } from "jotai";
+import { useEffect } from "react";
 
 type Vault = {
   id: number;
@@ -22,8 +19,8 @@ type Vault = {
 
 const cardTokensArray = new Array(10).fill(null);
 
-export default function TokenAddress({ vault }: { vault: Vault }) {
-  const [vaultToken, setVaults] = useState<Vault | null>(null);
+export default function TokenAddress() {
+  const [vaultData, setVaultData] = useAtom<Vault | null>(vaultAtom);
 
   // async function getContract() {
   //   const name = readContract(wagmiConfig, {
@@ -33,7 +30,7 @@ export default function TokenAddress({ vault }: { vault: Vault }) {
   //   });
   // }
 
-  async function fetchVaultToken() {
+  async function fetchVaultData() {
     const response = await fetch("/api/getTokenAddress", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -42,24 +39,24 @@ export default function TokenAddress({ vault }: { vault: Vault }) {
     const data = await response.json();
 
     if (data.success) {
-      setVaults(data.vault[2]);
+      setVaultData(data.vault[0]);
     }
 
     console.log(data);
   }
 
   useEffect(() => {
-    fetchVaultToken();
+    fetchVaultData();
   }, []);
 
-  if (!vaultToken) {
+  if (!vaultData) {
     return <div className="text-red-500">Loading...</div>;
   }
 
-  const formatStartDate = new Date(vaultToken.startsAt).toLocaleDateString(
+  const formatStartDate = new Date(vaultData.startsAt).toLocaleDateString(
     "en-US"
   );
-  const formatEndDate = new Date(vaultToken.endsAt).toLocaleDateString("en-US");
+  const formatEndDate = new Date(vaultData.endsAt).toLocaleDateString("en-US");
 
   return (
     <div className="h-screen w-[calc(screen-1px)] bg-background font-SpaceGrotesk">
@@ -67,12 +64,12 @@ export default function TokenAddress({ vault }: { vault: Vault }) {
         <Card className="relative" intent={"primary"} size={"large"}>
           <img
             className="size-full object-cover rounded-2xl"
-            src={vaultToken.banner}
+            src={vaultData.banner}
           />
           <div className="flex absolute bottom-3">
-            <img className="size-11 ml-4 mr-1" src={vaultToken.logo} />
+            <img className="size-11 ml-4 mr-1" src={vaultData.logo} />
             <div className="flex flex-col">
-              <div className="text-2xl font-bold">{vaultToken.name}</div>
+              <div className="text-2xl font-bold">{vaultData.name}</div>
               <div className="-mt-1 text-base">Sepolia</div>
             </div>
           </div>
@@ -91,13 +88,13 @@ export default function TokenAddress({ vault }: { vault: Vault }) {
           <div>
             <div className="text-sm text-white">Max.deposite per wallet.</div>
             <div className="text-xs text-text-foreground">
-              5,400.50 {vaultToken.name}
+              5,400.50 {vaultData.name}
             </div>
           </div>
           <div>
             <div className="text-sm text-white">Min.deposit per wallet.</div>
             <div className="text-xs text-text-foreground">
-              500 {vaultToken.name}
+              500 {vaultData.name}
             </div>
           </div>
         </div>

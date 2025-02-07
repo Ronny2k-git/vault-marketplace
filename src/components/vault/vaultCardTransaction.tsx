@@ -5,6 +5,8 @@ import { Card } from "../interface/card";
 import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
 import { useEffect, useState } from "react";
+import { vaultAtom } from "@/utils/atom";
+import { useAtom } from "jotai";
 
 type Vault = {
   id: number;
@@ -17,31 +19,28 @@ type Vault = {
 };
 
 export function CardTransaction() {
-  const [vaultToken, setVaults] = useState<Vault | null>(null);
+  const [vaultData] = useAtom<Vault | null>(vaultAtom);
 
-  async function fetchVaultToken() {
-    const response = await fetch("/api/getTokenAddress", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
+  const getStatus = () => {
+    const currentDate = new Date();
+    const startDate = new Date(vaultData.startsAt);
+    const endDate = new Date(vaultData.endsAt);
 
-    const data = await response.json();
-
-    if (data.success) {
-      setVaults(data.vault[2]);
+    if (startDate > currentDate) {
+      return "Coming soon";
     }
+    if (startDate < currentDate && currentDate < endDate) {
+      return "Live";
+    } else {
+      return "Finished";
+    }
+  };
 
-    console.log(data);
-  }
-
-  useEffect(() => {
-    fetchVaultToken();
-  }, []);
   return (
     <div>
       <Card className="flex flex-col" intent={"secondary"} size={"mediumLarge"}>
         <h1 className="mt-4 ml-4 flex text-sm text-text-foreground">
-          Status: <p className="ml-1 text-live-accent">Live</p>
+          Status: <p className="ml-1 text-live-accent">{getStatus()}</p>
         </h1>
         <div className="ml-4 text-base mb-2 text-text-foreground">
           01 : 20 : 55

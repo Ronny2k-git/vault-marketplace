@@ -17,39 +17,39 @@ type Vault = {
 };
 
 export function CardTokens() {
-  const [vaults, setVaults] = useState<Vault[]>([]);
+  // const [vaults, setVaults] = useState<Vault[]>([]);
 
-  async function getContract() {
-    const response = await fetch("/api/getTokenAddress", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
+  // async function getContract() {
+  //   const response = await fetch("/api/getTokenAddress", {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //   });
 
-    const data = await response.json();
+  //   const data = await response.json();
 
-    if (data.success) {
-      setVaults(data.vault[0]);
-    }
-  }
+  //   if (data.success) {
+  //     setVaults(data.vault[0]);
+  //   }
+  // }
 
-  useEffect(() => {
-    getContract();
-  }, []);
+  // useEffect(() => {
+  //   getContract();
+  // }, []);
 
-  const formatedStartDate = new Date(vaults.startsAt).toLocaleDateString(
-    "en-US"
-  );
+  // const formatedStartDate = new Date(vaults.startsAt).toLocaleDateString(
+  //   "en-US"
+  // );
 
   return (
     <div>
       <Card className="flex items-center" intent={"primary"} size={"long"}>
         <img className="size-7 ml-2 mr-1" src="/icons/usdcLogo.png" />
         <div className="w-[130px]">
-          {vaults.name} <br /> Sepolia
+          USDC Vault <br /> Sepolia
         </div>
         <div className="w-[100px]">5</div>
         <div className="w-36">100,000.23 USDC</div>
-        <div className="w-56">{formatedStartDate}</div>
+        <div className="w-56">2/5/2025</div>
         <Link href={`/token-vault/1`}>
           <Button intent={"primary"} size={"small"}>
             View now
@@ -62,8 +62,6 @@ export function CardTokens() {
 }
 
 export function TransactionTokens() {
-  const [vaults, setVaults] = useState<Vault[]>([]);
-
   return (
     <div>
       <Card
