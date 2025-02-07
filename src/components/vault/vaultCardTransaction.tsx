@@ -34,7 +34,16 @@ export function CardTransaction() {
     <div>
       <Card className="flex flex-col" intent={"secondary"} size={"mediumLarge"}>
         <h1 className="mt-4 ml-4 flex text-sm text-text-foreground">
-          Status: <p className="ml-1 text-live-accent">{getStatus()}</p>
+          Status:
+          <p
+            className={
+              getStatus() === "Live"
+                ? "text-live-accent ml-1"
+                : "text-blue-400 ml-1"
+            }
+          >
+            {getStatus()}
+          </p>
         </h1>
         <div className="ml-4 text-base mb-2 text-text-foreground">
           01 : 20 : 55

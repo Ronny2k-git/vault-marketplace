@@ -5,9 +5,11 @@ import { Button } from "./interface/button";
 import { Card } from "./interface/card";
 import { CardLive } from "./vault/vaultCardLive";
 import { CardTokens } from "./vault/vaultCardTokens";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useAtom } from "jotai";
+import { vaultExplore } from "@/utils/atom";
 
-type Vault = {
+export type Vault = {
   id: number;
   name: string;
   address: string;
@@ -20,7 +22,7 @@ type Vault = {
 const cardTokensArray = new Array(10).fill(null);
 
 export function TokenVaults() {
-  const [vaults, setVaults] = useState<Vault[]>([]);
+  const [vaultData, setVaultData] = useAtom<Vault[] | null>(vaultExplore);
 
   async function fetchVaultData() {
     const response = await fetch("/api/getCardLive", {
@@ -31,13 +33,17 @@ export function TokenVaults() {
     const data = await response.json();
 
     if (data.success) {
-      setVaults(data.vaults);
+      setVaultData(data.vaults);
     }
   }
 
   useEffect(() => {
     fetchVaultData();
   }, []);
+
+  if (!vaultData) {
+    return <p>Loading vault data ...</p>;
+  }
 
   return (
     <div>
@@ -57,8 +63,8 @@ export function TokenVaults() {
           Explore lives and upcoming vaults on Vault Marketplace
         </h2>
         <div className="flex gap-2.5 mb-24">
-          {vaults.map((vault) => (
-            <CardLive key={vault.id} vault={vault} />
+          {vaultData.map((vault) => (
+            <CardLive key={vault.address} vault={vault} />
           ))}
         </div>
         <div className="text-3xl w-[537px] text-white">

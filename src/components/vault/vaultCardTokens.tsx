@@ -4,42 +4,16 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-
-type Vault = {
-  id: number;
-  address: string;
-  name: string;
-  startsAt: string;
-  endsAt: string;
-  banner: string;
-  logo: string;
-};
+import { vaultExplore } from "@/utils/atom";
+import { useAtom } from "jotai";
+import { Vault } from "../homePage";
 
 export function CardTokens() {
-  // const [vaults, setVaults] = useState<Vault[]>([]);
+  // const [vaultData] = useAtom<Vault | null>(vaultExplore);
 
-  // async function getContract() {
-  //   const response = await fetch("/api/getTokenAddress", {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   });
-
-  //   const data = await response.json();
-
-  //   if (data.success) {
-  //     setVaults(data.vault[0]);
-  //   }
+  // if (!vaultData) {
+  //   return "Loading vault data";
   // }
-
-  // useEffect(() => {
-  //   getContract();
-  // }, []);
-
-  // const formatedStartDate = new Date(vaults.startsAt).toLocaleDateString(
-  //   "en-US"
-  // );
-
   return (
     <div>
       <Card className="flex items-center" intent={"primary"} size={"long"}>

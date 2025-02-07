@@ -68,7 +68,7 @@ export function CardDeposit() {
             <div className="text-xs mt-0.5 text-white">
               {vaultData.assetTokenName}
             </div>
-            <img className="size-5 ml-0.5" src="/icons/usdcLogo.png" />
+            <img className="size-5 ml-0.5" src={vaultData.logo} />
           </div>
         </Card>
       </div>

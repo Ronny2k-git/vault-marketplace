@@ -10,3 +10,4 @@ import { atom } from "jotai";
 // export const startDateAtom = atom<Date | null>(null);
 // export const endDateAtom = atom<Date | null>(null);
 export const vaultAtom = atom(null);
+export const vaultExplore = atom(null);

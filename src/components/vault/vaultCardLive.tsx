@@ -4,19 +4,10 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
-
-type Vault = {
-  id: number;
-  address: string;
-  name: string;
-  startsAt: string;
-  endsAt: string;
-  banner: string;
-  logo: string;
-};
+import { Vault } from "../homePage";
 
 export function CardLive({ vault }: { vault: Vault }) {
-  const getStatus = () => {
+  const getStatus = (vault: Vault) => {
     const currentDate = new Date();
     const startDate = new Date(vault.startsAt);
     const endDate = new Date(vault.endsAt);
@@ -69,14 +60,14 @@ export function CardLive({ vault }: { vault: Vault }) {
           </div>
           <div
             className={`${
-              getStatus() === "Live" ? "text-live-accent" : "text-blue-300"
+              getStatus(vault) === "Live" ? "text-live-accent" : "text-blue-300"
             }`}
           >
-            {getStatus()}
+            {getStatus(vault)}
           </div>
         </div>
         <div className="ml-4 mt-2">
-          <Link href={`/token-vault/${vault.id}`}>
+          <Link href={`/token-vault/${vault.address}`}>
             <Button intent={"primary"} size={"small"}>
               View now
               <FaArrowRightLong />
