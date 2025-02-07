@@ -7,8 +7,13 @@ import { Input } from "../interface/input";
 import { writeContract } from "wagmi/actions";
 import { wagmiConfig } from "../provider";
 import { sepolia } from "viem/chains";
+import { vaultAtom } from "@/utils/atom";
+import { useAtom } from "jotai";
+import { Vault } from "@/app/token-vault/[tokenAddress]/page";
 
 export function CardDeposit() {
+  const [vaultData] = useAtom<Vault | null>(vaultAtom);
+
   const handleApproveToken = async () => {
     async function approveToken(spenderAddress: Hex, amount: bigint) {
       const tx = await writeContract(wagmiConfig, {
@@ -22,7 +27,7 @@ export function CardDeposit() {
     }
 
     try {
-      const parsedAmount = parseUnits(test.toString(), 18);
+      // const parsedAmount = parseUnits(test.toString(), 18);
     } catch (error) {
       console.log("Error in transaction");
     }
@@ -35,11 +40,17 @@ export function CardDeposit() {
     }
   }
 
+  if (!vaultData) {
+    return <p className="text-red-500">Loading vault data ...</p>;
+  }
+
   return (
     <div>
-      <h1 className="ml-4 mb-2.5 text-white text-xl">Deposit USDC</h1>
+      <h1 className="ml-4 mb-2.5 text-white text-xl">
+        Deposit {vaultData.assetTokenName}
+      </h1>
       <h2 className="text-xs ml-4 mb-2.5">
-        Deposit yours tokens into a USDC vault for safety!
+        Deposit yours tokens into a {vaultData.name} for safety!
       </h2>
       <div className="flex justify-center">
         <Card intent={"tertiary"} size={"mediumSmall"}>
@@ -54,7 +65,9 @@ export function CardDeposit() {
               size={"large"}
               placeholder="0"
             ></Input>
-            <div className="text-xs mt-0.5 text-white">USDC</div>
+            <div className="text-xs mt-0.5 text-white">
+              {vaultData.assetTokenName}
+            </div>
             <img className="size-5 ml-0.5" src="/icons/usdcLogo.png" />
           </div>
         </Card>
@@ -65,7 +78,7 @@ export function CardDeposit() {
           intent={"secondary"}
           size={"mediumLarge"}
         >
-          Deposit USDC
+          Deposit {vaultData.assetTokenName}
         </Button>
       </div>
     </div>

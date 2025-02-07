@@ -4,24 +4,18 @@ import { Tabs } from "@radix-ui/themes";
 import { Card } from "../interface/card";
 import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
-import { useEffect, useState } from "react";
 import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
-
-type Vault = {
-  id: number;
-  address: string;
-  name: string;
-  startsAt: string;
-  endsAt: string;
-  banner: string;
-  logo: string;
-};
+import { Vault } from "@/app/token-vault/[tokenAddress]/page";
 
 export function CardTransaction() {
   const [vaultData] = useAtom<Vault | null>(vaultAtom);
 
   const getStatus = () => {
+    if (!vaultData) {
+      return "No vault data";
+    }
+
     const currentDate = new Date();
     const startDate = new Date(vaultData.startsAt);
     const endDate = new Date(vaultData.endsAt);

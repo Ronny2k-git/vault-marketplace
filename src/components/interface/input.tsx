@@ -29,7 +29,7 @@ const inputStyle = cva(
           "mb-2.5",
         ],
         large: [
-          "w-52",
+          "w-[155px]",
           "h-5",
           "py-2",
           "px-2",

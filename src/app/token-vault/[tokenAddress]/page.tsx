@@ -7,7 +7,7 @@ import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 
-type Vault = {
+export type Vault = {
   id: number;
   address: string;
   name: string;
@@ -15,6 +15,7 @@ type Vault = {
   endsAt: string;
   banner: string;
   logo: string;
+  assetTokenName: string;
 };
 
 const cardTokensArray = new Array(10).fill(null);

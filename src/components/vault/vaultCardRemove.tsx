@@ -1,15 +1,25 @@
 "use client";
 
+import { vaultAtom } from "@/utils/atom";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
+import { useAtom } from "jotai";
+import { Vault } from "@/app/token-vault/[tokenAddress]/page";
 
 export function CardRemove() {
+  const [vaultData] = useAtom<Vault | null>(vaultAtom);
+
+  if (!vaultData) {
+    return <p className="tet-red-500">Loading vault data ...</p>;
+  }
   return (
     <div>
-      <h1 className="ml-4 mb-2.5 text-white text-xl">Withdraw USDC</h1>
+      <h1 className="ml-4 mb-2.5 text-white text-xl">
+        Withdraw {vaultData.assetTokenName}
+      </h1>
       <h2 className="text-xs ml-4 mb-2.5">
-        Deposit yours tokens into a USDC vault for safety!
+        Deposit yours tokens into a {vaultData.name} for safety!
       </h2>
       <div className="flex justify-center">
         <Card intent={"tertiary"} size={"mediumSmall"}>
@@ -24,7 +34,9 @@ export function CardRemove() {
               size={"large"}
               placeholder="0"
             ></Input>
-            <div className="text-xs mt-0.5 text-white">USDC</div>
+            <div className="text-xs mt-0.5 text-white">
+              {vaultData.assetTokenName}
+            </div>
             <img className="size-5 ml-0.5" src="/icons/usdcLogo.png" />
           </div>
         </Card>
@@ -35,7 +47,7 @@ export function CardRemove() {
           intent={"secondary"}
           size={"mediumLarge"}
         >
-          Withdraw USDC
+          Withdraw {vaultData.assetTokenName}
         </Button>
       </div>
     </div>
