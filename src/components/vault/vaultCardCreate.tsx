@@ -132,6 +132,7 @@ export function CardCreate() {
           assetTokenDecimals: 18,
           assetTokenName,
           assetTokenSymbol,
+          assetTokenAddress: assetToken,
         }),
       });
 

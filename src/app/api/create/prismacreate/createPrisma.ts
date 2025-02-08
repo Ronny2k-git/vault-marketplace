@@ -30,6 +30,7 @@ export const createVaultInDb = async (vaultDate: any) => {
         assetTokenDecimals,
         assetTokenName,
         assetTokenSymbol,
+        assetTokenAddress,
       },
     });
     return vault;
