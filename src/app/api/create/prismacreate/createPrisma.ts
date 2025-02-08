@@ -15,6 +15,7 @@ export const createVaultInDb = async (vaultDate: any) => {
       assetTokenDecimals,
       assetTokenName,
       assetTokenSymbol,
+      assetTokenAddress,
     } = vaultDate;
 
     const vault = await prisma.vault.create({

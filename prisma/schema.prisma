@@ -21,6 +21,7 @@ model Vault {
   assetTokenSymbol   String
   assetTokenName     String
   assetTokenDecimals Int
+  assetTokenAddress  String
 }
 
 model Swap {
