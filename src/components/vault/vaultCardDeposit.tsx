@@ -56,6 +56,7 @@ export function CardDeposit() {
 
       if (parsedDepositAmount > currentBalance) {
         alert("Insufficient balance");
+        return;
       }
     } catch {
       console.log("Error in transaction");
