@@ -22,9 +22,13 @@ export function CardDeposit() {
     return "Loading vault data";
   }
   async function fetchDecimals() {
+    if (!vaultData) {
+      return "Loading vault data";
+    }
+
     const tokenDecimals = await readContract(wagmiConfig, {
       abi: erc20Abi,
-      address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3",
+      address: vaultData.assetTokenAddress,
       functionName: "decimals",
       chainId: sepolia.id,
       args: [],
@@ -34,9 +38,13 @@ export function CardDeposit() {
   }
 
   async function fetchBalance() {
+    if (!vaultData) {
+      return "Loading vault data";
+    }
+
     const balance = await readContract(wagmiConfig, {
       abi: erc20Abi,
-      address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3", //token erc-20
+      address: vaultData.assetTokenAddress, //token erc-20
       functionName: "balanceOf",
       chainId: sepolia.id,
       args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"], //Address of the wallet

@@ -15,6 +15,7 @@ export const getVaultInDb = async () => {
         startsAt: true,
         endsAt: true,
         assetTokenName: true,
+        assetTokenAddress: true,
       },
     });
     return vault;
