@@ -10,6 +10,7 @@ import { sepolia } from "viem/chains";
 import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { Vault } from "@/app/token-vault/[tokenAddress]/page";
+import { useAccount } from "wagmi";
 
 export function CardDeposit() {
   const [vaultData] = useAtom<Vault | null>(vaultAtom);
@@ -41,8 +42,13 @@ export function CardDeposit() {
     }
   };
 
+  const { isConnected } = useAccount();
+
   async function onSubmit() {
     try {
+      if (!isConnected) {
+        alert("Please connect your wallet");
+      }
     } catch {
       console.log("Error in transaction");
     }

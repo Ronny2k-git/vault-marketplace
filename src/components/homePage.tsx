@@ -17,6 +17,7 @@ export type Vault = {
   endsAt: string;
   banner: string;
   logo: string;
+  // assetTokenName: string;
 };
 
 const cardTokensArray = new Array(10).fill(null);
