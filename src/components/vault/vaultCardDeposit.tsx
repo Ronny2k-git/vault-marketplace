@@ -1,6 +1,6 @@
 "use client";
 
-import { erc20Abi, Hex, parseUnits } from "viem";
+import { erc20Abi, Hex, parseUnits, formatUnits } from "viem";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
@@ -11,23 +11,50 @@ import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { Vault } from "@/app/token-vault/[tokenAddress]/page";
 import { useAccount } from "wagmi";
+import { useEffect, useState } from "react";
 
 export function CardDeposit() {
   const [vaultData] = useAtom<Vault | null>(vaultAtom);
+  const [balance, setBalance] = useState<string>("0");
+  const [decimals, setDecimals] = useState<number>(0);
 
   if (!vaultData) {
     return "Loading vault data";
   }
+  async function fetchDecimals() {
+    const tokenDecimals = await readContract(wagmiConfig, {
+      abi: erc20Abi,
+      address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3",
+      functionName: "decimals",
+      chainId: sepolia.id,
+      args: [],
+    });
+
+    setDecimals(tokenDecimals);
+  }
+
   async function fetchBalance() {
     const balance = await readContract(wagmiConfig, {
       abi: erc20Abi,
-      address: "0x...", //token erc-20
+      address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3", //token erc-20
       functionName: "balanceOf",
       chainId: sepolia.id,
       args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"], //Address of the wallet
     });
+    console.log("Result of balance:", balance);
     return balance;
   }
+
+  useEffect(() => {
+    const loadBalance = async () => {
+      await fetchDecimals();
+      const fetchedBalance = await fetchBalance();
+      const formattedBalance = formatUnits(fetchedBalance, decimals);
+
+      setBalance(formattedBalance);
+    };
+    loadBalance();
+  }, [decimals]);
 
   const handleApproveToken = async () => {
     async function approveToken(spenderAddress: Hex, amount: bigint) {
@@ -50,8 +77,7 @@ export function CardDeposit() {
         alert("Please connect your wallet");
       }
 
-      const parsedDepositAmount = parseUnits(tokenAddress, 8);
-
+      const parsedDepositAmount = parseUnits(decimals);
       const currentBalance = await fetchBalance();
 
       if (parsedDepositAmount > currentBalance) {
@@ -79,7 +105,7 @@ export function CardDeposit() {
         <Card intent={"tertiary"} size={"mediumSmall"}>
           <div className="flex justify-between">
             <h1 className="text-sm ml-2 pb-1 mt-1">Vault token</h1>
-            <h2 className="text-xs mr-2 mt-2">Balance: 10,298.23</h2>
+            <h2 className="text-xs mr-2 mt-2">Balance: {balance}</h2>
           </div>
           <div className="flex">
             <Input
