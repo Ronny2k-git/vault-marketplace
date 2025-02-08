@@ -15,16 +15,16 @@ import { useAccount } from "wagmi";
 export function CardDeposit() {
   const [vaultData] = useAtom<Vault | null>(vaultAtom);
 
+  if (!vaultData) {
+    return "Loading vault data";
+  }
   async function fetchBalance() {
-    if (!vaultData) {
-      return "Loading vault data";
-    }
     const balance = await readContract(wagmiConfig, {
       abi: erc20Abi,
-      address: "0x...",
+      address: "0x...", //token erc-20
       functionName: "balanceOf",
       chainId: sepolia.id,
-      args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"],
+      args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"], //Address of the wallet
     });
     return balance;
   }
@@ -48,6 +48,14 @@ export function CardDeposit() {
     try {
       if (!isConnected) {
         alert("Please connect your wallet");
+      }
+
+      const parsedDepositAmount = parseUnits(tokenAddress, 8);
+
+      const currentBalance = await fetchBalance();
+
+      if (parsedDepositAmount > currentBalance) {
+        alert("Insufficient balance");
       }
     } catch {
       console.log("Error in transaction");
