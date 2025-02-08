@@ -6,10 +6,11 @@ import { CardTransaction } from "@/components/vault/vaultCardTransaction";
 import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
+import { Hex } from "viem";
 
 export type Vault = {
   id: number;
-  address: string;
+  address: Hex;
   name: string;
   startsAt: string;
   endsAt: string;

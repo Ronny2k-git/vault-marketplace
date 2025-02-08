@@ -4,7 +4,7 @@ import { erc20Abi, Hex, parseUnits } from "viem";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
-import { writeContract } from "wagmi/actions";
+import { readContract, writeContract } from "wagmi/actions";
 import { wagmiConfig } from "../provider";
 import { sepolia } from "viem/chains";
 import { vaultAtom } from "@/utils/atom";
@@ -13,6 +13,20 @@ import { Vault } from "@/app/token-vault/[tokenAddress]/page";
 
 export function CardDeposit() {
   const [vaultData] = useAtom<Vault | null>(vaultAtom);
+
+  async function fetchBalance() {
+    if (!vaultData) {
+      return "Loading vault data";
+    }
+    const balance = await readContract(wagmiConfig, {
+      abi: erc20Abi,
+      address: "0x...",
+      functionName: "balanceOf",
+      chainId: sepolia.id,
+      args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"],
+    });
+    return balance;
+  }
 
   const handleApproveToken = async () => {
     async function approveToken(spenderAddress: Hex, amount: bigint) {
@@ -25,15 +39,9 @@ export function CardDeposit() {
       });
       return tx;
     }
-
-    try {
-      // const parsedAmount = parseUnits(test.toString(), 18);
-    } catch (error) {
-      console.log("Error in transaction");
-    }
   };
 
-  async function deposit() {
+  async function onSubmit() {
     try {
     } catch {
       console.log("Error in transaction");
