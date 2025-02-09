@@ -9,7 +9,7 @@ import { wagmiConfig } from "../provider";
 import { sepolia } from "viem/chains";
 import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
-import { Vault } from "@/app/token-vault/[tokenAddress]/page";
+import TokenAddress, { Vault } from "@/app/token-vault/[tokenAddress]/page";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 
@@ -44,7 +44,7 @@ export function CardDeposit() {
 
     const balance = await readContract(wagmiConfig, {
       abi: erc20Abi,
-      address: vaultData.assetTokenAddress, //token erc-20
+      address: vaultData?.assetTokenAddress, //token erc-20
       functionName: "balanceOf",
       chainId: sepolia.id,
       args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"], //Address of the wallet
@@ -65,10 +65,12 @@ export function CardDeposit() {
   }, [decimals]);
 
   const handleApproveToken = async () => {
+    const tokenAddress = vaultData?.assetTokenAddress;
+
     async function approveToken(spenderAddress: Hex, amount: bigint) {
       const tx = await writeContract(wagmiConfig, {
         abi: erc20Abi,
-        address: "0xfAb19e8992B0564ab99F7c0098979595124f0Bc3", //Token tUSDT
+        address: tokenAddress, //Token tUSDT
         functionName: "approve",
         chainId: sepolia.id,
         args: [spenderAddress, amount],
@@ -95,11 +97,11 @@ export function CardDeposit() {
       }
 
       const deposit = writeContract(wagmiConfig, {
-        abi,
-        address: "",
+        abi: abiVault,
+        address: vaultData?.assetTokenAddress,
         functionName: "deposit",
         chainId: sepolia.id,
-        args: [],
+        args: [parsedDepositAmount],
       });
     } catch {
       console.log("Error in transaction");
