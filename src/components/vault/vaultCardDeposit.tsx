@@ -24,6 +24,8 @@ export function CardDeposit() {
   const [balance, setBalance] = useState<string>("0");
   const [decimals, setDecimals] = useState<number>(0);
   const [depositAmount, setDepositAmount] = useState("");
+  const [minDeposit, setMinDeposit] = useState(0n);
+  const [maxDeposit, setMaxDeposit] = useState(0n);
 
   if (!vaultData) {
     return "Loading vault data";
@@ -62,7 +64,7 @@ export function CardDeposit() {
 
   async function fetchDepositDetails() {
     if (!vaultData) {
-      return {};
+      return { minDeposit: 0n, maxDeposit: 0n };
     }
     const minDeposit = await readContract(wagmiConfig, {
       abi: abiVault,
@@ -90,6 +92,10 @@ export function CardDeposit() {
       const formattedBalance = formatUnits(fetchedBalance, decimals);
 
       setBalance(formattedBalance);
+
+      const { minDeposit, maxDeposit } = await fetchDepositDetails();
+      setMinDeposit(minDeposit);
+      setMaxDeposit(maxDeposit);
     };
     loadBalance();
   }, [decimals]);
@@ -126,6 +132,10 @@ export function CardDeposit() {
       }
 
       const { minDeposit = 0n, maxDeposit = 0n } = await fetchDepositDetails();
+
+      console.log("minDeposit:", minDeposit);
+      console.log("maxDeposit:", maxDeposit);
+      console.log(decimals);
 
       if (parsedDepositAmount < minDeposit) {
         console.log("The minimum deposit has not been reached");
