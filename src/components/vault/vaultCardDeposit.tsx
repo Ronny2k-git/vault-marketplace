@@ -4,7 +4,11 @@ import { erc20Abi, Hex, parseUnits, formatUnits } from "viem";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
-import { readContract, writeContract } from "wagmi/actions";
+import {
+  readContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "wagmi/actions";
 import { wagmiConfig } from "../provider";
 import { sepolia } from "viem/chains";
 import { vaultAtom } from "@/utils/atom";
@@ -64,20 +68,19 @@ export function CardDeposit() {
     loadBalance();
   }, [decimals]);
 
-  const handleApproveToken = async () => {
-    const tokenAddress = vaultData?.assetTokenAddress;
+  const tokenAddress = vaultData?.assetTokenAddress;
+  const spenderAddress = vaultData.address;
 
-    async function approveToken(spenderAddress: Hex, amount: bigint) {
-      const tx = await writeContract(wagmiConfig, {
-        abi: erc20Abi,
-        address: tokenAddress, //Token tUSDT
-        functionName: "approve",
-        chainId: sepolia.id,
-        args: [spenderAddress, amount],
-      });
-      return tx;
-    }
-  };
+  async function approveToken(amount: bigint) {
+    const tx = await writeContract(wagmiConfig, {
+      abi: erc20Abi,
+      address: tokenAddress, //Token tUSDT
+      functionName: "approve",
+      chainId: sepolia.id,
+      args: [spenderAddress, amount],
+    });
+    return tx;
+  }
 
   const { isConnected } = useAccount();
 
@@ -95,6 +98,17 @@ export function CardDeposit() {
         alert("Insufficient balance");
         return;
       }
+
+      const approveTxHash = await approveToken(parsedDepositAmount);
+
+      console.log("Waiting for approval receipt"); //Usar o react hook form para a mensagem no botão
+
+      await waitForTransactionReceipt(wagmiConfig, {
+        hash: approveTxHash,
+      });
+
+      console.log("Confirm deposit in your wallet");
+      //Usar o react hook form para a mensagem no botão
 
       const deposit = writeContract(wagmiConfig, {
         abi: abiVault,
@@ -145,6 +159,7 @@ export function CardDeposit() {
           className="mt-2.5 w-[270px]"
           intent={"secondary"}
           size={"mediumLarge"}
+          // onChange={}
         >
           Deposit {vaultData.assetTokenName}
         </Button>
