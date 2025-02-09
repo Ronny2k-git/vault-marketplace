@@ -3,7 +3,7 @@
 import { Card } from "@/components/interface/card";
 import { TransactionTokens } from "@/components/vault/vaultCardTokens";
 import { CardTransaction } from "@/components/vault/vaultCardTransaction";
-import { vaultAtom } from "@/utils/atom";
+import { maxDepositAtom, minDepositAtom, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { Hex } from "viem";
@@ -24,6 +24,8 @@ const cardTokensArray = new Array(10).fill(null);
 
 export default function TokenAddress() {
   const [vaultData, setVaultData] = useAtom<Vault | null>(vaultAtom);
+  const [minDeposit] = useAtom(minDepositAtom);
+  const [maxDeposit] = useAtom(maxDepositAtom);
 
   // async function getContract() {
   //   const name = readContract(wagmiConfig, {
@@ -91,13 +93,13 @@ export default function TokenAddress() {
           <div>
             <div className="text-sm text-white">Max.deposite per wallet.</div>
             <div className="text-xs text-text-foreground">
-              5,400.50 {vaultData.name}
+              {maxDeposit} {vaultData.name}
             </div>
           </div>
           <div>
             <div className="text-sm text-white">Min.deposit per wallet.</div>
             <div className="text-xs text-text-foreground">
-              500 {vaultData.name}
+              {minDeposit} {vaultData.name}
             </div>
           </div>
         </div>

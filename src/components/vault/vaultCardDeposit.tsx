@@ -12,7 +12,7 @@ import {
 } from "wagmi/actions";
 import { wagmiConfig } from "../provider";
 import { sepolia } from "viem/chains";
-import { vaultAtom } from "@/utils/atom";
+import { maxDepositAtom, minDepositAtom, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import TokenAddress, { Vault } from "@/app/token-vault/[tokenAddress]/page";
 import { useAccount } from "wagmi";
@@ -24,8 +24,8 @@ export function CardDeposit() {
   const [balance, setBalance] = useState<string>("0");
   const [decimals, setDecimals] = useState<number>(0);
   const [depositAmount, setDepositAmount] = useState("");
-  const [minDeposit, setMinDeposit] = useState(0n);
-  const [maxDeposit, setMaxDeposit] = useState(0n);
+  const [minDeposit, setMinDeposit] = useAtom(minDepositAtom);
+  const [maxDeposit, setMaxDeposit] = useAtom(maxDepositAtom);
 
   if (!vaultData) {
     return "Loading vault data";
