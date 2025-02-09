@@ -39,7 +39,7 @@ export function CardDeposit() {
 
   async function fetchBalance() {
     if (!vaultData) {
-      return "Loading vault data";
+      return 0n;
     }
 
     const balance = await readContract(wagmiConfig, {
@@ -49,7 +49,7 @@ export function CardDeposit() {
       chainId: sepolia.id,
       args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"], //Address of the wallet
     });
-    console.log("Result of balance:", balance);
+
     return balance;
   }
 
@@ -83,7 +83,8 @@ export function CardDeposit() {
     try {
       if (!isConnected) {
         alert("Please connect your wallet");
-      }
+      } //Colocar a variável para desabilitar o botão no lugar do alert
+      //e mostrar a mensagem dentro do botão.
 
       const parsedDepositAmount = parseUnits(decimals);
       const currentBalance = await fetchBalance();
@@ -92,6 +93,14 @@ export function CardDeposit() {
         alert("Insufficient balance");
         return;
       }
+
+      const deposit = readContract(wagmiConfig, {
+        abi,
+        address: "0x...",
+        functionName: "deposit",
+        chainId: sepolia.id,
+        args: [],
+      });
     } catch {
       console.log("Error in transaction");
     }
