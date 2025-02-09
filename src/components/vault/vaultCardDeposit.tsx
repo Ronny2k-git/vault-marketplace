@@ -6,6 +6,7 @@ import { Card } from "../interface/card";
 import { Input } from "../interface/input";
 import {
   readContract,
+  simulateContract,
   waitForTransactionReceipt,
   writeContract,
 } from "wagmi/actions";
@@ -59,6 +60,29 @@ export function CardDeposit() {
     return balance;
   }
 
+  async function fetchDepositDetails() {
+    if (!vaultData) {
+      return {};
+    }
+    const minDeposit = await readContract(wagmiConfig, {
+      abi: abiVault,
+      address: vaultData.address,
+      functionName: "minDeposit",
+      chainId: sepolia.id,
+      args: [],
+    });
+
+    const maxDeposit = await readContract(wagmiConfig, {
+      abi: abiVault,
+      address: vaultData.address,
+      functionName: "maxDepositPerWallet",
+      chainId: sepolia.id,
+      args: [],
+    });
+
+    return { minDeposit, maxDeposit };
+  }
+
   useEffect(() => {
     const loadBalance = async () => {
       await fetchDecimals();
@@ -97,7 +121,19 @@ export function CardDeposit() {
       const currentBalance = await fetchBalance();
 
       if (parsedDepositAmount > currentBalance) {
-        alert("Insufficient balance");
+        console.log("Insufficient balance");
+        return;
+      }
+
+      const { minDeposit = 0n, maxDeposit = 0n } = await fetchDepositDetails();
+
+      if (parsedDepositAmount < minDeposit) {
+        console.log("The minimum deposit has not been reached");
+        return;
+      }
+
+      if (parsedDepositAmount > maxDeposit) {
+        console.log("the maximum deposit has been exceeded");
         return;
       }
 
@@ -116,6 +152,16 @@ export function CardDeposit() {
       if (!vaultData) {
         return "Loading vault data";
       }
+
+      const simulateDeposit = await simulateContract(wagmiConfig, {
+        abi: abiVault,
+        address: vaultData.address,
+        functionName: "deposit",
+        chainId: sepolia.id,
+        args: [parsedDepositAmount],
+      });
+
+      console.log("Result of deposit simulation:", simulateDeposit);
 
       const depositTx = await writeContract(wagmiConfig, {
         abi: abiVault,
