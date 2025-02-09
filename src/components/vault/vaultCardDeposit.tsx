@@ -16,11 +16,13 @@ import { useAtom } from "jotai";
 import TokenAddress, { Vault } from "@/app/token-vault/[tokenAddress]/page";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
+import { abiVault } from "@/utils/abiVault";
 
 export function CardDeposit() {
   const [vaultData] = useAtom<Vault | null>(vaultAtom);
   const [balance, setBalance] = useState<string>("0");
   const [decimals, setDecimals] = useState<number>(0);
+  const [depositAmount, setDepositAmount] = useState("");
 
   if (!vaultData) {
     return "Loading vault data";
@@ -91,7 +93,7 @@ export function CardDeposit() {
       } //Colocar a variável para desabilitar o botão no lugar do alert
       //e mostrar a mensagem dentro do botão.
 
-      const parsedDepositAmount = parseUnits(decimals);
+      const parsedDepositAmount = parseUnits(depositAmount, decimals);
       const currentBalance = await fetchBalance();
 
       if (parsedDepositAmount > currentBalance) {
@@ -101,7 +103,8 @@ export function CardDeposit() {
 
       const approveTxHash = await approveToken(parsedDepositAmount);
 
-      console.log("Waiting for approval receipt"); //Usar o react hook form para a mensagem no botão
+      console.log("Waiting for approval receipt");
+      //Usar o react hook form para a mensagem no botão
 
       await waitForTransactionReceipt(wagmiConfig, {
         hash: approveTxHash,
@@ -110,15 +113,22 @@ export function CardDeposit() {
       console.log("Confirm deposit in your wallet");
       //Usar o react hook form para a mensagem no botão
 
-      const deposit = writeContract(wagmiConfig, {
+      if (!vaultData) {
+        return "Loading vault data";
+      }
+
+      const depositTx = await writeContract(wagmiConfig, {
         abi: abiVault,
-        address: vaultData?.assetTokenAddress,
+        address: vaultData.address,
         functionName: "deposit",
         chainId: sepolia.id,
         args: [parsedDepositAmount],
       });
-    } catch {
-      console.log("Error in transaction");
+
+      console.log("Deposit transaction sent:", depositTx);
+      alert("Deposit successfull");
+    } catch (error) {
+      console.error("Error in transaction", error);
     }
   }
 
@@ -146,6 +156,7 @@ export function CardDeposit() {
               intent={"primary"}
               size={"large"}
               placeholder="0"
+              onChange={(event) => setDepositAmount(event.target.value)}
             ></Input>
             <div className="text-xs mt-0.5 text-white">
               {vaultData.assetTokenName}
@@ -159,7 +170,7 @@ export function CardDeposit() {
           className="mt-2.5 w-[270px]"
           intent={"secondary"}
           size={"mediumLarge"}
-          // onChange={}
+          onClick={onSubmit}
         >
           Deposit {vaultData.assetTokenName}
         </Button>

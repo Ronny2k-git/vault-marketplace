@@ -1,4 +1,4 @@
-const abiVault = [
+export const abiVault = [
   { type: "constructor", inputs: [], stateMutability: "nonpayable" },
   {
     type: "function",
