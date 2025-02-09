@@ -94,9 +94,9 @@ export function CardDeposit() {
         return;
       }
 
-      const deposit = readContract(wagmiConfig, {
+      const deposit = writeContract(wagmiConfig, {
         abi,
-        address: "0x...",
+        address: "",
         functionName: "deposit",
         chainId: sepolia.id,
         args: [],
