@@ -16,6 +16,10 @@ export function CardRemove() {
   const [vaultData] = useAtom<Vault | null>(vaultAtom);
   const [totalDeposited, setTotalDeposited] = useAtom(amountTotalDeposited);
 
+  if (!vaultData) {
+    return "Loading vault data";
+  }
+
   async function totalAmountDeposited() {
     if (!vaultData) {
       return "Loading vault data";
@@ -35,9 +39,13 @@ export function CardRemove() {
     totalAmountDeposited();
   }, []);
 
-  if (!vaultData) {
-    return <p className="tet-red-500">Loading vault data ...</p>;
+  async function onSubmit() {
+    try {
+    } catch (error) {
+      console.error("Error in transaction:", error);
+    }
   }
+
   return (
     <div>
       <h1 className="ml-4 mb-2.5 text-white text-xl">
@@ -61,10 +69,13 @@ export function CardRemove() {
               size={"large"}
               placeholder="0"
             ></Input>
-            <div className="text-xs mt-0.5 text-white">
+            <div className="text-xs mt-0.5 right-10 absolute text-white">
               {vaultData.assetTokenName}
             </div>
-            <img className="size-5 ml-0.5" src={vaultData.logo} />
+            <img
+              className="size-5 absolute ml-0.5 right-4"
+              src={vaultData.logo}
+            />
           </div>
         </Card>
       </div>

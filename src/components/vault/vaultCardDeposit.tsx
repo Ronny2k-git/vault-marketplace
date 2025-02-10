@@ -220,10 +220,13 @@ export function CardDeposit() {
               placeholder="0"
               onChange={(event) => setDepositAmount(event.target.value)}
             ></Input>
-            <div className="text-xs mt-0.5 text-white">
+            <div className="text-xs mt-0.5 right-10 absolute text-white">
               {vaultData.assetTokenName}
             </div>
-            <img className="size-5 ml-0.5" src={vaultData.logo} />
+            <img
+              className="size-5 ml-0.5 absolute right-4"
+              src={vaultData.logo}
+            />
           </div>
         </Card>
       </div>
