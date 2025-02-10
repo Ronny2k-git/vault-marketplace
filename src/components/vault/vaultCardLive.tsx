@@ -12,7 +12,7 @@ import { sepolia } from "viem/chains";
 import { wagmiConfig } from "../provider";
 
 export function CardLive({ vault }: { vault: Vault }) {
-  const [totalDeposited, setTotalDeposited] = useState();
+  const [totalDeposited, setTotalDeposited] = useState("");
 
   async function totalAmountDeposited() {
     const deposited = await readContract(wagmiConfig, {
