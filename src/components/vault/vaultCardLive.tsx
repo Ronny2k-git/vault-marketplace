@@ -70,7 +70,7 @@ export function CardLive({ vault }: { vault: Vault }) {
         </div>
         <div className="flex  ml-4 font-SpaceGrotesk justify-between mr-4">
           <div className="flex">
-            <img className="size-4 mr-1" src="/icons/money.png" />
+            <img className="size-4 mr-1" src="/icons/token.png" />
             <div>Token name: </div>
           </div>
           <div>{vault.assetTokenName}</div>
