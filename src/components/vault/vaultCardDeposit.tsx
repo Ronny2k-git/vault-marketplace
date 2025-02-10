@@ -30,6 +30,7 @@ export function CardDeposit() {
   if (!vaultData) {
     return "Loading vault data";
   }
+
   async function fetchDecimals() {
     if (!vaultData) {
       return "Loading vault data";
@@ -144,6 +145,11 @@ export function CardDeposit() {
 
       if (parsedDepositAmount > maxDeposit) {
         console.log("the maximum deposit has been exceeded");
+        return;
+      }
+
+      if (currentBalance > maxDeposit) {
+        console.log("Max deposit per Wallet exceeded");
         return;
       }
 

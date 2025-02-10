@@ -3,6 +3,7 @@
 import { Card } from "@/components/interface/card";
 import { TransactionTokens } from "@/components/vault/vaultCardTokens";
 import { CardTransaction } from "@/components/vault/vaultCardTransaction";
+
 import { maxDepositAtom, minDepositAtom, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
