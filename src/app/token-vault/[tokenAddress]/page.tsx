@@ -28,14 +28,6 @@ export default function TokenAddress() {
   const [minDeposit] = useAtom(minDepositAtom);
   const [maxDeposit] = useAtom(maxDepositAtom);
 
-  // async function getContract() {
-  //   const name = readContract(wagmiConfig, {
-  //     abi: abi,
-  //     address: "0xc15bE636cB7263551a5b25d542adAE123f909f8b",
-  //     functionName: "",
-  //   });
-  // }
-
   async function fetchVaultData() {
     const response = await fetch("/api/getTokenAddress", {
       method: "GET",

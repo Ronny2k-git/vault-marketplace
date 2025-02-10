@@ -8,7 +8,7 @@ const cardStyle = cva("", {
       tertiary: ["bg-background-alt-2", "border-border-primary"],
     },
     size: {
-      small: ["w-60", "h-[265px]", "rounded-xl", "text-[12px]", "flex-col"],
+      small: ["w-60", "h-[275px]", "rounded-xl", "text-[12px]", "flex-col"],
       mediumSmall: ["w-[270px]", "h-14", "border-2", "rounded-md"],
       medium: ["w-[290px]", "h-56", "rounded-2xl"],
       mediumLarge: ["w-[290px]", "h-72", "rounded-2xl"],

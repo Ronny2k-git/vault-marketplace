@@ -4,13 +4,8 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
-import { vaultExplore } from "@/utils/atom";
-import { useAtom } from "jotai";
-import { Vault } from "../homePage";
 
 export function CardTokens() {
-  // const [vaultData] = useAtom<Vault | null>(vaultExplore);
-
   // if (!vaultData) {
   //   return "Loading vault data";
   // }

@@ -5,8 +5,26 @@ import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
 import { Vault } from "../homePage";
+import { useEffect, useState } from "react";
+import { readContract } from "wagmi/actions";
+import { abiVault } from "@/utils/abiVault";
+import { sepolia } from "viem/chains";
+import { wagmiConfig } from "../provider";
 
 export function CardLive({ vault }: { vault: Vault }) {
+  const [totalDeposited, setTotalDeposited] = useState();
+
+  async function totalAmountDeposited() {
+    const deposited = await readContract(wagmiConfig, {
+      abi: abiVault,
+      address: vault.address,
+      functionName: "deposited",
+      chainId: sepolia.id,
+      args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"],
+    });
+    setTotalDeposited(deposited.toString());
+  }
+
   const getStatus = (vault: Vault) => {
     const currentDate = new Date();
     const startDate = new Date(vault.startsAt);
@@ -21,6 +39,10 @@ export function CardLive({ vault }: { vault: Vault }) {
       return "Finished";
     }
   };
+
+  useEffect(() => {
+    totalAmountDeposited();
+  }, []);
 
   return (
     <div>
@@ -49,9 +71,16 @@ export function CardLive({ vault }: { vault: Vault }) {
         <div className="flex  ml-4 font-SpaceGrotesk justify-between mr-4">
           <div className="flex">
             <img className="size-4 mr-1" src="/icons/money.png" />
-            <div>Total deposited:</div>
+            <div>Token name: </div>
           </div>
-          <div>5,600 USD</div>
+          <div>{vault.assetTokenName}</div>
+        </div>
+        <div className="flex  ml-4 font-SpaceGrotesk justify-between mr-4">
+          <div className="flex">
+            <img className="size-4 mr-1" src="/icons/money.png" />
+            <div>Total deposited: </div>
+          </div>
+          <div>{totalDeposited}</div>
         </div>
         <div className="flex  ml-4 font-SpaceGrotesk justify-between mr-4">
           <div className="flex">

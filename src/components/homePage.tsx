@@ -8,16 +8,17 @@ import { CardTokens } from "./vault/vaultCardTokens";
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { vaultExplore } from "@/utils/atom";
+import { Hex } from "viem";
 
 export type Vault = {
   id: number;
   name: string;
-  address: string;
+  address: Hex;
   startsAt: string;
   endsAt: string;
   banner: string;
   logo: string;
-  // assetTokenName: string;
+  assetTokenName: string;
 };
 
 const cardTokensArray = new Array(10).fill(null);
