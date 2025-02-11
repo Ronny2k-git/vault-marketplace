@@ -1,11 +1,11 @@
 "use client";
 
-import { amountTotalDeposited, vaultAtom } from "@/utils/atom";
+import { amountTotalDeposited, tokenDecimals, vaultAtom } from "@/utils/atom";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
 import { useAtom } from "jotai";
-import { Vault } from "@/app/token-vault/[tokenAddress]/page";
+import { vault } from "@/app/token-vault/[tokenAddress]/page";
 import { wagmiConfig } from "../provider";
 import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
@@ -16,13 +16,13 @@ import {
   writeContract,
 } from "wagmi/actions";
 import { useEffect, useState } from "react";
-import { useAccount, WagmiConfig } from "wagmi";
-import { erc20Abi, parseUnits } from "viem";
+import { useAccount } from "wagmi";
+import { erc20Abi, formatUnits, parseUnits } from "viem";
 
 export function CardRemove() {
-  const [vaultData] = useAtom<Vault | null>(vaultAtom);
+  const [vaultData] = useAtom<vault | null>(vaultAtom);
   const [totalDeposited, setTotalDeposited] = useAtom(amountTotalDeposited);
-  const [decimals, setDecimals] = useState<number>(0);
+  const [decimals] = useAtom(tokenDecimals);
   const [removeAmount, setRemoveAmount] = useState("");
 
   if (!vaultData) {
@@ -41,35 +41,17 @@ export function CardRemove() {
       chainId: sepolia.id,
       args: ["0xD2dD0C955b5a0eDEAA05084778bF4f7a03D2AaDA"],
     });
-    setTotalDeposited(amountDeposited.toString());
-  }
+    const depositedValue = BigInt(amountDeposited);
 
-  async function fetchDecimals() {
-    if (!vaultData) {
-      return "Loading vault data";
-    }
-
-    const tokenDecimals = await readContract(wagmiConfig, {
-      abi: erc20Abi,
-      address: vaultData.assetTokenAddress,
-      functionName: "decimals",
-      chainId: sepolia.id,
-      args: [],
-    });
-
-    setDecimals(tokenDecimals);
+    setTotalDeposited(depositedValue);
   }
 
   async function approveToken(amount: bigint) {
-    if (!vaultData) {
-      return "Loading vault data";
-    }
-
-    const spenderAddress = vaultData.address;
+    const spenderAddress = vaultData!.address;
 
     const tx = await writeContract(wagmiConfig, {
       abi: erc20Abi,
-      address: vaultData.assetTokenAddress,
+      address: vaultData!.assetTokenAddress,
       functionName: "approve",
       chainId: sepolia.id,
       args: [spenderAddress, amount],
@@ -78,7 +60,7 @@ export function CardRemove() {
   }
 
   useEffect(() => {
-    fetchDecimals();
+    // fetchDecimals();
     totalAmountDeposited();
   }, []);
 
@@ -141,7 +123,8 @@ export function CardRemove() {
           <div className="flex justify-between">
             <h1 className="text-sm ml-2 pb-1 mt-1">Vault token</h1>
             <h2 className="text-xs mr-2 mt-2">
-              Deposited: {totalDeposited || "Loading ..."}
+              Deposited:{" "}
+              {formatUnits(totalDeposited, decimals) || "Loading ..."}
             </h2>
           </div>
           <div className="flex">

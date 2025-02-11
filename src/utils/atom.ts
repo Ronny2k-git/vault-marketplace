@@ -1,3 +1,4 @@
+import { vault } from "@/app/token-vault/[tokenAddress]/page";
 import { Vault } from "@/components/homePage";
 import { atom } from "jotai";
 
@@ -10,9 +11,9 @@ import { atom } from "jotai";
 // export const maxDepositAtom = atom("");
 // export const startDateAtom = atom<Date | null>(null);
 // export const endDateAtom = atom<Date | null>(null);
-export const vaultAtom = atom(null);
+export const vaultAtom = atom<vault | null>(null);
 export const vaultExplore = atom<Vault[] | null>(null);
 export const minDepositAtom = atom<bigint>(0n);
 export const maxDepositAtom = atom<bigint>(0n);
-export const amountTotalDeposited = atom("");
+export const amountTotalDeposited = atom(0n);
 export const tokenDecimals = atom(0);

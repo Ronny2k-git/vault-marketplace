@@ -19,13 +19,13 @@ import {
   vaultAtom,
 } from "@/utils/atom";
 import { useAtom } from "jotai";
-import TokenAddress, { Vault } from "@/app/token-vault/[tokenAddress]/page";
+import TokenAddress, { vault } from "@/app/token-vault/[tokenAddress]/page";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { abiVault } from "@/utils/abiVault";
 
 export function CardDeposit() {
-  const [vaultData] = useAtom<Vault | null>(vaultAtom);
+  const [vaultData] = useAtom<vault | null>(vaultAtom);
   const [balance, setBalance] = useState<string>("0");
   const [decimals, setDecimals] = useAtom(tokenDecimals);
   const [depositAmount, setDepositAmount] = useState("");
@@ -181,7 +181,7 @@ export function CardDeposit() {
         args: [parsedDepositAmount],
       });
 
-      console.log("Result of deposit simulation:", simulateDeposit);
+      console.log("Simulation Successfull:", simulateDeposit);
 
       const depositTx = await writeContract(wagmiConfig, {
         abi: abiVault,
