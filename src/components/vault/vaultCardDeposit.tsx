@@ -126,8 +126,12 @@ export function CardDeposit() {
 
   async function onSubmit() {
     try {
+      setIsButtonDisabled(false);
+
       if (!isConnected) {
         setMessage("Please connect your wallet"); //Wallet connected
+        setIsButtonDisabled(true);
+        return;
       }
 
       const parsedDepositAmount = parseUnits(depositAmount, decimals);
@@ -135,27 +139,29 @@ export function CardDeposit() {
 
       if (parsedDepositAmount > currentBalance) {
         setMessage("Insufficient balance"); //Balance for deposit
+        setIsButtonDisabled(true);
         return;
       }
 
       const { minDeposit, maxDeposit } = await fetchDepositDetails();
 
       if (parsedDepositAmount < minDeposit) {
-        //Minimum deposit per wallet
-        setMessage("The minimum deposit has not been reached");
+        setMessage("The minimum deposit has not been reached"); //Minimum deposit per wallet
+        setIsButtonDisabled(true);
         return;
       }
 
       if (parsedDepositAmount > maxDeposit) {
-        //Maximum deposit per wallet
-        setMessage("the maximum deposit has been exceeded");
+        setMessage("the maximum deposit has been exceeded"); //Maximum deposit per wallet
+        setIsButtonDisabled(true);
         return;
       }
 
       if (parsedDepositAmount + currentBalance > maxDeposit) {
-        setMessage("The maximum deposit has been exceeded");
+        setMessage("The maximum deposit has been exceeded"); //Balance +input > Maxium deposit per wallet
+        setIsButtonDisabled(true);
         return;
-      } //Balance +input > Maxium deposit per wallet
+      }
 
       const approveTxHash = await approveToken(parsedDepositAmount);
 
@@ -164,8 +170,6 @@ export function CardDeposit() {
       await waitForTransactionReceipt(wagmiConfig, {
         hash: approveTxHash,
       });
-
-      setMessage("Confirm deposit in your wallet");
 
       if (!vaultData) {
         return "Loading vault data";
@@ -190,7 +194,7 @@ export function CardDeposit() {
       });
 
       console.log("Deposit transaction sent:", depositTx);
-      alert("Deposit successfull");
+      setMessage("Deposit successfull");
     } catch (error) {
       console.error("Error in transaction", error);
     }
@@ -238,6 +242,7 @@ export function CardDeposit() {
           intent={"secondary"}
           size={"mediumLarge"}
           onClick={onSubmit}
+          disabled={isButtonDisabled}
         >
           Deposit {vaultData.assetTokenName}
         </Button>

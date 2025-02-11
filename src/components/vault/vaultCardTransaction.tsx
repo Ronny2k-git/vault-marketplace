@@ -6,10 +6,10 @@ import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
 import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
-import { Vault } from "@/app/token-vault/[tokenAddress]/page";
+import { vault } from "@/app/token-vault/[tokenAddress]/page";
 
 export function CardTransaction() {
-  const [vaultData] = useAtom<Vault | null>(vaultAtom);
+  const [vaultData] = useAtom<vault | null>(vaultAtom);
 
   const getStatus = () => {
     if (!vaultData) {
