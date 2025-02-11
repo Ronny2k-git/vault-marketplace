@@ -57,7 +57,7 @@ export function CardDeposit() {
       address: vaultData?.assetTokenAddress, //token erc-20
       functionName: "balanceOf",
       chainId: sepolia.id,
-      args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"], //Address of the wallet
+      args: ["0xD2dD0C955b5a0eDEAA05084778bF4f7a03D2AaDA"], //Address of the wallet
     });
 
     return balance;
@@ -91,6 +91,10 @@ export function CardDeposit() {
       await fetchDecimals();
       const fetchedBalance = await fetchBalance();
       const formattedBalance = formatUnits(fetchedBalance, decimals);
+      // const roundedBalance = formattedBalance.slice(
+      //   0,
+      //   formattedBalance.indexOf(".")
+      // );
 
       setBalance(formattedBalance);
 
@@ -101,7 +105,7 @@ export function CardDeposit() {
     loadBalance();
   }, [decimals]);
 
-  const tokenAddress = vaultData?.assetTokenAddress;
+  const tokenAddress = vaultData.assetTokenAddress;
   const spenderAddress = vaultData.address;
 
   async function approveToken(amount: bigint) {
@@ -132,6 +136,12 @@ export function CardDeposit() {
         return;
       }
 
+      /**
+       * Descobrir o porque de eu digitar 1 no input e exceder o maximum deposit
+       * "the maximum deposit has been exceeded"
+       *
+       */
+
       const { minDeposit = 0n, maxDeposit = 0n } = await fetchDepositDetails();
 
       console.log("minDeposit:", minDeposit);
@@ -148,10 +158,14 @@ export function CardDeposit() {
         return;
       }
 
-      if (currentBalance > maxDeposit) {
-        console.log("Max deposit per Wallet exceeded");
+      if (parsedDepositAmount > currentBalance) {
+        console.log("Insufficient balance");
         return;
       }
+
+      /*Faltou essa verificacão:
+      (Amount on input + deposited amount) is higher than max deposit per wallet
+       */
 
       const approveTxHash = await approveToken(parsedDepositAmount);
 
@@ -181,10 +195,10 @@ export function CardDeposit() {
 
       const depositTx = await writeContract(wagmiConfig, {
         abi: abiVault,
-        address: vaultData.address,
+        address: vaultData.address, //Address of contract
         functionName: "deposit",
         chainId: sepolia.id,
-        args: [parsedDepositAmount],
+        args: [parsedDepositAmount], //Amount to be deposited
       });
 
       console.log("Deposit transaction sent:", depositTx);
