@@ -130,16 +130,21 @@ export function CardDeposit() {
 
       if (!isConnected) {
         setMessage("Please connect your wallet"); //Wallet connected
-        setIsButtonDisabled(true);
+        // setIsButtonDisabled(true);
         return;
       }
 
       const parsedDepositAmount = parseUnits(depositAmount, decimals);
       const currentBalance = await fetchBalance();
 
+      if (parsedDepositAmount === 0n) {
+        setMessage("Please enter a value");
+        return;
+      }
+
       if (parsedDepositAmount > currentBalance) {
         setMessage("Insufficient balance"); //Balance for deposit
-        setIsButtonDisabled(true);
+        // setIsButtonDisabled(true);
         return;
       }
 
@@ -147,19 +152,19 @@ export function CardDeposit() {
 
       if (parsedDepositAmount < minDeposit) {
         setMessage("The minimum deposit has not been reached"); //Minimum deposit per wallet
-        setIsButtonDisabled(true);
+        // setIsButtonDisabled(true);
         return;
       }
 
       if (parsedDepositAmount > maxDeposit) {
         setMessage("the maximum deposit has been exceeded"); //Maximum deposit per wallet
-        setIsButtonDisabled(true);
+        // setIsButtonDisabled(true);
         return;
       }
 
       if (parsedDepositAmount + currentBalance > maxDeposit) {
         setMessage("The maximum deposit has been exceeded"); //Balance +input > Maxium deposit per wallet
-        setIsButtonDisabled(true);
+        // setIsButtonDisabled(true);
         return;
       }
 
@@ -193,10 +198,18 @@ export function CardDeposit() {
         args: [parsedDepositAmount], //Amount to be deposited
       });
 
+      setMessage("Waiting for transaction");
+
+      await waitForTransactionReceipt(wagmiConfig, {
+        hash: depositTx,
+      });
+
       console.log("Deposit transaction sent:", depositTx);
       setMessage("Deposit successfull");
     } catch (error) {
       console.error("Error in transaction", error);
+    } finally {
+      setIsButtonDisabled(false);
     }
   }
 
@@ -244,7 +257,7 @@ export function CardDeposit() {
           onClick={onSubmit}
           disabled={isButtonDisabled}
         >
-          Deposit {vaultData.assetTokenName}
+          {message || `Deposit ${vaultData.assetTokenName}`}
         </Button>
       </div>
     </div>

@@ -24,6 +24,7 @@ export function CardRemove() {
   const [totalDeposited, setTotalDeposited] = useAtom(amountTotalDeposited);
   const [decimals] = useAtom(tokenDecimals);
   const [removeAmount, setRemoveAmount] = useState("");
+  const [message, setMessage] = useState("");
 
   if (!vaultData) {
     return "Loading vault data";
@@ -44,6 +45,7 @@ export function CardRemove() {
     const depositedValue = BigInt(amountDeposited);
 
     setTotalDeposited(depositedValue);
+    return depositedValue;
   }
 
   async function approveToken(amount: bigint) {
@@ -60,7 +62,6 @@ export function CardRemove() {
   }
 
   useEffect(() => {
-    // fetchDecimals();
     totalAmountDeposited();
   }, []);
 
@@ -73,13 +74,30 @@ export function CardRemove() {
       }
 
       if (!isConnected) {
-        alert("Please connect your wallet");
+        setMessage("Please connect your wallet");
       }
 
       const parsedDepositAmount = parseUnits(removeAmount, decimals);
+      const amountDeposited = await totalAmountDeposited();
+
+      if (parsedDepositAmount === 0n) {
+        setMessage("Please enter a value");
+        return;
+      }
+
+      if (typeof amountDeposited === "bigint" && amountDeposited <= 0n) {
+        setMessage("Insufficient balance");
+        return;
+      }
+
+      if (typeof parsedDepositAmount > amountDeposited) {
+        setMessage("Insufficient balance");
+        return;
+      }
+
       const approveTxHash = await approveToken(parsedDepositAmount);
 
-      console.log("Waiting for transaction");
+      setMessage("Waiting for transaction");
 
       await waitForTransactionReceipt(wagmiConfig, {
         hash: approveTxHash,
@@ -103,8 +121,14 @@ export function CardRemove() {
         args: [parsedDepositAmount],
       });
 
+      setMessage("Waiting for transaction");
+
+      await waitForTransactionReceipt(wagmiConfig, {
+        hash: removeTx,
+      });
+
       console.log("Remove transaction sent:", removeTx);
-      alert("Remove successfull");
+      setMessage("Transaction successfull");
     } catch (error) {
       console.error("Error in transaction:", error);
     }
@@ -123,7 +147,7 @@ export function CardRemove() {
           <div className="flex justify-between">
             <h1 className="text-sm ml-2 pb-1 mt-1">Vault token</h1>
             <h2 className="text-xs mr-2 mt-2">
-              Deposited:{" "}
+              Deposited:
               {formatUnits(totalDeposited, decimals) || "Loading ..."}
             </h2>
           </div>
@@ -152,7 +176,7 @@ export function CardRemove() {
           size={"mediumLarge"}
           onClick={onSubmit}
         >
-          Withdraw {vaultData.assetTokenName}
+          {message || `Withdraw ${vaultData.assetTokenName}`}
         </Button>
       </div>
     </div>
