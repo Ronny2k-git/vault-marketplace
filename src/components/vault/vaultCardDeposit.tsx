@@ -31,6 +31,8 @@ export function CardDeposit() {
   const [depositAmount, setDepositAmount] = useState("");
   const [minDeposit, setMinDeposit] = useAtom(minDepositAtom);
   const [maxDeposit, setMaxDeposit] = useAtom(maxDepositAtom);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [message, setMessage] = useState("");
 
   if (!vaultData) {
     return "Loading vault data";
@@ -125,49 +127,45 @@ export function CardDeposit() {
   async function onSubmit() {
     try {
       if (!isConnected) {
-        alert("Please connect your wallet");
-      } //Colocar a variável para desabilitar o botão no lugar do alert
-      //e mostrar a mensagem dentro do botão.
+        setMessage("Please connect your wallet"); //Wallet connected
+      }
 
       const parsedDepositAmount = parseUnits(depositAmount, decimals);
       const currentBalance = await fetchBalance();
 
       if (parsedDepositAmount > currentBalance) {
-        console.log("Insufficient balance");
+        setMessage("Insufficient balance"); //Balance for deposit
         return;
       }
 
       const { minDeposit, maxDeposit } = await fetchDepositDetails();
 
       if (parsedDepositAmount < minDeposit) {
-        console.log("The minimum deposit has not been reached");
+        //Minimum deposit per wallet
+        setMessage("The minimum deposit has not been reached");
         return;
       }
 
       if (parsedDepositAmount > maxDeposit) {
-        console.log("the maximum deposit has been exceeded");
+        //Maximum deposit per wallet
+        setMessage("the maximum deposit has been exceeded");
         return;
       }
 
       if (parsedDepositAmount + currentBalance > maxDeposit) {
-        console.log("The maximum deposit has been exceeded");
-      }
-
-      /*Faltou essa verificacão:
-      (Amount on input + deposited amount) is higher than max deposit per wallet
-       */
+        setMessage("The maximum deposit has been exceeded");
+        return;
+      } //Balance +input > Maxium deposit per wallet
 
       const approveTxHash = await approveToken(parsedDepositAmount);
 
-      console.log("Waiting for approval receipt");
-      //Usar o react hook form para a mensagem no botão
+      setMessage("Waiting for approval receipt");
 
       await waitForTransactionReceipt(wagmiConfig, {
         hash: approveTxHash,
       });
 
-      console.log("Confirm deposit in your wallet");
-      //Usar o react hook form para a mensagem no botão
+      setMessage("Confirm deposit in your wallet");
 
       if (!vaultData) {
         return "Loading vault data";
