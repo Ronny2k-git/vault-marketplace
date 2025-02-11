@@ -84,20 +84,6 @@ export function CardCreate() {
     return { adjustedMaxDeposit, adjustedMinDeposit };
   }
 
-  // const configParams: ContractParams = {
-  //   abi,
-  //   address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
-  //   functionName: "createVault",
-  //   args: [
-  //     assetToken,
-  //     convertTimestamp(startDate),
-  //     convertTimestamp(endDate),
-  //     minDeposit,
-  //     maxDeposit,
-  //     salt,
-  //   ],
-  // };
-
   async function getContract(address: Hex) {
     const name = await readContract(wagmiConfig, {
       abi: erc20Abi,
