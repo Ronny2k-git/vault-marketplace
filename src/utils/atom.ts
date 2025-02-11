@@ -15,3 +15,4 @@ export const vaultExplore = atom<Vault[] | null>(null);
 export const minDepositAtom = atom<bigint>(0n);
 export const maxDepositAtom = atom<bigint>(0n);
 export const amountTotalDeposited = atom("");
+export const tokenDecimals = atom(0);

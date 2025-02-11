@@ -10,7 +10,7 @@ import { Button } from "../interface/button";
 import { readContract, simulateContract, writeContract } from "@wagmi/core";
 import { wagmiConfig } from "../provider";
 import { useAccount } from "wagmi";
-import { erc20Abi, Hex } from "viem";
+import { erc20Abi, Hex, parseUnits } from "viem";
 
 type ContractParams = {
   abi: any;
@@ -18,7 +18,6 @@ type ContractParams = {
   functionName: string;
   args: any[];
 };
-
 export function CardCreate() {
   const {
     control,
@@ -67,19 +66,37 @@ export function CardCreate() {
 
   const { isConnected } = useAccount();
 
-  const configParams: ContractParams = {
-    abi,
-    address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
-    functionName: "createVault",
-    args: [
-      assetToken,
-      convertTimestamp(startDate),
-      convertTimestamp(endDate),
-      minDeposit,
-      maxDeposit,
-      salt,
-    ],
-  };
+  async function getTokenDecimals(tokenAddress: Hex) {
+    const decimals = await readContract(wagmiConfig, {
+      abi: erc20Abi,
+      address: tokenAddress,
+      functionName: "decimals",
+    });
+    return decimals;
+  }
+
+  async function convertParams() {
+    const tokenDecimals = await getTokenDecimals(assetToken);
+
+    const adjustedMaxDeposit = parseUnits(maxDeposit.toString(), tokenDecimals);
+    const adjustedMinDeposit = parseUnits(minDeposit.toString(), tokenDecimals);
+
+    return { adjustedMaxDeposit, adjustedMinDeposit };
+  }
+
+  // const configParams: ContractParams = {
+  //   abi,
+  //   address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+  //   functionName: "createVault",
+  //   args: [
+  //     assetToken,
+  //     convertTimestamp(startDate),
+  //     convertTimestamp(endDate),
+  //     minDeposit,
+  //     maxDeposit,
+  //     salt,
+  //   ],
+  // };
 
   async function getContract(address: Hex) {
     const name = await readContract(wagmiConfig, {
@@ -102,6 +119,22 @@ export function CardCreate() {
         return;
       }
       console.log("Submitting ...");
+
+      const { adjustedMinDeposit, adjustedMaxDeposit } = await convertParams();
+
+      const configParams: ContractParams = {
+        abi,
+        address: "0x3f78066D1E2184f912F7815e30F9C0a02d3a87D3",
+        functionName: "createVault",
+        args: [
+          assetToken,
+          convertTimestamp(startDate),
+          convertTimestamp(endDate),
+          adjustedMinDeposit,
+          adjustedMaxDeposit,
+          salt,
+        ],
+      };
 
       const simulateVault = await simulateContract(wagmiConfig, configParams);
 
@@ -378,6 +411,7 @@ export function CardCreate() {
           </div>
           <div className="text-[10px]">Create Vault</div>
         </Button>
+        x
       </div>
     </div>
   );

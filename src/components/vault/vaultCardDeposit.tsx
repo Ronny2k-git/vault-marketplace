@@ -12,7 +12,12 @@ import {
 } from "wagmi/actions";
 import { wagmiConfig } from "../provider";
 import { sepolia } from "viem/chains";
-import { maxDepositAtom, minDepositAtom, vaultAtom } from "@/utils/atom";
+import {
+  maxDepositAtom,
+  minDepositAtom,
+  tokenDecimals,
+  vaultAtom,
+} from "@/utils/atom";
 import { useAtom } from "jotai";
 import TokenAddress, { Vault } from "@/app/token-vault/[tokenAddress]/page";
 import { useAccount } from "wagmi";
@@ -22,7 +27,7 @@ import { abiVault } from "@/utils/abiVault";
 export function CardDeposit() {
   const [vaultData] = useAtom<Vault | null>(vaultAtom);
   const [balance, setBalance] = useState<string>("0");
-  const [decimals, setDecimals] = useState<number>(0);
+  const [decimals, setDecimals] = useAtom(tokenDecimals);
   const [depositAmount, setDepositAmount] = useState("");
   const [minDeposit, setMinDeposit] = useAtom(minDepositAtom);
   const [maxDeposit, setMaxDeposit] = useAtom(maxDepositAtom);
@@ -91,10 +96,6 @@ export function CardDeposit() {
       await fetchDecimals();
       const fetchedBalance = await fetchBalance();
       const formattedBalance = formatUnits(fetchedBalance, decimals);
-      // const roundedBalance = formattedBalance.slice(
-      //   0,
-      //   formattedBalance.indexOf(".")
-      // );
 
       setBalance(formattedBalance);
 
@@ -136,13 +137,7 @@ export function CardDeposit() {
         return;
       }
 
-      /**
-       * Descobrir o porque de eu digitar 1 no input e exceder o maximum deposit
-       * "the maximum deposit has been exceeded"
-       *
-       */
-
-      const { minDeposit = 0n, maxDeposit = 0n } = await fetchDepositDetails();
+      const { minDeposit, maxDeposit } = await fetchDepositDetails();
 
       console.log("minDeposit:", minDeposit);
       console.log("maxDeposit:", maxDeposit);
@@ -155,11 +150,6 @@ export function CardDeposit() {
 
       if (parsedDepositAmount > maxDeposit) {
         console.log("the maximum deposit has been exceeded");
-        return;
-      }
-
-      if (parsedDepositAmount > currentBalance) {
-        console.log("Insufficient balance");
         return;
       }
 
