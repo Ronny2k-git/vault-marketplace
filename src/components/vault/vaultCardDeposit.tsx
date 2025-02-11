@@ -139,10 +139,6 @@ export function CardDeposit() {
 
       const { minDeposit, maxDeposit } = await fetchDepositDetails();
 
-      console.log("minDeposit:", minDeposit);
-      console.log("maxDeposit:", maxDeposit);
-      console.log(decimals);
-
       if (parsedDepositAmount < minDeposit) {
         console.log("The minimum deposit has not been reached");
         return;
@@ -151,6 +147,10 @@ export function CardDeposit() {
       if (parsedDepositAmount > maxDeposit) {
         console.log("the maximum deposit has been exceeded");
         return;
+      }
+
+      if (parsedDepositAmount + currentBalance > maxDeposit) {
+        console.log("The maximum deposit has been exceeded");
       }
 
       /*Faltou essa verificacão:
