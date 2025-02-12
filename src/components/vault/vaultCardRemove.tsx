@@ -192,8 +192,8 @@ export function CardRemove() {
         <Button
           className={`mt-2.5 w-[270px] ${
             isButtonDisabled
-              ? "bg-gray-500 shadow-gray-400"
-              : "bg-accent hover:bg-purple-600"
+              ? "bg-gray-500 shadow-gray-300"
+              : "bg-accent hover:bg-purple-600 shadow-shadow"
           }`}
           intent={"secondary"}
           size={"mediumLarge"}

@@ -395,9 +395,8 @@ export function CardCreate() {
           >
             +
           </div>
-          <div className="text-[10px]">Create Vault</div>
+          <div className="text-[10px] shadow-shadow">Create Vault</div>
         </Button>
-        x
       </div>
     </div>
   );
