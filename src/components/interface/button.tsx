@@ -7,7 +7,6 @@ const buttonStyle = cva("flex justify-center font-SpaceGrotesk items-center", {
       secondary: [
         "bg-accent",
         "text-white",
-        "hover:bg-purple-600",
         "shadow-[2px_2px_0px_0px]",
         "shadow-shadow",
       ],

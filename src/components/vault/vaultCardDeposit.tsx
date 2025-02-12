@@ -124,16 +124,8 @@ export function CardDeposit() {
 
   const { isConnected } = useAccount();
 
-  async function onSubmit() {
-    try {
-      setIsButtonDisabled(false);
-
-      if (!isConnected) {
-        setMessage("Please connect your wallet"); //Wallet connected
-        // setIsButtonDisabled(true);
-        return;
-      }
-
+  useEffect(() => {
+    const validateButtonState = async () => {
       const parsedDepositAmount = parseUnits(depositAmount, decimals);
       const currentBalance = await fetchBalance();
 
@@ -144,7 +136,7 @@ export function CardDeposit() {
 
       if (parsedDepositAmount > currentBalance) {
         setMessage("Insufficient balance"); //Balance for deposit
-        // setIsButtonDisabled(true);
+        setIsButtonDisabled(true);
         return;
       }
 
@@ -152,21 +144,39 @@ export function CardDeposit() {
 
       if (parsedDepositAmount < minDeposit) {
         setMessage("The minimum deposit has not been reached"); //Minimum deposit per wallet
-        // setIsButtonDisabled(true);
+        setIsButtonDisabled(true);
         return;
       }
 
       if (parsedDepositAmount > maxDeposit) {
         setMessage("the maximum deposit has been exceeded"); //Maximum deposit per wallet
-        // setIsButtonDisabled(true);
+        setIsButtonDisabled(true);
         return;
       }
 
       if (parsedDepositAmount + currentBalance > maxDeposit) {
         setMessage("The maximum deposit has been exceeded"); //Balance +input > Maxium deposit per wallet
-        // setIsButtonDisabled(true);
+        setIsButtonDisabled(true);
         return;
       }
+
+      setIsButtonDisabled(false);
+      setMessage("");
+    };
+
+    validateButtonState();
+  }, [depositAmount, decimals]);
+
+  async function onSubmit() {
+    try {
+      if (!isConnected) {
+        setMessage("Please connect your wallet"); //Wallet connected
+        // setMessage("");
+        return;
+      }
+      setMessage("");
+
+      const parsedDepositAmount = parseUnits(depositAmount, decimals);
 
       const approveTxHash = await approveToken(parsedDepositAmount);
 
@@ -209,7 +219,6 @@ export function CardDeposit() {
     } catch (error) {
       console.error("Error in transaction", error);
     } finally {
-      setIsButtonDisabled(false);
     }
   }
 
@@ -251,7 +260,11 @@ export function CardDeposit() {
       </div>
       <div className="flex justify-center">
         <Button
-          className="mt-2.5 w-[270px]"
+          className={`mt-2.5 w-[270px] ${
+            isButtonDisabled
+              ? "bg-gray-500 shadow-gray-400 text-black !important"
+              : "bg-accent hover:bg-purple-600"
+          }`}
           intent={"secondary"}
           size={"mediumLarge"}
           onClick={onSubmit}

@@ -72,6 +72,7 @@ export const ButtonStyle = () => {
                   ></button>
 
                   <Button
+                    className="hover:bg-purple-600"
                     intent={"secondary"}
                     size={"large"}
                     onClick={openAccountModal}

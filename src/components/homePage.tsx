@@ -53,7 +53,11 @@ export function TokenVaults() {
         <div className="flex pt-11">
           <h1 className="w-[570px] text-3xl pr-10 text-white">Token Vaults</h1>
           <Link href={`/create-vault-page`}>
-            <Button intent={"secondary"} size={"medium"}>
+            <Button
+              className="hover:bg-purple-600"
+              intent={"secondary"}
+              size={"medium"}
+            >
               <div className="size-3 text-accent flex justify-center items-center bg-white rounded-full">
                 +
               </div>
