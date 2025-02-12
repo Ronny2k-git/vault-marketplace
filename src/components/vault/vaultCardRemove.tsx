@@ -28,12 +28,12 @@ export function CardRemove() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   if (!vaultData) {
-    return "Loading vault data";
+    return 0n;
   }
 
   async function totalAmountDeposited() {
     if (!vaultData) {
-      return "Loading vault data";
+      return 0n;
     }
 
     const amountDeposited = await readContract(wagmiConfig, {
@@ -81,7 +81,7 @@ export function CardRemove() {
         return;
       }
 
-      if (typeof parsedDepositAmount > amountDeposited) {
+      if (parsedDepositAmount > amountDeposited) {
         setMessage("Insufficient balance");
         setIsButtonDisabled(true);
         return;
@@ -190,7 +190,11 @@ export function CardRemove() {
       </div>
       <div className="flex justify-center">
         <Button
-          className="mt-2.5 w-[270px]"
+          className={`mt-2.5 w-[270px] ${
+            isButtonDisabled
+              ? "bg-gray-500 shadow-gray-400"
+              : "bg-accent hover:bg-purple-600"
+          }`}
           intent={"secondary"}
           size={"mediumLarge"}
           onClick={onSubmit}
