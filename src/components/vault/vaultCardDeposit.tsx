@@ -222,7 +222,6 @@ export function CardDeposit() {
       setMessage("Deposit successfull");
     } catch (error) {
       console.error("Error in transaction", error);
-    } finally {
     }
   }
 
