@@ -140,11 +140,17 @@ export function CardRemove() {
         hash: removeTx,
       });
 
-      /**
-       * Implementar o fetch para criar na tabela swaps
-       *
-       * E também o estado para desabilitar o botão ao digitar no input e cair nos ifs
-       */
+      const response = await fetch("/api/swaps", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount,
+          type,
+          txHash,
+          sender,
+          vaultId,
+        }),
+      });
 
       console.log("Remove transaction sent:", removeTx);
       setMessage("Transaction successfull");

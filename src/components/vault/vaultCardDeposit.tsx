@@ -214,9 +214,17 @@ export function CardDeposit() {
         hash: depositTx,
       });
 
-      /**
-       * Implementar o fetch para criar na tabela swaps
-       */
+      const response = await fetch("/api/swaps", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount,
+          type,
+          txHash,
+          sender,
+          vaultId,
+        }),
+      });
 
       console.log("Deposit transaction sent:", depositTx);
       setMessage("Deposit successfull");

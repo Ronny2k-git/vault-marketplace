@@ -8,7 +8,10 @@ export async function POST(req: NextRequest) {
 
       const swapsTable = await createTableSwapsInDb(swap);
 
-      return NextResponse.json({ success: true }, { status: 200 });
+      return NextResponse.json(
+        { success: true, swap: swapsTable },
+        { status: 200 }
+      );
     } catch (error) {
       NextResponse.json({ success: false }, { status: 500 });
     }
