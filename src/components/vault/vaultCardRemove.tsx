@@ -25,6 +25,7 @@ export function CardRemove() {
   const [decimals] = useAtom(tokenDecimals);
   const [removeAmount, setRemoveAmount] = useState("");
   const [message, setMessage] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   if (!vaultData) {
     return "Loading vault data";
@@ -63,7 +64,33 @@ export function CardRemove() {
 
   useEffect(() => {
     totalAmountDeposited();
-  }, []);
+
+    const validateButton = async () => {
+      const parsedDepositAmount = parseUnits(removeAmount, decimals);
+      const amountDeposited = await totalAmountDeposited();
+
+      if (parsedDepositAmount === 0n) {
+        setMessage("Please enter a value");
+        setIsButtonDisabled(true);
+        return;
+      }
+
+      if (amountDeposited === 0n) {
+        setMessage("No amount deposited");
+        setIsButtonDisabled(true);
+        return;
+      }
+
+      if (typeof parsedDepositAmount > amountDeposited) {
+        setMessage("Insufficient balance");
+        setIsButtonDisabled(true);
+        return;
+      }
+      setIsButtonDisabled(false);
+      setMessage("");
+    };
+    validateButton();
+  }, [removeAmount, decimals]);
 
   const { isConnected } = useAccount();
 
@@ -75,25 +102,11 @@ export function CardRemove() {
 
       if (!isConnected) {
         setMessage("Please connect your wallet");
+        return;
       }
+      setMessage("");
 
       const parsedDepositAmount = parseUnits(removeAmount, decimals);
-      const amountDeposited = await totalAmountDeposited();
-
-      if (parsedDepositAmount === 0n) {
-        setMessage("Please enter a value");
-        return;
-      }
-
-      if (typeof amountDeposited === "bigint" && amountDeposited <= 0n) {
-        setMessage("Insufficient balance");
-        return;
-      }
-
-      if (typeof parsedDepositAmount > amountDeposited) {
-        setMessage("Insufficient balance");
-        return;
-      }
 
       const approveTxHash = await approveToken(parsedDepositAmount);
 
@@ -126,6 +139,12 @@ export function CardRemove() {
       await waitForTransactionReceipt(wagmiConfig, {
         hash: removeTx,
       });
+
+      /**
+       * Implementar o fetch para criar na tabela swaps
+       *
+       * E também o estado para desabilitar o botão ao digitar no input e cair nos ifs
+       */
 
       console.log("Remove transaction sent:", removeTx);
       setMessage("Transaction successfull");
@@ -175,6 +194,7 @@ export function CardRemove() {
           intent={"secondary"}
           size={"mediumLarge"}
           onClick={onSubmit}
+          disabled={isButtonDisabled}
         >
           {message || `Withdraw ${vaultData.assetTokenName}`}
         </Button>

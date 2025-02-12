@@ -131,6 +131,7 @@ export function CardDeposit() {
 
       if (parsedDepositAmount === 0n) {
         setMessage("Please enter a value");
+        setIsButtonDisabled(true);
         return;
       }
 
@@ -171,7 +172,6 @@ export function CardDeposit() {
     try {
       if (!isConnected) {
         setMessage("Please connect your wallet"); //Wallet connected
-        // setMessage("");
         return;
       }
       setMessage("");
@@ -213,6 +213,10 @@ export function CardDeposit() {
       await waitForTransactionReceipt(wagmiConfig, {
         hash: depositTx,
       });
+
+      /**
+       * Implementar o fetch para criar na tabela swaps
+       */
 
       console.log("Deposit transaction sent:", depositTx);
       setMessage("Deposit successfull");
