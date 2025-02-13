@@ -49,6 +49,10 @@ export default function TokenAddress() {
     console.log(data);
   }
 
+  async function fetchSwapData() {
+    const response = await fetch("/api/");
+  }
+
   useEffect(() => {
     fetchVaultData();
   }, []);
@@ -120,8 +124,25 @@ export default function TokenAddress() {
           </div>
           <CardTransaction />
         </div>
-        <div className="text-white text-[13px] mr-72 mt-2">
-          {"<"} 1 2 3 ... 20 {">"}
+        <div className="text-white flex gap-2 text-[10px] mr-72 mt-2">
+          <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+            {"<"}
+          </button>
+          <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+            1
+          </button>
+          <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+            2
+          </button>
+          <button className="h-5 w-5 text-base pb-2 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+            ...
+          </button>
+          <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+            15
+          </button>
+          <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+            {">"}
+          </button>
         </div>
       </div>
     </div>
