@@ -144,11 +144,11 @@ export function CardRemove() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: parsedDepositAmount,
+          amount: parsedDepositAmount.toString(), //Don't use bigint in the JSON.stringify
           type: simulateTx.request.functionName,
           txHash: removeTx,
           sender: simulateTx.request.account?.address,
-          vaultId: vaultData.id,
+          vaultId: vaultData.id.toString(),
         }),
       });
 

@@ -218,11 +218,11 @@ export function CardDeposit() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: parsedDepositAmount,
+          amount: parsedDepositAmount.toString(), //Don't use bigint in the JSON.stringify
           type: simulateDeposit.request.functionName,
           txHash: depositTx,
           sender: simulateDeposit.request.account?.address,
-          vaultId: vaultData.id,
+          vaultId: vaultData.id.toString(),
         }),
       });
       const data = await response.json();
