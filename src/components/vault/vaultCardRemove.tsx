@@ -140,7 +140,7 @@ export function CardRemove() {
         hash: removeTx,
       });
 
-      const response = await fetch("/api/swaps", {
+      const response = await fetch("/api/createSwap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
