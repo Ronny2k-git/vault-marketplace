@@ -232,7 +232,7 @@ export function CardDeposit() {
         return;
       }
 
-      console.log("Deposit transaction sent:", depositTx);
+      console.log("Deposit transaction sent:", data);
       setMessage("Deposit successfull");
     } catch (error) {
       console.error("Error in transaction", error);

@@ -154,7 +154,7 @@ export function CardRemove() {
 
       const data = await response.json();
 
-      console.log("Remove transaction sent:", removeTx);
+      console.log("Remove transaction sent:", data);
       setMessage("Transaction successfull");
     } catch (error) {
       console.error("Error in transaction:", error);
