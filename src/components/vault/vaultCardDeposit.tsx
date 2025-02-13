@@ -218,11 +218,12 @@ export function CardDeposit() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          id,
           amount: parsedDepositAmount,
-          type,
-          txHash,
-          sender,
-          vaultId,
+          type: simulateDeposit.request.functionName,
+          txHash: depositTx,
+          sender: simulateDeposit.request.account?.address,
+          vaultId: vaultData.id,
         }),
       });
 
