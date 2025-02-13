@@ -225,6 +225,12 @@ export function CardDeposit() {
           vaultId: vaultData.id,
         }),
       });
+      const data = await response.json();
+
+      if (data.success) {
+        console.log("Transaction created in the database");
+        return;
+      }
 
       console.log("Deposit transaction sent:", depositTx);
       setMessage("Deposit successfull");

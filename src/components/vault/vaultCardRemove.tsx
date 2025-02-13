@@ -152,6 +152,8 @@ export function CardRemove() {
         }),
       });
 
+      const data = await response.json();
+
       console.log("Remove transaction sent:", removeTx);
       setMessage("Transaction successfull");
     } catch (error) {
