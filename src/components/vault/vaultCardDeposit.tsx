@@ -218,7 +218,6 @@ export function CardDeposit() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id,
           amount: parsedDepositAmount,
           type: simulateDeposit.request.functionName,
           txHash: depositTx,

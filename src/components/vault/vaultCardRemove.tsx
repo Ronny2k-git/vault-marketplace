@@ -145,10 +145,10 @@ export function CardRemove() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: parsedDepositAmount,
-          type,
-          txHash,
-          sender,
-          vaultId,
+          type: simulateTx.request.functionName,
+          txHash: removeTx,
+          sender: simulateTx.request.account?.address,
+          vaultId: vaultData.id,
         }),
       });
 
