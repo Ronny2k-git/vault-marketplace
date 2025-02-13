@@ -227,11 +227,6 @@ export function CardDeposit() {
       });
       const data = await response.json();
 
-      if (data.success) {
-        console.log("Transaction created in the database");
-        return;
-      }
-
       console.log("Deposit transaction sent:", data);
       setMessage("Deposit successfull");
     } catch (error) {

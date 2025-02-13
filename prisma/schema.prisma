@@ -25,11 +25,12 @@ model Vault {
 }
 
 model Swap {
-  id      Int    @id @default(autoincrement())
-  amount  String 
-  type    String   
-  txHash  String 
-  sender  String 
-  vaultId Int 
-  vault   Vault  @relation(fields: [vaultId], references: [id])
+  id       Int      @id @default(autoincrement())
+  amount   String 
+  type     String   
+  txHash   String 
+  sender   String 
+  vaultId  Int 
+  dateTime DateTime @default(now())
+  vault    Vault    @relation(fields: [vaultId], references: [id])
 }
