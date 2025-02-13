@@ -214,15 +214,17 @@ export function CardDeposit() {
         hash: depositTx,
       });
 
+      const amountString = parsedDepositAmount.toString();
+
       const response = await fetch("/api/createSwap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: parsedDepositAmount.toString(), //Don't use bigint in the JSON.stringify
+          amount: amountString, //Don't use bigint in the JSON.stringify
           type: simulateDeposit.request.functionName,
           txHash: depositTx,
           sender: simulateDeposit.request.account?.address,
-          vaultId: vaultData.id.toString(),
+          vaultId: vaultData.id,
         }),
       });
       const data = await response.json();

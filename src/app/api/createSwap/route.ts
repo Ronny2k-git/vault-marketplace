@@ -13,9 +13,13 @@ export async function POST(req: NextRequest) {
         { status: 200 }
       );
     } catch (error) {
-      NextResponse.json({ success: false }, { status: 500 });
+      console.error("Error in transanction", error);
+      return NextResponse.json({ success: false, error }, { status: 500 });
     }
   } else {
-    NextResponse.json({ success: false }, { status: 405 });
+    return NextResponse.json(
+      { success: false, message: "Method not allowed" },
+      { status: 405 }
+    );
   }
 }

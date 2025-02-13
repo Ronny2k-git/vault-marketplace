@@ -4,6 +4,8 @@ const prisma = new PrismaClient();
 
 export const createTableSwapsInDb = async (swaps: any) => {
   try {
+    console.log("swap data:", swaps);
+
     const { amount, type, txHash, sender, vaultId } = swaps;
 
     const tableSwap = await prisma.swap.create({

@@ -148,7 +148,7 @@ export function CardRemove() {
           type: simulateTx.request.functionName,
           txHash: removeTx,
           sender: simulateTx.request.account?.address,
-          vaultId: vaultData.id.toString(),
+          vaultId: vaultData.id,
         }),
       });
 
