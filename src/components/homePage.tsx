@@ -44,7 +44,14 @@ export function TokenVaults() {
   }, []);
 
   if (!vaultData) {
-    return <p>Loading vault data ...</p>;
+    return (
+      <p
+        className="h-screen w-screen flex text-red-500 text-x1 justify-center items-center
+       bg-background"
+      >
+        Loading vault data ...
+      </p>
+    );
   }
 
   return (
