@@ -44,7 +44,7 @@ export default function TokenAddress() {
     const data = await response.json();
 
     if (data.success) {
-      setVaultData(data.vault[2]);
+      setVaultData(data.vault[0]);
     }
 
     console.log(data);
@@ -83,7 +83,7 @@ export default function TokenAddress() {
   if (!vaultData) {
     return (
       <div
-        className="text-red-500 text-2xl flex h-screen w-screen justify-center items-center
+        className="text-red-500 text-xl flex h-screen w-screen justify-center items-center
        bg-background"
       >
         Loading...
