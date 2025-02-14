@@ -11,6 +11,8 @@ import { readContract, simulateContract, writeContract } from "@wagmi/core";
 import { wagmiConfig } from "../provider";
 import { useAccount } from "wagmi";
 import { erc20Abi, Hex, parseUnits } from "viem";
+import { useAtom } from "jotai";
+import { tokenDecimals } from "@/utils/atom";
 
 type ContractParams = {
   abi: any;
@@ -19,6 +21,8 @@ type ContractParams = {
   args: any[];
 };
 export function CardCreate() {
+  const [decimals] = useAtom(tokenDecimals);
+
   const {
     control,
     register,
@@ -148,7 +152,7 @@ export function CardCreate() {
           startDate,
           endDate,
           chainId: 11155111,
-          assetTokenDecimals: 18,
+          assetTokenDecimals: decimals,
           assetTokenName,
           assetTokenSymbol,
           assetTokenAddress: assetToken,

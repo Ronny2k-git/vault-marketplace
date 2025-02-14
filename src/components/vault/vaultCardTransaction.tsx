@@ -4,9 +4,10 @@ import { Tabs } from "@radix-ui/themes";
 import { Card } from "../interface/card";
 import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
-import { vaultAtom } from "@/utils/atom";
+import { swapAtom, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { vault } from "@/app/token-vault/[tokenAddress]/page";
+import { useEffect } from "react";
 
 export function CardTransaction() {
   const [vaultData] = useAtom<vault | null>(vaultAtom);
@@ -29,6 +30,8 @@ export function CardTransaction() {
       return "Finished";
     }
   };
+
+  useEffect(() => {});
 
   return (
     <div>

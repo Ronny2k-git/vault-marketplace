@@ -61,7 +61,7 @@ export default function TokenAddress() {
     const data = await response.json();
 
     if (data.success) {
-      console.log(data.swaps);
+      setSwaps(data.swaps);
     } else {
       console.error("Error getting in the database", data.message);
     }

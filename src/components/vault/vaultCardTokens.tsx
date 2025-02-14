@@ -4,11 +4,12 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
+import { swapAtom, tokenDecimals, vaultAtom } from "@/utils/atom";
+import { useAtom } from "jotai";
+import { formatUnits } from "viem";
+import { vault } from "@/app/token-vault/[tokenAddress]/page";
 
 export function CardTokens() {
-  // if (!vaultData) {
-  //   return "Loading vault data";
-  // }
   return (
     <div>
       <Card className="flex items-center" intent={"primary"} size={"long"}>
@@ -31,18 +32,24 @@ export function CardTokens() {
 }
 
 export function TransactionTokens() {
+  const [swaps] = useAtom(swapAtom);
+  const [vaultData] = useAtom<vault | null>(vaultAtom);
+  const [decimals] = useAtom(tokenDecimals);
+
   return (
     <div>
-      <Card
-        className="flex gap-2 text-white text-[12px]"
-        intent={"primary"}
-        size={"mediumLong"}
-      >
-        <div className="w-20 ml-2">5</div>
-        <div className="w-28">0x54dF...3456</div>
-        <div className="w-20">8 days ago</div>
-        <div className="text-live-accent">Deposit</div>
-      </Card>
+      {swaps.map((swap, index) => (
+        <Card
+          className="flex gap-2 text-white text-[12px]"
+          intent={"primary"}
+          size={"mediumLong"}
+        >
+          <div className="w-20 ml-2">{formatUnits(swap.amount, decimals)}</div>
+          <div className="w-28">0x54dF...3456</div>
+          <div className="w-20">8 days ago</div>
+          <div className="text-live-accent">Deposit</div>
+        </Card>
+      ))}
     </div>
   );
 }
