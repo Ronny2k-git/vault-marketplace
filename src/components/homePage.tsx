@@ -54,7 +54,7 @@ export function TokenVaults() {
           <h1 className="w-[570px] text-3xl pr-10 text-white">Token Vaults</h1>
           <Link href={`/create-vault-page`}>
             <Button
-              className="hover:bg-purple-600"
+              className="hover:bg-purple-600 shadow-shadow"
               intent={"secondary"}
               size={"medium"}
             >

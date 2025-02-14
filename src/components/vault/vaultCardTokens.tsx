@@ -7,7 +7,7 @@ import Link from "next/link";
 import { swapAtom, tokenDecimals, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { formatUnits, Hex } from "viem";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 

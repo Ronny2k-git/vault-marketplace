@@ -10,9 +10,11 @@ import { readContract } from "wagmi/actions";
 import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
 import { wagmiConfig } from "../provider";
+import { useAtom } from "jotai";
 
 export function CardLive({ vault }: { vault: Vault }) {
   const [totalDeposited, setTotalDeposited] = useState("");
+  // const [vaultData] = useAtom<Vault[] | null>(vaultExplore);
 
   async function totalAmountDeposited() {
     const deposited = await readContract(wagmiConfig, {
@@ -23,6 +25,7 @@ export function CardLive({ vault }: { vault: Vault }) {
       args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"],
     });
     setTotalDeposited(deposited.toString());
+    console.log(deposited);
   }
 
   const getStatus = (vault: Vault) => {
