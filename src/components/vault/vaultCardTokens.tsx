@@ -71,7 +71,7 @@ export function TransactionTokens() {
           <div className="w-28 text-[10.5px]">{`${swap.sender.slice(
             0,
             6
-          )}...${swap.sender.slice(-4)}`}</div>
+          )}...${swap.sender.slice(-4).toLocaleLowerCase()}`}</div>
           <div className="w-32 text-[11px]">{dateRelative(swap.dateTime)}</div>
           <div
             className={`${

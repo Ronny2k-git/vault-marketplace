@@ -83,7 +83,7 @@ export default function TokenAddress() {
   if (!vaultData) {
     return (
       <div
-        className="text-red-500 text-4xl flex h-screen w-screen justify-center items-center
+        className="text-red-500 text-2xl flex h-screen w-screen justify-center items-center
        bg-background"
       >
         Loading...
