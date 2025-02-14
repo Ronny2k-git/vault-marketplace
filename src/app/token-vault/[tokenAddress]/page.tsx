@@ -44,7 +44,7 @@ export default function TokenAddress() {
     const data = await response.json();
 
     if (data.success) {
-      setVaultData(data.vault[1]);
+      setVaultData(data.vault[0]);
     }
 
     console.log(data);
