@@ -36,6 +36,8 @@ export function TransactionTokens() {
   const [vaultData] = useAtom<vault | null>(vaultAtom);
   const [decimals] = useAtom(tokenDecimals);
 
+  const limitAddress = "test";
+
   return (
     <div>
       {swaps.map((swap, index) => (
@@ -45,9 +47,15 @@ export function TransactionTokens() {
           size={"mediumLong"}
         >
           <div className="w-20 ml-2">{formatUnits(swap.amount, decimals)}</div>
-          <div className="w-28">0x54dF...3456</div>
+          <div className="w-28">{swap.sender}</div>
           <div className="w-20">8 days ago</div>
-          <div className="text-live-accent">Deposit</div>
+          <div
+            className={`${
+              swap.type === "deposit" ? "text-live-accent" : "text-red-500"
+            }`}
+          >
+            {swap.type}
+          </div>
         </Card>
       ))}
     </div>
