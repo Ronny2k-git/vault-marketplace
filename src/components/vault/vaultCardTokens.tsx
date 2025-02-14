@@ -6,9 +6,10 @@ import { Card } from "../interface/card";
 import Link from "next/link";
 import { swapAtom, tokenDecimals, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
-import { formatUnits } from "viem";
+import { formatUnits, Hex } from "viem";
 import { useEffect, useState } from "react";
-import { vault } from "@/app/token-vault/[tokenAddress]/page";
+import { formatDistanceToNow } from "date-fns";
+import { enUS } from "date-fns/locale";
 
 export function CardTokens() {
   return (
@@ -32,10 +33,24 @@ export function CardTokens() {
   );
 }
 
+export type Swap = {
+  amount: bigint;
+  sender: Hex;
+  dateTime: string;
+  type: string;
+};
+
 export function TransactionTokens() {
-  const [swaps] = useAtom(swapAtom);
-  // const [vaultData] = useAtom<vault | null>(vaultAtom);
+  const [swaps] = useAtom<Swap[]>(swapAtom);
   const [decimals] = useAtom(tokenDecimals);
+
+  const dateRelative = (dateTime: string) => {
+    const data = new Date(dateTime);
+    return formatDistanceToNow(data, {
+      addSuffix: true,
+      locale: enUS,
+    });
+  };
 
   useEffect(() => {
     console.log("Updated list", swaps);
@@ -56,7 +71,7 @@ export function TransactionTokens() {
             0,
             6
           )}...${swap.sender.slice(-4)}`}</div>
-          <div className="w-20 text-[11px]">{swap.dateTime}</div>
+          <div className="w-20 text-[11px]">{dateRelative(swap.dateTime)}</div>
           <div
             className={`${
               swap.type === "deposit"
