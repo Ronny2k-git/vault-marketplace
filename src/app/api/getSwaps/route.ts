@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSwapsInDb } from "./getPrismaSwaps/prismaSwaps";
 
-async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
   if (req.method === "GET") {
-    try {
-      const getSwap = getSwapsInDb();
+    const url = new URL(req.url);
+    const page = Number(url.searchParams.get("page")) || 1;
 
-      return NextResponse.json({ success: true, getSwap }, { status: 200 });
+    try {
+      const swaps = getSwapsInDb();
+      return swaps;
     } catch (error) {
       return NextResponse.json(
         { success: false, message: "Error getting in the databse" },

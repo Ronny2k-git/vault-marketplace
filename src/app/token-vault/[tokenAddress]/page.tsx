@@ -50,11 +50,17 @@ export default function TokenAddress() {
   }
 
   async function fetchSwapData() {
-    const response = await fetch("/api/");
+    const response = await fetch("/api/getSwaps", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await response.json();
   }
 
   useEffect(() => {
     fetchVaultData();
+    fetchSwapData();
   }, []);
 
   if (!vaultData) {
