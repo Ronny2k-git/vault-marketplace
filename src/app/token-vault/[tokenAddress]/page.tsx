@@ -81,7 +81,14 @@ export default function TokenAddress() {
   }, []);
 
   if (!vaultData) {
-    return <div className="text-red-500">Loading...</div>;
+    return (
+      <div
+        className="text-red-500 text-4xl flex h-screen w-screen justify-center items-center
+       bg-background"
+      >
+        Loading...
+      </div>
+    );
   }
 
   const formatStartDate = new Date(vaultData.startsAt).toLocaleDateString(

@@ -63,6 +63,7 @@ export function TransactionTokens() {
           className="flex gap-2 text-white text-[12px]"
           intent={"primary"}
           size={"mediumLong"}
+          key={index}
         >
           <div className="w-20 ml-2 text-[11px]">
             {formatUnits(swap.amount, decimals)}
