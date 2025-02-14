@@ -6,8 +6,12 @@ import { Card } from "../interface/card";
 import Link from "next/link";
 import { swapAtom, tokenDecimals, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
-import { formatUnits } from "viem";
+import { erc20Abi, formatUnits } from "viem";
+import { useState } from "react";
 import { vault } from "@/app/token-vault/[tokenAddress]/page";
+import { readContract } from "wagmi/actions";
+import { wagmiConfig } from "../provider";
+import { sepolia } from "viem/chains";
 
 export function CardTokens() {
   return (
@@ -34,7 +38,23 @@ export function CardTokens() {
 export function TransactionTokens() {
   const [swaps] = useAtom(swapAtom);
   const [vaultData] = useAtom<vault | null>(vaultAtom);
-  const [decimals] = useAtom(tokenDecimals);
+  const [decimals, setDecimals] = useState<number | undefined>(undefined);
+
+  async function fetchDecimals() {
+    if (!vaultData) {
+      return "Loading vault data";
+    }
+
+    const tokenDecimals = await readContract(wagmiConfig, {
+      abi: erc20Abi,
+      address: vaultData.assetTokenAddress,
+      functionName: "decimals",
+      chainId: sepolia.id,
+      args: [],
+    });
+
+    setDecimals(tokenDecimals);
+  }
 
   return (
     <div>

@@ -27,8 +27,6 @@ export type vault = {
   assetTokenAddress: Hex;
 };
 
-const cardTokensArray = new Array(10).fill(null);
-
 export default function TokenAddress() {
   const [vaultData, setVaultData] = useAtom<vault | null>(vaultAtom);
   const [minDeposit] = useAtom(minDepositAtom);
@@ -46,7 +44,7 @@ export default function TokenAddress() {
     const data = await response.json();
 
     if (data.success) {
-      setVaultData(data.vault[2]);
+      setVaultData(data.vault[1]);
     }
 
     console.log(data);
@@ -143,9 +141,7 @@ export default function TokenAddress() {
               <div className="w-20">TIME</div>
               <div className="w-28">TYPE</div>
             </Card>
-            {cardTokensArray.map((_, index) => (
-              <TransactionTokens key={index} />
-            ))}
+            <TransactionTokens /> //Component Swaps
           </div>
           <CardTransaction />
         </div>
