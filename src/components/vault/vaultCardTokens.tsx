@@ -36,8 +36,6 @@ export function TransactionTokens() {
   const [vaultData] = useAtom<vault | null>(vaultAtom);
   const [decimals] = useAtom(tokenDecimals);
 
-  const limitAddress = "test";
-
   return (
     <div>
       {swaps.map((swap, index) => (
@@ -46,12 +44,19 @@ export function TransactionTokens() {
           intent={"primary"}
           size={"mediumLong"}
         >
-          <div className="w-20 ml-2">{formatUnits(swap.amount, decimals)}</div>
-          <div className="w-28">{swap.sender}</div>
-          <div className="w-20">8 days ago</div>
+          <div className="w-20 ml-2 text-[11px]">
+            {formatUnits(swap.amount, decimals)}
+          </div>
+          <div className="w-28 text-[10.5px]">{`${swap.sender.slice(
+            0,
+            6
+          )}...${swap.sender.slice(-4)}`}</div>
+          <div className="w-20 text-[11px]">{swap.dateTime}</div>
           <div
             className={`${
-              swap.type === "deposit" ? "text-live-accent" : "text-red-500"
+              swap.type === "deposit"
+                ? "text-live-accent text-[11px]"
+                : "text-red-600 font-semibold text-[11px]"
             }`}
           >
             {swap.type}
