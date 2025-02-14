@@ -7,6 +7,7 @@ import { CardTransaction } from "@/components/vault/vaultCardTransaction";
 import {
   maxDepositAtom,
   minDepositAtom,
+  swapAtom,
   tokenDecimals,
   vaultAtom,
 } from "@/utils/atom";
@@ -34,6 +35,7 @@ export default function TokenAddress() {
   const [maxDeposit] = useAtom(maxDepositAtom);
   const [decimals] = useAtom(tokenDecimals);
   const [currentPage, setCurrentPage] = useState(1);
+  const [swaps, setSwaps] = useAtom(swapAtom);
 
   async function fetchVaultData() {
     const response = await fetch("/api/getTokenAddress", {
