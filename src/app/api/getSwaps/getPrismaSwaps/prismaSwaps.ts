@@ -8,7 +8,7 @@ export const getSwapsInDb = async (currentPage: number = 1) => {
     const limit = 10;
     const skip = limit * (currentPage - 1);
 
-    const Swaps = await prisma.swap.findMany({
+    const swaps = await prisma.swap.findMany({
       select: {
         amount: true,
         sender: true,
@@ -21,7 +21,7 @@ export const getSwapsInDb = async (currentPage: number = 1) => {
         dateTime: "desc",
       },
     });
-    return NextResponse.json({ success: true, Swaps }, { status: 200 });
+    return NextResponse.json({ success: true, swaps }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { success: false, message: "Error getting in the database" },

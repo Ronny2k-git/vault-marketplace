@@ -11,7 +11,7 @@ import {
   vaultAtom,
 } from "@/utils/atom";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { formatUnits, Hex } from "viem";
 
 export type vault = {
@@ -33,6 +33,7 @@ export default function TokenAddress() {
   const [minDeposit] = useAtom(minDepositAtom);
   const [maxDeposit] = useAtom(maxDepositAtom);
   const [decimals] = useAtom(tokenDecimals);
+  const [currentPage, setCurrentPage] = useState(1);
 
   async function fetchVaultData() {
     const response = await fetch("/api/getTokenAddress", {
@@ -49,14 +50,30 @@ export default function TokenAddress() {
     console.log(data);
   }
 
-  async function fetchSwapData() {
-    const response = await fetch("/api/getSwaps", {
+  async function fetchSwapData(page: number = 1) {
+    const response = await fetch(`/api/getSwaps?page=${page}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
 
     const data = await response.json();
+
+    if (data.success) {
+      console.log(data.swaps);
+    } else {
+      console.error("Error getting in the database", data.message);
+    }
   }
+
+  const nextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+    fetchSwapData(currentPage + 1);
+  };
+
+  const previousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    fetchSwapData(currentPage - 1);
+  };
 
   useEffect(() => {
     fetchVaultData();
@@ -131,22 +148,19 @@ export default function TokenAddress() {
           <CardTransaction />
         </div>
         <div className="text-white flex gap-2 text-[10px] mr-72 mt-2">
-          <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+          <button
+            onClick={previousPage}
+            className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
+          >
             {"<"}
           </button>
           <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
-            1
+            {currentPage}
           </button>
-          <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
-            2
-          </button>
-          <button className="h-5 w-5 text-base pb-2 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
-            ...
-          </button>
-          <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
-            15
-          </button>
-          <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+          <button
+            onClick={nextPage}
+            className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
+          >
             {">"}
           </button>
         </div>

@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
     const page = Number(url.searchParams.get("page")) || 1;
 
     try {
-      const swaps = getSwapsInDb();
+      const swaps = await getSwapsInDb(page);
       return swaps;
     } catch (error) {
       return NextResponse.json(
