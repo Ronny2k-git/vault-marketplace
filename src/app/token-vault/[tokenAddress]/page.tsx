@@ -138,8 +138,8 @@ export default function TokenAddress() {
             >
               <div className="w-20 ml-2">AMOUNT</div>
               <div className="w-28">ACCOUNT</div>
-              <div className="w-20">TIME</div>
-              <div className="w-28">TYPE</div>
+              <div className="w-32">TIME</div>
+              <div className="w-[70px]">TYPE</div>
             </Card>
             <TransactionTokens /> //Component Swaps
           </div>
