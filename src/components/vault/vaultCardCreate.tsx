@@ -11,8 +11,7 @@ import { readContract, simulateContract, writeContract } from "@wagmi/core";
 import { wagmiConfig } from "../provider";
 import { useAccount } from "wagmi";
 import { erc20Abi, Hex, parseUnits } from "viem";
-import { useAtom } from "jotai";
-import { tokenDecimals } from "@/utils/atom";
+import { sepolia } from "viem/chains";
 
 type ContractParams = {
   abi: any;
@@ -21,8 +20,6 @@ type ContractParams = {
   args: any[];
 };
 export function CardCreate() {
-  const [decimals] = useAtom(tokenDecimals);
-
   const {
     control,
     register,
@@ -141,6 +138,8 @@ export function CardCreate() {
 
       console.log("Vault creation result:", vaultCreate);
 
+      const tokenDecimals = await getTokenDecimals(assetToken);
+
       const response = await fetch("/api/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -152,7 +151,7 @@ export function CardCreate() {
           startDate,
           endDate,
           chainId: 11155111,
-          assetTokenDecimals: decimals,
+          assetTokenDecimals: tokenDecimals,
           assetTokenName,
           assetTokenSymbol,
           assetTokenAddress: assetToken,
