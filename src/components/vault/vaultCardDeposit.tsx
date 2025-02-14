@@ -19,7 +19,7 @@ import {
   vaultAtom,
 } from "@/utils/atom";
 import { useAtom } from "jotai";
-import TokenAddress, { vault } from "@/app/token-vault/[tokenAddress]/page";
+import { vault } from "@/app/token-vault/[tokenAddress]/page";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { abiVault } from "@/utils/abiVault";

@@ -11,10 +11,12 @@ import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
 import { wagmiConfig } from "../provider";
 import { useAtom } from "jotai";
+import { tokenDecimals } from "@/utils/atom";
+import { formatUnits } from "viem";
 
 export function CardLive({ vault }: { vault: Vault }) {
-  const [totalDeposited, setTotalDeposited] = useState("");
-  // const [vaultData] = useAtom<Vault[] | null>(vaultExplore);
+  const [totalDeposited, setTotalDeposited] = useState(0n);
+  const [decimals] = useAtom(tokenDecimals);
 
   async function totalAmountDeposited() {
     const deposited = await readContract(wagmiConfig, {
@@ -22,10 +24,10 @@ export function CardLive({ vault }: { vault: Vault }) {
       address: vault.address,
       functionName: "deposited",
       chainId: sepolia.id,
-      args: ["0x5e99E02629C14E36c172304a4255c37FB45065CC"],
+      args: ["0xD2dD0C955b5a0eDEAA05084778bF4f7a03D2AaDA"],
     });
-    setTotalDeposited(deposited.toString());
-    console.log(deposited);
+    setTotalDeposited(deposited);
+    // console.log(deposited);
   }
 
   const getStatus = (vault: Vault) => {
@@ -83,7 +85,7 @@ export function CardLive({ vault }: { vault: Vault }) {
             <img className="size-4 mr-1" src="/icons/money.png" />
             <div>Total deposited: </div>
           </div>
-          <div>{totalDeposited}</div>
+          <div>{formatUnits(totalDeposited, decimals)}</div>
         </div>
         <div className="flex  ml-4 font-SpaceGrotesk justify-between mr-4">
           <div className="flex">
