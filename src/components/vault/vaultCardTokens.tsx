@@ -60,11 +60,15 @@ export function TransactionTokens() {
   return (
     <div>
       {swaps.map((swap, index) => (
-        <Link href={`https://sepolia.etherscan.io/tx/${swap.txHash}`}>
+        <Link
+          key={index}
+          href={`https://sepolia.etherscan.io/tx/${swap.txHash}`}
+        >
           <Card
             className="flex gap-2 text-white text-[12px] hover:bg-gray-600"
             intent={"primary"}
             size={"mediumLong"}
+            title="Click to be redirected to the transaction on the blockchain"
             key={index}
           >
             <div className="w-20 ml-2 text-[11px]">

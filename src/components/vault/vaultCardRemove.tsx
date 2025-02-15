@@ -27,6 +27,8 @@ export function CardRemove() {
   const [message, setMessage] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+  const { address } = useAccount();
+
   if (!vaultData) {
     return 0n;
   }
@@ -41,7 +43,7 @@ export function CardRemove() {
       address: vaultData.address,
       functionName: "deposited",
       chainId: sepolia.id,
-      args: ["0xD2dD0C955b5a0eDEAA05084778bF4f7a03D2AaDA"],
+      args: [address!],
     });
     const depositedValue = BigInt(amountDeposited);
 

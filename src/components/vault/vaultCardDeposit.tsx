@@ -34,6 +34,8 @@ export function CardDeposit() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [message, setMessage] = useState("");
 
+  const { address } = useAccount();
+
   if (!vaultData) {
     return "Loading vault data";
   }
@@ -64,7 +66,7 @@ export function CardDeposit() {
       address: vaultData?.assetTokenAddress, //token erc-20
       functionName: "balanceOf",
       chainId: sepolia.id,
-      args: ["0xD2dD0C955b5a0eDEAA05084778bF4f7a03D2AaDA"], //Address of the wallet
+      args: [address!], //Address of the wallet
     });
 
     return balance;

@@ -13,9 +13,12 @@ import { wagmiConfig } from "../provider";
 import { useAtom } from "jotai";
 import { tokenDecimals } from "@/utils/atom";
 import { formatUnits } from "viem";
+import { useAccount } from "wagmi";
 
 export function CardLive({ vault }: { vault: Vault }) {
   const [totalDeposited, setTotalDeposited] = useState(0n);
+
+  const { address } = useAccount();
 
   async function totalAmountDeposited() {
     const deposited = await readContract(wagmiConfig, {
@@ -23,10 +26,9 @@ export function CardLive({ vault }: { vault: Vault }) {
       address: vault.address,
       functionName: "deposited",
       chainId: sepolia.id,
-      args: ["0xD2dD0C955b5a0eDEAA05084778bF4f7a03D2AaDA"],
+      args: [address!],
     });
     setTotalDeposited(deposited);
-    // console.log(deposited);
   }
 
   const getStatus = (vault: Vault) => {
