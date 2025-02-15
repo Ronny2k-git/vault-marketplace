@@ -16,7 +16,6 @@ import { formatUnits } from "viem";
 
 export function CardLive({ vault }: { vault: Vault }) {
   const [totalDeposited, setTotalDeposited] = useState(0n);
-  const [decimals] = useAtom(tokenDecimals);
 
   async function totalAmountDeposited() {
     const deposited = await readContract(wagmiConfig, {
@@ -85,7 +84,7 @@ export function CardLive({ vault }: { vault: Vault }) {
             <img className="size-4 mr-1" src="/icons/money.png" />
             <div>Total deposited: </div>
           </div>
-          <div>{formatUnits(totalDeposited, decimals)}</div>
+          <div>{formatUnits(totalDeposited, 18)}</div>
         </div>
         <div className="flex  ml-4 font-SpaceGrotesk justify-between mr-4">
           <div className="flex">
