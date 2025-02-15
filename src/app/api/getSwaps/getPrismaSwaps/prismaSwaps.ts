@@ -14,6 +14,7 @@ export const getSwapsInDb = async (currentPage: number = 1) => {
         sender: true,
         dateTime: true,
         type: true,
+        txHash: true,
       },
       take: limit,
       skip: skip,

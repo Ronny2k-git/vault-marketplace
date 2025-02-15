@@ -38,6 +38,7 @@ export type Swap = {
   sender: Hex;
   dateTime: string;
   type: string;
+  txHash: Hex;
 };
 
 export function TransactionTokens() {
@@ -59,30 +60,34 @@ export function TransactionTokens() {
   return (
     <div>
       {swaps.map((swap, index) => (
-        <Card
-          className="flex gap-2 text-white text-[12px]"
-          intent={"primary"}
-          size={"mediumLong"}
-          key={index}
-        >
-          <div className="w-20 ml-2 text-[11px]">
-            {formatUnits(swap.amount, decimals)}
-          </div>
-          <div className="w-28 text-[10.5px]">{`${swap.sender.slice(
-            0,
-            6
-          )}...${swap.sender.slice(-4).toLocaleLowerCase()}`}</div>
-          <div className="w-32 text-[11px]">{dateRelative(swap.dateTime)}</div>
-          <div
-            className={`${
-              swap.type === "deposit"
-                ? "text-live-accent text-[11px]"
-                : "text-red-600 font-semibold text-[11px]"
-            }`}
+        <Link href={`https://sepolia.etherscan.io/tx/${swap.txHash}`}>
+          <Card
+            className="flex gap-2 text-white text-[12px] hover:bg-gray-600"
+            intent={"primary"}
+            size={"mediumLong"}
+            key={index}
           >
-            {swap.type}
-          </div>
-        </Card>
+            <div className="w-20 ml-2 text-[11px]">
+              {formatUnits(swap.amount, decimals)}
+            </div>
+            <div className="w-28 text-[10.5px]">{`${swap.sender.slice(
+              0,
+              6
+            )}...${swap.sender.slice(-4).toLocaleLowerCase()}`}</div>
+            <div className="w-32 text-[11px]">
+              {dateRelative(swap.dateTime)}
+            </div>
+            <div
+              className={`${
+                swap.type === "deposit"
+                  ? "text-live-accent text-[11px]"
+                  : "text-red-600 font-semibold text-[11px]"
+              }`}
+            >
+              {swap.type}
+            </div>
+          </Card>
+        </Link>
       ))}
     </div>
   );
