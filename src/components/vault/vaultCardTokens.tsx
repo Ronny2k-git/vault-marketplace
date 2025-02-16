@@ -10,8 +10,11 @@ import { formatUnits, Hex } from "viem";
 import { useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
+import { vault } from "@/app/token-vault/[tokenAddress]/page";
 
 export function CardTokens() {
+  const [vaultData] = useAtom<vault | null>(vaultAtom);
+
   return (
     <div>
       <Card className="flex items-center" intent={"primary"} size={"long"}>
@@ -22,7 +25,7 @@ export function CardTokens() {
         <div className="w-[100px]">5</div>
         <div className="w-36">100,000.23 USDC</div>
         <div className="w-56">2/5/2025</div>
-        <Link href={`/token-vault/1`}>
+        <Link href={`/token-vault/${vaultData?.address}`}>
           <Button intent={"primary"} size={"small"}>
             View now
             <FaArrowRightLong />
