@@ -152,7 +152,7 @@ export default function TokenAddress() {
           </div>
           <CardTransaction />
         </div>
-        <div className="text-white flex gap-2 text-[10px] mr-72 mt-2">
+        <div className="text-white flex gap-2 text-[10px] mr-72">
           <button
             onClick={previousPage}
             className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"

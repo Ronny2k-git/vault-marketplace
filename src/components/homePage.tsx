@@ -75,7 +75,7 @@ export function TokenVaults() {
         <h2 className="text-base pl-1 pb-10 text-text-foreground">
           Explore lives and upcoming vaults on Vault Marketplace
         </h2>
-        <div className="flex gap-2.5 mb-24">
+        <div className="flex gap-2.5 mb-20">
           {vaultData.map((vault) => (
             <CardLive key={vault.address} vault={vault} />
           ))}
@@ -99,6 +99,17 @@ export function TokenVaults() {
         {cardTokensArray.map((_, index) => (
           <CardTokens key={index} />
         ))}
+        <div className="flex justify-center text-white mt-6 gap-1">
+          <button className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+            {"<"}
+          </button>
+          <button className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+            1
+          </button>
+          <button className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+            {">"}
+          </button>
+        </div>
         <div className="mt-12">.</div>
       </div>
     </div>
