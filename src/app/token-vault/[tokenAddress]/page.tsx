@@ -14,17 +14,6 @@ export default async function TokenAddress({
 
   const vault = await getVaultInDb(tokenAddress);
 
-  // if (!vaultData) {
-  //   return (
-  //     <div
-  //       className="text-red-500 text-xl flex h-screen w-screen justify-center items-center
-  //      bg-background"
-  //     >
-  //       Loading...
-  //     </div>
-  //   );
-  // }
-
   if (!vault) return;
 
   return <PageView vault={vault}></PageView>;
