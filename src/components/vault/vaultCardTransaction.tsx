@@ -4,7 +4,7 @@ import { Tabs } from "@radix-ui/themes";
 import { Card } from "../interface/card";
 import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
-import { swapAtom, vaultAtom } from "@/utils/atom";
+import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { vault } from "@/app/token-vault/[tokenAddress]/page";
 import { useEffect, useState } from "react";

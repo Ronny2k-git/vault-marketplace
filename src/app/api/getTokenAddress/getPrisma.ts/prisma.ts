@@ -1,14 +1,17 @@
 // import { PrismaClient } from "@prisma/client";
 // import { NextResponse } from "next/server";
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Vault } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export const getVaultInDb = async () => {
+// export type VaultFromDb = Pick<Vault, "id" | "name" | "address" | "">
+
+export const getVaultInDb = async (address: string) => {
   try {
-    const vault = await prisma.vault.findMany({
+    const vault = await prisma.vault.findFirst({
+      where: { address: address },
       select: {
         id: true,
         name: true,
@@ -21,14 +24,14 @@ export const getVaultInDb = async () => {
         assetTokenAddress: true,
       },
     });
+
     return vault;
   } catch (error) {
-    return NextResponse.json(
-      { success: false, message: "Error fetching vault data" },
-      { status: 500 }
-    );
+    console.error("Error in get vault", error);
   }
 };
+
+export type VaultFromDb = NonNullable<Awaited<ReturnType<typeof getVaultInDb>>>;
 
 // const prisma = new PrismaClient();
 
