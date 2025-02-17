@@ -12,8 +12,13 @@ import {
   vaultAtom,
 } from "@/utils/atom";
 import { useAtom } from "jotai";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { formatUnits, Hex } from "viem";
+
+interface Props {
+  params: { address: string };
+}
 
 export type vault = {
   id: number;
@@ -35,8 +40,10 @@ export default function TokenAddress() {
   const [currentPage, setCurrentPage] = useState(1);
   const [swaps, setSwaps] = useAtom(swapAtom);
 
+  // const { address } = useParams<{ address: string }>();
+
   async function fetchVaultData() {
-    const response = await fetch("/api/getTokenAddress", {
+    const response = await fetch(`/api/getTokenAddress`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -44,7 +51,9 @@ export default function TokenAddress() {
     const data = await response.json();
 
     if (data.success) {
-      setVaultData(data.vault[2]);
+      setVaultData(data.vault[0]);
+    } else {
+      console.error("Error fetching vault data:", data.message);
     }
 
     console.log(data);

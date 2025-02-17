@@ -1,3 +1,6 @@
+// import { PrismaClient } from "@prisma/client";
+// import { NextResponse } from "next/server";
+
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -27,17 +30,12 @@ export const getVaultInDb = async () => {
   }
 };
 
-// import { PrismaClient } from "@prisma/client";
-// import { NextResponse } from "next/server";
-
 // const prisma = new PrismaClient();
 
 // export const getVaultInDb = async (address: string) => {
 //   try {
 //     const vault = await prisma.vault.findUnique({
-//       where: {
-//         address: address, // Busca o vault pelo endereço
-//       },
+//       where: address, // assuming 'address' is unique
 //       select: {
 //         id: true,
 //         name: true,
@@ -51,15 +49,15 @@ export const getVaultInDb = async () => {
 //       },
 //     });
 
-//     // Verifica se o vault foi encontrado
 //     if (!vault) {
 //       throw new Error("Vault not found");
 //     }
 
 //     return vault;
 //   } catch (error) {
+//     console.error("Error fetching vault", error);
 //     return NextResponse.json(
-//       { success: false, message: error || "Error fetching vault data" },
+//       { success: false, message: "Error fetching vault data" },
 //       { status: 500 }
 //     );
 //   }

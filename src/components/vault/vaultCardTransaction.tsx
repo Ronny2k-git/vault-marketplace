@@ -7,10 +7,11 @@ import { CardRemove } from "./vaultCardRemove";
 import { swapAtom, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { vault } from "@/app/token-vault/[tokenAddress]/page";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function CardTransaction() {
   const [vaultData] = useAtom<vault | null>(vaultAtom);
+  const [timeLeft, setTimeLeft] = useState<string>("00:00:00");
 
   const getStatus = () => {
     if (!vaultData) {
@@ -31,7 +32,45 @@ export function CardTransaction() {
     }
   };
 
-  useEffect(() => {});
+  const calculateTimeLeft = () => {
+    if (!vaultData) return;
+
+    let timeDiff: number;
+
+    const currentDate = new Date();
+    const startDate = new Date(vaultData.startsAt);
+    const endDate = new Date(vaultData.endsAt);
+
+    if (getStatus() === "Coming soon") {
+      timeDiff = startDate.getTime() - currentDate.getTime(); //The getTime function gets the difference in milliseconds
+    } else if (getStatus() === "Live") {
+      timeDiff = endDate.getTime() - currentDate.getTime();
+    } else {
+      return;
+    }
+
+    //Math.floor rounds a number down.
+
+    const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+    //The padStart() is used to add characters to the left of a string until it reaches a specified length
+
+    setTimeLeft(
+      `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+    );
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      calculateTimeLeft();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [vaultData]);
 
   return (
     <div>
@@ -48,9 +87,7 @@ export function CardTransaction() {
             {getStatus()}
           </p>
         </h1>
-        <div className="ml-4 text-base mb-2 text-text-foreground">
-          01 : 20 : 55
-        </div>
+        <div className="ml-4 text-base mb-2 text-live-accent">{timeLeft}</div>
         <Card className="flex flex-col" intent={"primary"} size={"medium"}>
           <Tabs.Root defaultValue="Deposit">
             <Tabs.List
