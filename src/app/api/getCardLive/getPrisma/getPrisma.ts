@@ -16,6 +16,10 @@ export const getVaultInDb = async () => {
         endsAt: true,
         assetTokenName: true,
       },
+      orderBy: {
+        startsAt: "desc",
+      },
+      take: 3,
     });
     return vaults;
   } catch (error) {
