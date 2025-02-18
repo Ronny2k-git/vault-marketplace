@@ -75,7 +75,7 @@ export function TokenVaults() {
         <h2 className="text-base pl-1 pb-10 text-text-foreground">
           Explore lives and upcoming vaults on Vault Marketplace
         </h2>
-        <div className="flex gap-2.5 mb-20">
+        <div className="grid grid-cols-3 gap-2.5 mb-20">
           {vaultData.map((vault) => (
             <CardLive key={vault.address} vault={vault} />
           ))}

@@ -52,7 +52,7 @@ export function CardRemove() {
     }
 
     if (!isAddress(vaultData.assetTokenAddress)) {
-      throw new Error("Unexpected error, assetTokenAddress is invalid");
+      throw new Error("Unexpected error, assetToken is invalid");
     }
     const spenderAddress = vaultData.address;
 
@@ -121,7 +121,7 @@ export function CardRemove() {
       });
 
       if (!isAddress(vaultData.address)) {
-        throw new Error("Unexpected error, assetTokenAddress invalid");
+        throw new Error("Unexpected error, assetToken is invalid");
       }
 
       const simulateTx = await simulateContract(wagmiConfig, {

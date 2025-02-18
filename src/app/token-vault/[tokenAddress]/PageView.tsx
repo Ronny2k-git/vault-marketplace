@@ -57,7 +57,9 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
   };
 
   useEffect(() => {
-    fetchSwapData();
+    if (tokenAddress) {
+      fetchSwapData();
+    }
   }, [tokenAddress]);
 
   const formatStartDate = new Date(vault.startsAt).toLocaleDateString("en-US");

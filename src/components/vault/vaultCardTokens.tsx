@@ -7,10 +7,8 @@ import Link from "next/link";
 import { swapAtom, tokenDecimals, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { formatUnits, Hex } from "viem";
-import { useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { Vault } from "@prisma/client";
 
 export function CardTokens() {
   const [vaultData] = useAtom(vaultAtom);
@@ -25,7 +23,7 @@ export function CardTokens() {
         <div className="w-[100px]">5</div>
         <div className="w-36">100,000.23 USDC</div>
         <div className="w-56">2/5/2025</div>
-        <Link href={`/token-vault/${vaultData?.address}`}>
+        <Link href={`/token-vault/${vaultData.address}`}>
           <Button intent={"primary"} size={"small"}>
             View now
             <FaArrowRightLong />
