@@ -42,6 +42,10 @@ export function CardDeposit() {
 
   const { address } = useAccount();
 
+  const currentDate = new Date();
+  const endDate = vaultData.endsAt;
+  const startDate = vaultData.startsAt;
+
   async function fetchDecimals() {
     if (!isAddress(vaultData.assetTokenAddress)) {
       throw new Error("Unexpected error, assetTokenAddress is invalid");
@@ -187,6 +191,18 @@ export function CardDeposit() {
         return;
       }
       setMessage("");
+
+      if (currentDate > endDate) {
+        setMessage("Sorry, this vault was finished");
+        setIsButtonDisabled(true);
+        return;
+      }
+
+      if (currentDate < startDate) {
+        setMessage("Sorry, this vault hasn't been started yet");
+        setIsButtonDisabled(true);
+        return;
+      }
 
       const parsedDepositAmount = parseUnits(depositAmount, decimals);
 

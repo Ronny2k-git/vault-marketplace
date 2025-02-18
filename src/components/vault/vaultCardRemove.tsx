@@ -28,6 +28,10 @@ export function CardRemove() {
 
   const { address } = useAccount();
 
+  const currentDate = new Date();
+  const endDate = vaultData.endsAt;
+  const startDate = vaultData.startsAt;
+
   async function totalAmountDeposited() {
     if (!isAddress(vaultData.address)) {
       throw new Error("Unexpected error, address is invalid");
@@ -109,6 +113,18 @@ export function CardRemove() {
         return;
       }
       setMessage("");
+
+      if (currentDate > endDate) {
+        setMessage("Sorry, this vault was finished");
+        setIsButtonDisabled(true);
+        return;
+      }
+
+      if (currentDate < startDate) {
+        setMessage("Sorry, this vault hasn't been started yet");
+        setIsButtonDisabled(true);
+        return;
+      }
 
       const parsedDepositAmount = parseUnits(removeAmount, decimals);
 
