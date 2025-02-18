@@ -6,8 +6,6 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-// export type VaultFromDb = Pick<Vault, "id" | "name" | "address" | "">
-
 export const getVaultInDb = async (address: string) => {
   try {
     const vault = await prisma.vault.findFirst({

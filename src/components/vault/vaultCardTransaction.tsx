@@ -6,11 +6,11 @@ import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
 import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
-import { vault } from "@/app/token-vault/[tokenAddress]/page";
 import { useEffect, useState } from "react";
+import { Vault } from "@prisma/client";
 
 export function CardTransaction() {
-  const [vaultData] = useAtom<vault | null>(vaultAtom);
+  const [vaultData] = useAtom<Vault | null>(vaultAtom);
   const [timeLeft, setTimeLeft] = useState<string>("00:00:00");
 
   const getStatus = () => {

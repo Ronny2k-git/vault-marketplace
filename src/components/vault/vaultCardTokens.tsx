@@ -10,10 +10,11 @@ import { formatUnits, Hex } from "viem";
 import { useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { vault } from "@/app/token-vault/[tokenAddress]/page";
+import { Vault } from "@prisma/client";
+// import { vault } from "@/app/token-vault/[tokenAddress]/page";
 
 export function CardTokens() {
-  const [vaultData] = useAtom<vault | null>(vaultAtom);
+  const [vaultData] = useAtom<Vault | null>(vaultAtom);
 
   return (
     <div>
@@ -55,10 +56,6 @@ export function TransactionTokens() {
       locale: enUS,
     });
   };
-
-  useEffect(() => {
-    console.log("Updated list", swaps);
-  }, [swaps]);
 
   return (
     <div>

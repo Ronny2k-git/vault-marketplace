@@ -62,10 +62,8 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
     fetchSwapData();
   }, [tokenAddress]);
 
-  const formatStartDate = new Date(vaultData.startsAt).toLocaleDateString(
-    "en-US"
-  );
-  const formatEndDate = new Date(vaultData.endsAt).toLocaleDateString("en-US");
+  const formatStartDate = new Date(vault.startsAt).toLocaleDateString("en-US");
+  const formatEndDate = new Date(vault.endsAt).toLocaleDateString("en-US");
 
   return (
     <div>
@@ -74,12 +72,12 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
           <Card className="relative" intent={"primary"} size={"large"}>
             <img
               className="size-full object-cover rounded-2xl"
-              src={vaultData.banner}
+              src={vault.banner}
             />
             <div className="flex absolute bottom-3">
-              <img className="size-11 ml-4 mr-1" src={vaultData.logo} />
+              <img className="size-11 ml-4 mr-1" src={vault.logo} />
               <div className="flex flex-col">
-                <div className="text-2xl font-bold">{vaultData.name}</div>
+                <div className="text-2xl font-bold">{vault.name}</div>
                 <div className="-mt-1 text-base">Sepolia</div>
               </div>
             </div>
@@ -100,13 +98,13 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
             <div>
               <div className="text-sm text-white">Max.deposite per wallet.</div>
               <div className="text-xs text-text-foreground">
-                {formatUnits(maxDeposit, decimals)} {vaultData.name}
+                {formatUnits(maxDeposit, decimals)} {vault.name}
               </div>
             </div>
             <div>
               <div className="text-sm text-white">Min.deposit per wallet.</div>
               <div className="text-xs text-text-foreground">
-                {formatUnits(minDeposit, decimals)} {vaultData.name}
+                {formatUnits(minDeposit, decimals)} {vault.name}
               </div>
             </div>
           </div>
