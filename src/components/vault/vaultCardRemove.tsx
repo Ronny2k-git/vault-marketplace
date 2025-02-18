@@ -5,7 +5,6 @@ import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
 import { useAtom } from "jotai";
-import { vault } from "@/app/token-vault/[tokenAddress]/page";
 import { wagmiConfig } from "../provider";
 import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
@@ -17,10 +16,10 @@ import {
 } from "wagmi/actions";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { erc20Abi, formatUnits, parseUnits } from "viem";
+import { erc20Abi, formatUnits, isAddress, parseUnits } from "viem";
 
 export function CardRemove() {
-  const [vaultData] = useAtom<vault | null>(vaultAtom);
+  const [vaultData] = useAtom(vaultAtom);
   const [totalDeposited, setTotalDeposited] = useAtom(amountTotalDeposited);
   const [decimals] = useAtom(tokenDecimals);
   const [removeAmount, setRemoveAmount] = useState("");
@@ -29,13 +28,9 @@ export function CardRemove() {
 
   const { address } = useAccount();
 
-  if (!vaultData) {
-    return 0n;
-  }
-
   async function totalAmountDeposited() {
-    if (!vaultData) {
-      return 0n;
+    if (!isAddress(vaultData.address)) {
+      throw new Error("Unexpected error, address is invalid");
     }
 
     const amountDeposited = await readContract(wagmiConfig, {
@@ -52,11 +47,18 @@ export function CardRemove() {
   }
 
   async function approveToken(amount: bigint) {
-    const spenderAddress = vaultData!.address;
+    if (!isAddress(vaultData.address)) {
+      throw new Error("Unexpected error, address is invalid");
+    }
+
+    if (!isAddress(vaultData.assetTokenAddress)) {
+      throw new Error("Unexpected error, assetTokenAddress is invalid");
+    }
+    const spenderAddress = vaultData.address;
 
     const tx = await writeContract(wagmiConfig, {
       abi: erc20Abi,
-      address: vaultData!.assetTokenAddress,
+      address: vaultData.assetTokenAddress,
       functionName: "approve",
       chainId: sepolia.id,
       args: [spenderAddress, amount],
@@ -117,6 +119,10 @@ export function CardRemove() {
       await waitForTransactionReceipt(wagmiConfig, {
         hash: approveTxHash,
       });
+
+      if (!isAddress(vaultData.address)) {
+        throw new Error("Unexpected error, assetTokenAddress invalid");
+      }
 
       const simulateTx = await simulateContract(wagmiConfig, {
         abi: abiVault,

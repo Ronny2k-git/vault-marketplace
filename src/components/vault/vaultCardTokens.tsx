@@ -11,10 +11,9 @@ import { useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { Vault } from "@prisma/client";
-// import { vault } from "@/app/token-vault/[tokenAddress]/page";
 
 export function CardTokens() {
-  const [vaultData] = useAtom<Vault | null>(vaultAtom);
+  const [vaultData] = useAtom(vaultAtom);
 
   return (
     <div>

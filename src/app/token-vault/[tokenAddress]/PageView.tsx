@@ -13,16 +13,14 @@ import {
   tokenDecimals,
   vaultAtom,
 } from "@/utils/atom";
-import { Vault } from "@prisma/client";
 import { useAtom } from "jotai";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { formatUnits, Hex } from "viem";
+import { formatUnits } from "viem";
 
 export function PageView({ vault }: { vault: VaultFromDb }) {
   useHydrateAtoms([[vaultAtom, vault]]);
 
-  const [vaultData, setVaultData] = useAtom(vaultAtom);
   const [minDeposit] = useAtom(minDepositAtom);
   const [maxDeposit] = useAtom(maxDepositAtom);
   const [decimals] = useAtom(tokenDecimals);

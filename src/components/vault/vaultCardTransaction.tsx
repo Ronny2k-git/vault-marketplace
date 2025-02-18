@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { Vault } from "@prisma/client";
 
 export function CardTransaction() {
-  const [vaultData] = useAtom<Vault | null>(vaultAtom);
+  const [vaultData] = useAtom(vaultAtom);
   const [timeLeft, setTimeLeft] = useState<string>("00:00:00");
 
   const getStatus = () => {

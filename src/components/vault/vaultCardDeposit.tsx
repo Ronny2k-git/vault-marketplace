@@ -1,6 +1,13 @@
 "use client";
 
-import { erc20Abi, Hex, parseUnits, formatUnits } from "viem";
+import {
+  erc20Abi,
+  Hex,
+  parseUnits,
+  formatUnits,
+  Address,
+  isAddress,
+} from "viem";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
@@ -19,13 +26,12 @@ import {
   vaultAtom,
 } from "@/utils/atom";
 import { useAtom } from "jotai";
-import { vault } from "@/app/token-vault/[tokenAddress]/page";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { abiVault } from "@/utils/abiVault";
 
 export function CardDeposit() {
-  const [vaultData] = useAtom<vault | null>(vaultAtom);
+  const [vaultData] = useAtom(vaultAtom);
   const [balance, setBalance] = useState<string>("0");
   const [decimals, setDecimals] = useAtom(tokenDecimals);
   const [depositAmount, setDepositAmount] = useState("");
@@ -36,13 +42,9 @@ export function CardDeposit() {
 
   const { address } = useAccount();
 
-  if (!vaultData) {
-    return "Loading vault data";
-  }
-
   async function fetchDecimals() {
-    if (!vaultData) {
-      return "Loading vault data";
+    if (!isAddress(vaultData.assetTokenAddress)) {
+      throw new Error("Unexpected error, assetTokenAddress is invalid");
     }
 
     const tokenDecimals = await readContract(wagmiConfig, {
@@ -57,13 +59,13 @@ export function CardDeposit() {
   }
 
   async function fetchBalance() {
-    if (!vaultData) {
-      return 0n;
+    if (!isAddress(vaultData.assetTokenAddress)) {
+      throw new Error("Unexpected error, assetToken is invalid");
     }
 
     const balance = await readContract(wagmiConfig, {
       abi: erc20Abi,
-      address: vaultData?.assetTokenAddress, //token erc-20
+      address: vaultData.assetTokenAddress, //token erc-20
       functionName: "balanceOf",
       chainId: sepolia.id,
       args: [address!], //Address of the wallet
@@ -73,9 +75,10 @@ export function CardDeposit() {
   }
 
   async function fetchDepositDetails() {
-    if (!vaultData) {
-      return { minDeposit: 0n, maxDeposit: 0n };
+    if (!isAddress(vaultData.address)) {
+      throw new Error("Unexpected error, address is invalid");
     }
+
     const minDeposit = await readContract(wagmiConfig, {
       abi: abiVault,
       address: vaultData.address,
@@ -109,6 +112,13 @@ export function CardDeposit() {
     };
     loadBalance();
   }, [decimals]);
+
+  if (!isAddress(vaultData.address)) {
+    throw new Error("Unexpected error, address is  invalid");
+  }
+  if (!isAddress(vaultData.assetTokenAddress)) {
+    throw new Error("Unexpected error, assetTokenAddress is invalid");
+  }
 
   const tokenAddress = vaultData.assetTokenAddress;
   const spenderAddress = vaultData.address;
@@ -194,7 +204,7 @@ export function CardDeposit() {
 
       const simulateDeposit = await simulateContract(wagmiConfig, {
         abi: abiVault,
-        address: vaultData.address,
+        address: vaultData.address as Hex,
         functionName: "deposit",
         chainId: sepolia.id,
         args: [parsedDepositAmount],
@@ -204,7 +214,7 @@ export function CardDeposit() {
 
       const depositTx = await writeContract(wagmiConfig, {
         abi: abiVault,
-        address: vaultData.address, //Address of contract
+        address: vaultData.address as Hex, //Address of contract
         functionName: "deposit",
         chainId: sepolia.id,
         args: [parsedDepositAmount], //Amount to be deposited
