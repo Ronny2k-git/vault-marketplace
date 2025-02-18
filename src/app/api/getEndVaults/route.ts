@@ -1,0 +1,19 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getEndVaultsInDb } from "./getPrisma/getPrisma";
+
+export async function GET(req: NextRequest) {
+  if (req.method === "GET") {
+    const url = new URL(req.url);
+    const page = Number(url.searchParams.get("page") || 1);
+
+    try {
+      const endVaults = await getEndVaultsInDb(page);
+      return endVaults;
+    } catch (error) {
+      return NextResponse.json({
+        success: false,
+        message: "Error in get from the database",
+      });
+    }
+  }
+}
