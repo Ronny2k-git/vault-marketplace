@@ -41,9 +41,13 @@ export function TokenVaults() {
     });
 
     const data = await response.json();
+    console.log("API response:", data);
 
     if (data.success) {
       setEndVaults(data.endVaults);
+      console.log("Updated endVaults:", data.endVaults);
+    } else {
+      console.error("Error getting in the database", data.message);
     }
   }
 
@@ -118,8 +122,8 @@ export function TokenVaults() {
           <div className="w-32">START DATE</div>
         </Card>
 
-        {endVaults?.map((_, index) => (
-          <CardTokens key={index} />
+        {endVaults?.map((vault, index) => (
+          <CardTokens key={index} vault={vault} />
         ))}
 
         <div className="flex justify-center text-white mt-6 gap-1">

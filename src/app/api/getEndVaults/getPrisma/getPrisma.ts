@@ -19,6 +19,7 @@ export const getEndVaultsInDb = async (currentPage: number = 1) => {
         startsAt: true,
         endsAt: true,
         assetTokenName: true,
+        address: true,
       },
       take: limit,
       skip: skip,

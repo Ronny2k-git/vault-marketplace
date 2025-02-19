@@ -8,11 +8,11 @@ export async function GET(req: NextRequest) {
 
     try {
       const endVaults = await getEndVaultsInDb(page);
-      return NextResponse.json(endVaults);
+      return NextResponse.json({ success: true, endVaults }, { status: 200 });
     } catch (error) {
       return NextResponse.json({
         success: false,
-        message: "Error in get from the database",
+        message: "Error fetching completed vaults from the database",
       });
     }
   }
