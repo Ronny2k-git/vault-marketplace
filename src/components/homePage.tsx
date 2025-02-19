@@ -62,9 +62,7 @@ export function TokenVaults() {
   };
 
   useEffect(() => {
-    if (tokenAddress) {
-      fetchEndVaultsData();
-    }
+    fetchEndVaultsData();
     fetchVaultData();
   }, [tokenAddress]);
 

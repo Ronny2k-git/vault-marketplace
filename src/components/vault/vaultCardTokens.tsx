@@ -4,29 +4,68 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
-import { getVaults, swapAtom, tokenDecimals } from "@/utils/atom";
+import {
+  amountTotalDeposited,
+  getVaults,
+  swapAtom,
+  tokenDecimals,
+} from "@/utils/atom";
 import { useAtom } from "jotai";
-import { formatUnits, Hex } from "viem";
+import { formatUnits, Hex, isAddress } from "viem";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { Vault } from "@prisma/client";
+import { readContract } from "wagmi/actions";
+import { wagmiConfig } from "../provider";
+import { abiVault } from "@/utils/abiVault";
+import { sepolia } from "viem/chains";
+import { useAccount } from "wagmi";
+import { useEffect, useState } from "react";
 
 interface CardTokenProps {
   vault: Vault;
 }
 export function CardTokens({ vault }: CardTokenProps) {
+  // const [totalDeposited] = useAtom(amountTotalDeposited);
+  const [decimals] = useAtom(tokenDecimals);
+  const [totalDeposited, setTotalDeposited] = useState(0n);
+
+  const { address } = useAccount();
+
+  async function getBalance() {
+    if (!isAddress(vault.address)) {
+      throw new Error("Address is invalid");
+    }
+
+    const amountDeposited = await readContract(wagmiConfig, {
+      abi: abiVault,
+      address: vault.address,
+      functionName: "deposited",
+      chainId: sepolia.id,
+      args: [address!],
+    });
+
+    return setTotalDeposited(amountDeposited);
+  }
+
+  useEffect(() => {
+    getBalance();
+  });
+
   return (
     <div>
       <Card className="flex items-center" intent={"primary"} size={"long"}>
-        <img className="size-7 ml-2 mr-1" src="/icons/usdcLogo.png" />
+        <img className="size-7 ml-2 mr-1 rounded-full" src={vault.logo} />
         <div className="w-[130px]">
           {vault.name}
           <br /> Sepolia
         </div>
         <div className="w-[100px]">5</div>
-        <div className="w-36">100,000.23 {vault.assetTokenName}</div>
+        <div className="w-36">
+          {formatUnits(totalDeposited, 18)} {vault.assetTokenName}
+        </div>
         <div className="w-56">
-          {new Date(vault.endsAt).toLocaleDateString()}
+          {new Date(vault.startsAt).toLocaleDateString()}
         </div>
         <Link href={`/token-vault/${vault.address}`}>
           <Button intent={"primary"} size={"small"}>

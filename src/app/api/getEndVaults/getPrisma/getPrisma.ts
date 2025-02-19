@@ -9,17 +9,18 @@ export const getEndVaultsInDb = async (currentPage: number = 1) => {
     const currentDate = new Date();
 
     const endVaults = await prisma.vault.findMany({
-      where: {
-        endsAt: {
-          lt: currentDate,
-        },
-      },
+      // where: {
+      //   endsAt: {
+      //     lt: currentDate,
+      //   },                         DESCOMENTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRR
+      // },
       select: {
         name: true,
         startsAt: true,
         endsAt: true,
         assetTokenName: true,
         address: true,
+        logo: true,
       },
       take: limit,
       skip: skip,
