@@ -5,26 +5,19 @@ import { Button } from "./interface/button";
 import { Card } from "./interface/card";
 import { CardLive } from "./vault/vaultCardLive";
 import { CardTokens } from "./vault/vaultCardTokens";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { vaultExplore } from "@/utils/atom";
+import { getVaults, vaultExplore } from "@/utils/atom";
 import { Hex } from "viem";
-
-export type Vault = {
-  id: number;
-  name: string;
-  address: Hex;
-  startsAt: string;
-  endsAt: string;
-  banner: string;
-  logo: string;
-  assetTokenName: string;
-};
-
-const cardTokensArray = new Array(10).fill(null);
+import { useParams } from "next/navigation";
+import { Vault } from "@prisma/client";
 
 export function TokenVaults() {
   const [vaultData, setVaultData] = useAtom<Vault[] | null>(vaultExplore);
+  const [endVaults, setEndVaults] = useAtom<Vault[] | null>(getVaults);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { tokenAddress } = useParams();
 
   async function fetchVaultData() {
     const response = await fetch("/api/getCardLive", {
@@ -36,12 +29,40 @@ export function TokenVaults() {
 
     if (data.success) {
       setVaultData(data.vaults);
+    } else {
+      console.error("Error getting in the database", data.message);
     }
   }
 
+  async function fetchEndVaultsData(page: number = 1) {
+    const response = await fetch(`/api/getEndVaults?page=${page}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setEndVaults(data.endVaults);
+    }
+  }
+
+  const nextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+    fetchEndVaultsData(currentPage + 1);
+  };
+
+  const previousPage = () => {
+    setCurrentPage((prev) => prev - 1);
+    fetchEndVaultsData(currentPage - 1);
+  };
+
   useEffect(() => {
+    if (tokenAddress) {
+      fetchEndVaultsData();
+    }
     fetchVaultData();
-  }, []);
+  }, [tokenAddress]);
 
   if (!vaultData) {
     return (
@@ -96,17 +117,25 @@ export function TokenVaults() {
           <div className="w-32">TOTAL DEPOSITED</div>
           <div className="w-32">START DATE</div>
         </Card>
-        {cardTokensArray.map((_, index) => (
+
+        {endVaults?.map((_, index) => (
           <CardTokens key={index} />
         ))}
+
         <div className="flex justify-center text-white mt-6 gap-1">
-          <button className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+          <button
+            className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
+            onClick={previousPage}
+          >
             {"<"}
           </button>
           <button className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
-            1
+            {currentPage}
           </button>
-          <button className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+          <button
+            className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
+            onClick={nextPage}
+          >
             {">"}
           </button>
         </div>

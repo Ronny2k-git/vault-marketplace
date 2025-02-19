@@ -6,11 +6,18 @@ export const getEndVaultsInDb = async (currentPage: number = 1) => {
   try {
     const limit = 10;
     const skip = limit * (currentPage - 1);
+    const currentDate = new Date();
 
     const endVaults = await prisma.vault.findMany({
+      where: {
+        endsAt: {
+          lt: currentDate,
+        },
+      },
       select: {
         name: true,
         startsAt: true,
+        endsAt: true,
         assetTokenName: true,
       },
       take: limit,

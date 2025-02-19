@@ -20,3 +20,4 @@ export const maxDepositAtom = atom<bigint>(0n);
 export const amountTotalDeposited = atom(0n);
 export const tokenDecimals = atom(0);
 export const swapAtom = atom<any[]>([]);
+export const getVaults = atom<Vault[] | null>(null);

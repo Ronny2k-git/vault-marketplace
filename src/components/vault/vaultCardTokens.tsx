@@ -4,15 +4,13 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
-import { swapAtom, tokenDecimals, vaultAtom } from "@/utils/atom";
+import { swapAtom, tokenDecimals } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { formatUnits, Hex } from "viem";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 
 export function CardTokens() {
-  const [vaultData] = useAtom(vaultAtom);
-
   return (
     <div>
       <Card className="flex items-center" intent={"primary"} size={"long"}>
@@ -23,7 +21,7 @@ export function CardTokens() {
         <div className="w-[100px]">5</div>
         <div className="w-36">100,000.23 USDC</div>
         <div className="w-56">2/5/2025</div>
-        <Link href={`/token-vault/${vaultData.address}`}>
+        <Link href={`/token-vault/${"test"}`}>
           <Button intent={"primary"} size={"small"}>
             View now
             <FaArrowRightLong />
