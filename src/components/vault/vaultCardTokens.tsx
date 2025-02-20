@@ -4,13 +4,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
-import {
-  amountTotalDeposited,
-  getVaults,
-  swapAtom,
-  tokenDecimals,
-  vaultAtom,
-} from "@/utils/atom";
+import { getVaults, swapAtom, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { formatUnits, Hex, isAddress } from "viem";
 import { formatDistanceToNow } from "date-fns";
@@ -22,7 +16,6 @@ import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
-import { VaultFromDb } from "@/app/api/getTokenAddress/getPrisma.ts/prisma";
 
 interface CardTokenProps {
   vault: Vault;
@@ -61,8 +54,11 @@ export function CardTokens({ vault }: CardTokenProps) {
           <br /> Sepolia
         </div>
         <div className="w-[100px]">5</div>
-        <div className="w-36">
-          {formatUnits(totalDeposited, vault.assetTokenDecimals)}
+        <div className="w-36 flex">
+          <p className="mr-1">
+            {formatUnits(totalDeposited, vault.assetTokenDecimals)}
+          </p>
+
           {vault.assetTokenName}
         </div>
         <div className="w-56">
@@ -89,8 +85,7 @@ export type Swap = {
 
 export function TransactionTokens() {
   const [swaps] = useAtom<Swap[]>(swapAtom);
-  const [decimals] = useAtom(tokenDecimals);
-  // const [vaultData] = useAtom(vaultAtom);
+  const [vault] = useAtom(vaultAtom);
 
   const dateRelative = (dateTime: string) => {
     const data = new Date(dateTime);
@@ -99,6 +94,9 @@ export function TransactionTokens() {
       locale: enUS,
     });
   };
+
+  const decimals = vault.assetTokenDecimals;
+  console.log(decimals);
 
   return (
     <div>
@@ -115,7 +113,7 @@ export function TransactionTokens() {
             key={index}
           >
             <div className="w-20 ml-2 text-[11px]">
-              {formatUnits(swap.amount)}
+              {formatUnits(swap.amount, vault.assetTokenDecimals)}
             </div>
             <div className="w-28 text-[10.5px]">{`${swap.sender.slice(
               0,
