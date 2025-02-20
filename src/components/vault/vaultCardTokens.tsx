@@ -65,7 +65,7 @@ export function CardTokens({ vault }: CardTokenProps) {
           {formatUnits(totalDeposited, 18)} {vault.assetTokenName}
         </div>
         <div className="w-56">
-          {new Date(vault.startsAt).toLocaleDateString()}
+          {new Date(vault.startsAt).toLocaleDateString("en-US")}
         </div>
         <Link href={`/token-vault/${vault.address}`}>
           <Button intent={"primary"} size={"small"}>

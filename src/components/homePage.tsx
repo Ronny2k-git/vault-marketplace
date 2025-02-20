@@ -8,7 +8,6 @@ import { CardTokens } from "./vault/vaultCardTokens";
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { getVaults, vaultExplore } from "@/utils/atom";
-import { Hex } from "viem";
 import { useParams } from "next/navigation";
 import { Vault } from "@prisma/client";
 

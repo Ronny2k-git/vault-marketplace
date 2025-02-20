@@ -4,16 +4,14 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
-import { Vault } from "../homePage";
 import { useEffect, useState } from "react";
 import { readContract } from "wagmi/actions";
 import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
 import { wagmiConfig } from "../provider";
-import { useAtom } from "jotai";
-import { tokenDecimals } from "@/utils/atom";
-import { formatUnits } from "viem";
+import { formatUnits, isAddress } from "viem";
 import { useAccount } from "wagmi";
+import { Vault } from "@prisma/client";
 
 export function CardLive({ vault }: { vault: Vault }) {
   const [totalDeposited, setTotalDeposited] = useState(0n);
@@ -21,6 +19,10 @@ export function CardLive({ vault }: { vault: Vault }) {
   const { address } = useAccount();
 
   async function totalAmountDeposited() {
+    if (!isAddress(vault.address)) {
+      throw new Error("Address is invalid");
+    }
+
     const deposited = await readContract(wagmiConfig, {
       abi: abiVault,
       address: vault.address,
