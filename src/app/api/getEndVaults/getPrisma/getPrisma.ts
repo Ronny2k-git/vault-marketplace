@@ -21,6 +21,7 @@ export const getEndVaultsInDb = async (currentPage: number = 1) => {
         assetTokenName: true,
         address: true,
         logo: true,
+        assetTokenDecimals: true,
       },
       take: limit,
       skip: skip,

@@ -9,6 +9,7 @@ import {
   getVaults,
   swapAtom,
   tokenDecimals,
+  vaultAtom,
 } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { formatUnits, Hex, isAddress } from "viem";
@@ -21,13 +22,12 @@ import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
+import { VaultFromDb } from "@/app/api/getTokenAddress/getPrisma.ts/prisma";
 
 interface CardTokenProps {
   vault: Vault;
 }
 export function CardTokens({ vault }: CardTokenProps) {
-  // const [totalDeposited] = useAtom(amountTotalDeposited);
-  const [decimals] = useAtom(tokenDecimals);
   const [totalDeposited, setTotalDeposited] = useState(0n);
 
   const { address } = useAccount();
@@ -62,7 +62,8 @@ export function CardTokens({ vault }: CardTokenProps) {
         </div>
         <div className="w-[100px]">5</div>
         <div className="w-36">
-          {formatUnits(totalDeposited, 18)} {vault.assetTokenName}
+          {formatUnits(totalDeposited, vault.assetTokenDecimals)}
+          {vault.assetTokenName}
         </div>
         <div className="w-56">
           {new Date(vault.startsAt).toLocaleDateString("en-US")}
@@ -89,6 +90,7 @@ export type Swap = {
 export function TransactionTokens() {
   const [swaps] = useAtom<Swap[]>(swapAtom);
   const [decimals] = useAtom(tokenDecimals);
+  // const [vaultData] = useAtom(vaultAtom);
 
   const dateRelative = (dateTime: string) => {
     const data = new Date(dateTime);
@@ -113,7 +115,7 @@ export function TransactionTokens() {
             key={index}
           >
             <div className="w-20 ml-2 text-[11px]">
-              {formatUnits(swap.amount, decimals)}
+              {formatUnits(swap.amount)}
             </div>
             <div className="w-28 text-[10.5px]">{`${swap.sender.slice(
               0,

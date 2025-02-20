@@ -88,7 +88,7 @@ export function CardLive({ vault }: { vault: Vault }) {
             <img className="size-4 mr-1" src="/icons/money.png" />
             <div>Total deposited: </div>
           </div>
-          <div>{formatUnits(totalDeposited, 18)}</div>
+          <div>{formatUnits(totalDeposited, vault.assetTokenDecimals)}</div>
         </div>
         <div className="flex  ml-4 font-SpaceGrotesk justify-between mr-4">
           <div className="flex">

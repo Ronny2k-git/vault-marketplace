@@ -20,6 +20,7 @@ export const getVaultInDb = async (address: string) => {
         endsAt: true,
         assetTokenName: true,
         assetTokenAddress: true,
+        assetTokenDecimals: true,
       },
     });
 

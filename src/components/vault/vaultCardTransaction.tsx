@@ -7,7 +7,6 @@ import { CardRemove } from "./vaultCardRemove";
 import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { Vault } from "@prisma/client";
 
 export function CardTransaction() {
   const [vaultData] = useAtom(vaultAtom);
