@@ -98,6 +98,10 @@ export function TransactionTokens() {
   const decimals = vault.assetTokenDecimals;
   console.log(decimals);
 
+  if (!swaps || swaps.length === 0) {
+    return <div>No swaps found</div>;
+  }
+
   return (
     <div>
       {swaps.map((swap, index) => (

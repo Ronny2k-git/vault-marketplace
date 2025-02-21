@@ -4,8 +4,18 @@ import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 export const getVaultInDb = async () => {
+  const currentDate = new Date();
+
   try {
     const vaults = await prisma.vault.findMany({
+      where: {
+        startsAt: {
+          lt: currentDate,
+        },
+        endsAt: {
+          gt: currentDate,
+        },
+      },
       select: {
         id: true,
         address: true,
@@ -20,7 +30,7 @@ export const getVaultInDb = async () => {
       orderBy: {
         startsAt: "desc",
       },
-      take: 3,
+      take: 9,
     });
     return vaults;
   } catch (error) {
