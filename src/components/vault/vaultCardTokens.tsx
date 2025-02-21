@@ -17,10 +17,10 @@ import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 
-interface CardTokenProps {
-  vault: Vault;
+interface CustomVault extends Vault {
+  participants: number;
 }
-export function CardTokens({ vault }: CardTokenProps) {
+export function CardTokens({ vault }: { vault: CustomVault }) {
   const [totalDeposited, setTotalDeposited] = useState(0n);
 
   const { address } = useAccount();
@@ -43,7 +43,9 @@ export function CardTokens({ vault }: CardTokenProps) {
 
   useEffect(() => {
     getBalance();
-  });
+    const participants = vault.participants;
+    console.log("Participants:", participants);
+  }, []);
 
   return (
     <div>
@@ -53,7 +55,7 @@ export function CardTokens({ vault }: CardTokenProps) {
           {vault.name}
           <br /> Sepolia
         </div>
-        <div className="w-[100px]">5</div>
+        <div className="w-[100px]">{vault.participants}</div>
         <div className="w-36 flex">
           <p className="mr-1">
             {formatUnits(totalDeposited, vault.assetTokenDecimals)}

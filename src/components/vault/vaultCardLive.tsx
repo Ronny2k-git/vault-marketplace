@@ -13,7 +13,11 @@ import { formatUnits, isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { Vault } from "@prisma/client";
 
-export function CardLive({ vault }: { vault: Vault }) {
+interface CustomVault extends Vault {
+  participants: number;
+}
+
+export function CardLive({ vault }: { vault: CustomVault }) {
   const [totalDeposited, setTotalDeposited] = useState(0n);
 
   const { address } = useAccount();
@@ -74,7 +78,7 @@ export function CardLive({ vault }: { vault: Vault }) {
             <img className="size-4 mr-1" src="/icons/user-group.png" />
             <div>Participants:</div>
           </div>
-          <div>4</div>
+          <div>{vault.participants}</div>
         </div>
         <div className="flex  ml-4 font-SpaceGrotesk justify-between mr-4">
           <div className="flex">

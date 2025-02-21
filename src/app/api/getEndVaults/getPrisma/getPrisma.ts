@@ -15,6 +15,7 @@ export const getEndVaultsInDb = async (currentPage: number = 1) => {
         },
       },
       select: {
+        id: true,
         name: true,
         startsAt: true,
         endsAt: true,
@@ -29,7 +30,24 @@ export const getEndVaultsInDb = async (currentPage: number = 1) => {
         startsAt: "desc",
       },
     });
-    return endVaults;
+
+    const vaultsWithParticipants = await Promise.all(
+      endVaults.map(async (vault) => {
+        const swapCount = await prisma.swap.count({
+          where: {
+            vaultId: vault.id,
+          },
+        });
+        return {
+          ...vault,
+          participants: swapCount,
+        };
+      })
+    );
+
+    return vaultsWithParticipants;
+
+    // return endVaults;
   } catch (error) {
     console.error("Error while fetching the completed vaults", error);
   }

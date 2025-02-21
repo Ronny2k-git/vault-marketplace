@@ -32,7 +32,24 @@ export const getVaultInDb = async () => {
       },
       take: 9,
     });
-    return vaults;
+
+    const vaultsWithParticipants = await Promise.all(
+      vaults.map(async (vault) => {
+        const swapCount = await prisma.swap.count({
+          where: {
+            vaultId: vault.id,
+          },
+        });
+
+        return {
+          ...vault,
+          participants: swapCount,
+        };
+      })
+    );
+    return vaultsWithParticipants;
+
+    // return vaults;
   } catch (error) {
     return NextResponse.json({
       success: false,
