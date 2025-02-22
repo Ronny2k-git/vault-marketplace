@@ -43,8 +43,6 @@ export function CardTokens({ vault }: { vault: CustomVault }) {
 
   useEffect(() => {
     getBalance();
-    const participants = vault.participants;
-    console.log("Participants:", participants);
   }, []);
 
   return (

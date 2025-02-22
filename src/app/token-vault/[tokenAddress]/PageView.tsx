@@ -29,8 +29,6 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
 
   const { tokenAddress } = useParams();
 
-  // Fazer esse fetchSwapData em um component da mesma forma que na page.tsx do token address
-
   async function fetchSwapData(page: number = 1) {
     const response = await fetch(`/api/getSwaps?page=${page}`, {
       method: "GET",

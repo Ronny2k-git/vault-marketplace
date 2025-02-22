@@ -35,7 +35,7 @@ export const getVaultInDb = async () => {
 
     const vaultsWithParticipants = await Promise.all(
       vaults.map(async (vault) => {
-        const swapCount = await prisma.swap.count({
+        const participantsCount = await prisma.swap.count({
           where: {
             vaultId: vault.id,
           },
@@ -43,7 +43,7 @@ export const getVaultInDb = async () => {
 
         return {
           ...vault,
-          participants: swapCount,
+          participants: participantsCount,
         };
       })
     );
