@@ -80,7 +80,7 @@ export function TokenVaults() {
     <div>
       <div className="flex flex-col font-SpaceGrotesk">
         <div className="flex pt-11 justify-center items-center">
-          <h1 className="lg:w-[570px] w-[200px] lg:text-3xl sm:text-2xl text-2xl pr-10 text-white">
+          <h1 className="lg:w-[530px] w-[205px] lg:text-3xl sm:text-2xl text-2xl pr-10 mr-6 text-white">
             Token Vaults
           </h1>
           <Link href={`/create-vault-page`}>
@@ -96,11 +96,11 @@ export function TokenVaults() {
             </Button>
           </Link>
         </div>
-        <h2 className="lg:text-base lg:block justify-center items-center flex text-sm pl-1 pb-10 text-text-foreground">
+        <h2 className="mr-6 mt-1 lg:text-base lg:block justify-center items-center flex text-sm pl-1 pb-10 text-text-foreground">
           Explore lives and upcoming vaults on Vault Marketplace
         </h2>
         <div className="flex justify-center items-center">
-          <div className="grid w-[500px] gap-2.5 lg:grid lg:w-full lg:grid-cols-3 grid-cols-1 lg:gap-2.5 mb-20">
+          <div className="grid gap-2.5 lg:grid lg:w-full lg:grid-cols-3 grid-cols-1 lg:gap-2.5 mb-20">
             {vaultData.map((vault) => (
               <CardLive key={vault.address} vault={vault} />
             ))}
@@ -114,9 +114,9 @@ export function TokenVaults() {
           <div className="text-base ml-32 lg:ml-0 text-text-foreground mb-6">
             Take a glance on previous token vaults.
           </div>
-          <div className="flex justify-center items-center lg:block">
+          <div className="flex justify-center items-center lg:block ">
             <Card
-              className="rounded-t-xl py-3 px-3 gap-2.5 hidden lg:flex"
+              className=" py-3 px-3 gap-2.5 hidden lg:flex"
               intent={"primary"}
               size={"long"}
             >
@@ -127,7 +127,7 @@ export function TokenVaults() {
             </Card>
           </div>
         </div>
-        <div className="flex flex-col  items-center lg:block">
+        <div className="flex flex-col gap-0.5 items-center lg:block">
           {endVaults?.map((vault, index) => (
             <CardTokens key={index} vault={vault} />
           ))}

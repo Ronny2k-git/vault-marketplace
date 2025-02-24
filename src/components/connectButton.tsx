@@ -42,16 +42,18 @@ export const ButtonStyle = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <div className="flex">
+                  <button className="flex" onClick={openConnectModal}>
+                    <FaWallet className="mt-4 ml-4 lg:hidden" color={"white"} />
                     <Button
+                      className="hidden lg:flex"
                       intent={"primary"}
                       size={"large"}
-                      onClick={openConnectModal}
                       type="button"
                     >
-                      <FaWallet /> Connect Wallet
+                      <FaWallet color={"white"} />
+                      Connect Wallet
                     </Button>
-                  </div>
+                  </button>
                 );
               }
 
@@ -79,10 +81,12 @@ export const ButtonStyle = () => {
                     type="button"
                   >
                     <FaWallet />
-                    {account &&
-                      account.address &&
-                      abbreviateAddress(account.address)}
-                    {/* {account.displayName} */}
+                    <div className="hidden lg:block">
+                      {account &&
+                        account.address &&
+                        abbreviateAddress(account.address)}
+                      {/* {account.displayName} */}
+                    </div>
                   </Button>
                 </div>
               );

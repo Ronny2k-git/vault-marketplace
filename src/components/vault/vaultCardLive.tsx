@@ -59,21 +59,21 @@ export function CardLive({ vault }: { vault: CustomVault }) {
   return (
     <div>
       <Card intent={"primary"} size={"small"}>
-        <div className="relative w-full h-fit aspect-video overflow-hidden flex-grow-0">
+        <div className="relative w-full lg:aspect-video overflow-hidden flex-grow-0">
           <img
-            className="rounded-t-xl size-full object-cover"
+            className="rounded-t-xl h-40 w-full object-cover"
             src={vault.banner}
           />
-          <div className="flex z-40 bottom-2 gap-2 left-2 absolute">
+          <div className="flex z-40 bottom-2 lg:bottom-2 gap-2 left-2 absolute">
             <img className="size-8 rounded-full" src={vault.logo} />
-            <div className=" font-normal text-white text-base">
+            <div className="font-normal text-white text-base">
               {vault.name}
               <br />
               <div className="text-[10px] -mt-2">Sepolia</div>
             </div>
           </div>
         </div>
-        <div className="flex mt-4 ml-4 font-SpaceGrotesk justify-between mr-4">
+        <div className="flex ml-4 mt-4 font-SpaceGrotesk justify-between mr-4">
           <div className="flex">
             <img className="size-4 mr-1" src="/icons/user-group.png" />
             <div>Participants:</div>
