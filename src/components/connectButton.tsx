@@ -43,9 +43,9 @@ export const ButtonStyle = () => {
               if (!connected) {
                 return (
                   <button className="flex" onClick={openConnectModal}>
-                    <FaWallet className="mt-4 ml-4 lg:hidden" color={"white"} />
+                    <FaWallet className="ml-4 md:hidden" color={"white"} />
                     <Button
-                      className="hidden lg:flex"
+                      className="hidden md:flex"
                       intent={"primary"}
                       size={"large"}
                       type="button"

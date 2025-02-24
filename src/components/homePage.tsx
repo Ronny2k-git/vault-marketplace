@@ -114,9 +114,9 @@ export function TokenVaults() {
           <div className="text-base ml-32 lg:ml-0 text-text-foreground mb-6">
             Take a glance on previous token vaults.
           </div>
-          <div className="flex justify-center items-center lg:block ">
+          <div className="flex justify-center items-center lg:block">
             <Card
-              className=" py-3 px-3 gap-2.5 hidden lg:flex"
+              className=" py-3 px-3 gap-2.5 hidden lg:flex lg:rounded-t-xl"
               intent={"primary"}
               size={"long"}
             >
