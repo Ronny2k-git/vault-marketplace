@@ -47,30 +47,32 @@ export function CardTokens({ vault }: { vault: CustomVault }) {
 
   return (
     <div>
-      <Card className="flex items-center" intent={"primary"} size={"long"}>
-        <img className="size-7 ml-2 mr-1 rounded-full" src={vault.logo} />
-        <div className="w-[130px]">
-          {vault.name}
-          <br /> Sepolia
-        </div>
-        <div className="w-[100px]">{vault.participants}</div>
-        <div className="w-36 flex">
-          <p className="mr-1">
-            {formatUnits(totalDeposited, vault.assetTokenDecimals)}
-          </p>
+      <Link href={`/token-vault/${vault.address}`}>
+        <Card className="flex items-center" intent={"primary"} size={"long"}>
+          <img className="size-7 ml-2 mr-1 rounded-full" src={vault.logo} />
+          <div className="lg:w-[130px] w-24">
+            {vault.name}
+            <br /> Sepolia
+          </div>
+          <div className="w-[100px]">{vault.participants}</div>
+          <div className="w-36 flex">
+            <p className="mr-1">
+              {formatUnits(totalDeposited, vault.assetTokenDecimals)}
+            </p>
 
-          {vault.assetTokenName}
-        </div>
-        <div className="w-56">
-          {new Date(vault.startsAt).toLocaleDateString("en-US")}
-        </div>
-        <Link href={`/token-vault/${vault.address}`}>
-          <Button intent={"primary"} size={"small"}>
+            {vault.assetTokenName}
+          </div>
+          <div className="w-56">
+            {new Date(vault.startsAt).toLocaleDateString("en-US")}
+          </div>
+          {/* <Link href={`/token-vault/${vault.address}`}> */}
+          <Button className="lg:flex hidden" intent={"primary"} size={"small"}>
             View now
             <FaArrowRightLong />
           </Button>
-        </Link>
-      </Card>
+          {/* </Link> */}
+        </Card>
+      </Link>
     </div>
   );
 }
