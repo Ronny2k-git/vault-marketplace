@@ -10,11 +10,12 @@ const cardStyle = cva("", {
     size: {
       small: [
         "w-[412px]",
-        "h-[295px]",
+        "h-[305px]",
         "lg:w-60",
         "lg:h-[275px]",
+        "lg:text-[12px]",
         "rounded-2xl",
-        "text-[12px]",
+        "text-[15px]",
       ],
       mediumSmall: ["w-[270px]", "h-14", "border-2", "rounded-md"],
       medium: ["w-[290px]", "h-56", "rounded-2xl"],

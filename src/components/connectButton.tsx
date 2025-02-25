@@ -43,7 +43,10 @@ export const ButtonStyle = () => {
               if (!connected) {
                 return (
                   <button className="flex" onClick={openConnectModal}>
-                    <FaWallet className="ml-4 md:hidden" color={"white"} />
+                    <FaWallet
+                      className="ml-4 md:hidden lg:hidden"
+                      color={"white"}
+                    />
                     <Button
                       className="hidden md:flex"
                       intent={"primary"}
@@ -66,7 +69,12 @@ export const ButtonStyle = () => {
               }
 
               return (
-                <div className="flex" style={{ display: "flex", gap: 12 }}>
+                <button
+                  className="flex"
+                  onClick={openAccountModal}
+                  style={{ display: "flex", gap: 12 }}
+                >
+                  <FaWallet className="md:hidden lg:hidden" color="white" />
                   <button
                     onClick={openChainModal}
                     style={{ display: "flex", alignItems: "center" }}
@@ -74,21 +82,21 @@ export const ButtonStyle = () => {
                   ></button>
 
                   <Button
-                    className="hover:bg-purple-600 shadow-shadow"
+                    className="hover:bg-purple-600 md:flex shadow-shadow hidden "
                     intent={"secondary"}
                     size={"large"}
                     onClick={openAccountModal}
                     type="button"
                   >
                     <FaWallet />
-                    <div className="hidden lg:block">
+                    <div className=" ">
                       {account &&
                         account.address &&
                         abbreviateAddress(account.address)}
                       {/* {account.displayName} */}
                     </div>
                   </Button>
-                </div>
+                </button>
               );
             })()}
           </div>
