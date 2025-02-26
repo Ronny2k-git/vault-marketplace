@@ -48,15 +48,19 @@ export function CardTokens({ vault }: { vault: CustomVault }) {
   return (
     <div className="w-full">
       <Link href={`/token-vault/${vault.address}`}>
-        <Card className="flex items-center" intent={"primary"}>
+        <Card
+          className="flex flex-col md:flex-row md:items-center"
+          intent={"primary"}
+        >
           <img className="size-7 ml-2 mr-1 rounded-full" src={vault.logo} />
-          <div className="lg:w-[130px] w-24">
+          <div className="flex-1 w-auto">
             {vault.name}
             <br /> Sepolia
           </div>
-          <div className="w-[100px]">{vault.participants}</div>
-          <div className="w-36 flex">
-            <p className="mr-1">
+          {/* <div className="flex lg:flex-1 lg:w-auto items-center"> */}
+          <div className="flex-1 w-auto ">{vault.participants}</div>
+          <div className="w-auto flex-1">
+            <p className="w-auto flex-1">
               {formatUnits(totalDeposited, vault.assetTokenDecimals)}
             </p>
 
@@ -65,8 +69,12 @@ export function CardTokens({ vault }: { vault: CustomVault }) {
           <div className="w-56">
             {new Date(vault.startsAt).toLocaleDateString("en-US")}
           </div>
-
-          <Button className="lg:flex hidden" intent={"primary"} size={"small"}>
+          {/* </div> */}
+          <Button
+            className="lg:flex hidden ml-auto mr-2"
+            intent={"primary"}
+            size={"small"}
+          >
             View now
             <FaArrowRightLong />
           </Button>

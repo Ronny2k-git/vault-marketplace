@@ -3,7 +3,10 @@
 import { useState } from "react";
 import { ButtonStyle } from "../connectButton";
 import { Button } from "./button";
-import { FaWallet } from "react-icons/fa";
+import { MdOutlineCreate } from "react-icons/md";
+import { IoMdHelpCircleOutline, IoMdSearch } from "react-icons/io";
+import { PiPlant } from "react-icons/pi";
+import Link from "next/link";
 
 export function MenuMobile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,17 +29,19 @@ export function MenuMobile() {
       {isMenuOpen && (
         <div
           className="absolute rounded-b-3xl md:hidden top-0 right-0 p-4 z-10 flex flex-col text-red-500
-         bg-background-foreground h-[300px] w-full"
+         bg-background-foreground h-[325px] w-full"
         >
           <div className="flex flex-col ml-2">
             <div className="flex">
-              <h1 className="text-[22px] mb-4 text-white">Vault Marketplace</h1>
+              <h1 className="text-[22px] mb-4 text-white hover:underline">
+                Vault Marketplace
+              </h1>
               <button
                 className="flex justify-end ml-auto items-center"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 <img
-                  className="h-4 w-4 -mt-8 "
+                  className="h-3 w-3 -mt-8"
                   src="/icons/delete.png"
                   alt="Close"
                 />
@@ -50,14 +55,33 @@ export function MenuMobile() {
               Connect Wallet
             </Button>
             <div className="Line h-0.5 mt-4 mb-4 w-full bg-gray-500" />
-            <Button className="rounded-xl py-2 mb-2 text-sm" intent={"primary"}>
-              Explore Vaults
+            <Link href="/explore-vaults">
+              <Button
+                className="rounded-xl py-2 mb-2 text-sm w-full"
+                intent={"primary"}
+              >
+                <IoMdSearch className="size-4 mt-0.5 mr-1" /> Explore Vaults
+              </Button>
+            </Link>
+            <Link href="/create-vault-page">
+              <Button
+                className="rounded-xl py-2 mb-2 gap-1 text-sm w-full"
+                intent={"primary"}
+              >
+                <MdOutlineCreate /> Create a vault
+              </Button>
+            </Link>
+            <Button
+              className="rounded-xl py-2 text-sm mb-2 gap-1 w-full"
+              intent={"primary"}
+            >
+              <PiPlant /> Staking
             </Button>
-            <Button className="rounded-xl py-2 mb-2 text-sm" intent={"primary"}>
-              Create a vault
-            </Button>
-            <Button className="rounded-xl py-2 text-sm" intent={"primary"}>
-              Help
+            <Button
+              className="rounded-xl py-2 text-sm gap-1 w-full"
+              intent={"primary"}
+            >
+              <IoMdHelpCircleOutline /> Help
             </Button>
           </div>
         </div>

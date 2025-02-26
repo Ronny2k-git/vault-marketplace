@@ -56,9 +56,11 @@ export function TopBar() {
     <div className="h-[90px] w-100% bg-background-alt font-SpaceGrotesk">
       <div className="h-full w-full flex items-center">
         <div className="size-12 ml-4 -mt-1 rounded-full bg-white" />
-        <h1 className="ml-2 sm:text-[22px] text-lg text-white">
-          Vault Marketplace
-        </h1>
+        <Link href="/explore-vaults">
+          <h1 className="ml-2 sm:text-[22px] text-lg text-white">
+            Vault Marketplace
+          </h1>
+        </Link>
         <div className="hidden md:flex ">
           <Link href={`/explore-vaults`}>
             <h2 className="ml-10 flex hover:underline text-text-foreground">

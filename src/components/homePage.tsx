@@ -79,7 +79,7 @@ export function TokenVaults() {
   return (
     <div className="w-full max-w-screen-xl">
       <div className="flex flex-col w-full p-4 lg:p-8 font-SpaceGrotesk">
-        <section className="flex justify-between max-sm:flex-col my-10">
+        <section className="flex justify-between max-sm:flex-col mt-4 mb-10">
           <div className="flex flex-col items-start">
             <h1 className="lg:text-3xl sm:text-2xl text-2xl pr-10 mr-6 text-white">
               Token Vaults
@@ -90,7 +90,7 @@ export function TokenVaults() {
           </div>
           <Link href={`/create-vault-page`}>
             <Button
-              className="hover:bg-purple-600 shadow-shadow"
+              className="hover:bg-purple-600 shadow-shadow mt-1"
               intent={"secondary"}
               size={"medium"}
             >
@@ -117,16 +117,12 @@ export function TokenVaults() {
             Take a glance on previous token vaults.
           </div>
           <div className="flex justify-center items-center">
-            <div
-              className="py-3 px-3 text-text-foreground gap-2.5 hidden sm:flex lg:rounded-t-xl"
-              // intent={"primary"}
-              // size={"long"}
-            >
-              <div className="flex w-full j ">
-                <div className="w-24 flex ml-7">Vault Name</div>
-                <div className="w-28">Participants</div>
-                <div className="w-40">Total Deposited</div>
-                <div className="w-40">Start Date</div>
+            <div className=" w-full py-3 text-text-foreground hidden sm:flex">
+              <div className="flex w-full ">
+                <div className="flex-1">Vault Name</div>
+                <div className="flex-1">Participants</div>
+                <div className="flex-1">Total Deposited</div>
+                <div className="flex-1">Start Date</div>
               </div>
             </div>
           </div>
