@@ -54,6 +54,7 @@ const buttonStyle = cva("flex justify-center font-SpaceGrotesk items-center", {
         "sm:px-2 ",
         "sm:text-[10px] ",
       ],
+      buttonDrawer: ["h-5", "w-full", "py-4", "px-2", ""],
     },
     defaultVariants: {
       intent: "primary",

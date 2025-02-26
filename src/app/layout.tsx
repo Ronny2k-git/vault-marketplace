@@ -56,28 +56,34 @@ export function TopBar() {
     <div className="h-[90px] w-100% bg-background-alt font-SpaceGrotesk">
       <div className="h-full w-full flex items-center">
         <div className="size-12 ml-4 -mt-1 rounded-full bg-white" />
-        <h1 className="ml-2 text-[22px] text-white">Vault Marketplace</h1>
-        <Link href={`/explore-vaults`}>
-          <h2 className="ml-10 flex hover:underline text-text-foreground">
-            <IoSearchOutline className="size-[18px] mt-0.5 mr-1" /> Explore
-            vaults
-          </h2>
-        </Link>
-        <Link href="/create-vault-page">
-          <h3 className="ml-8 flex text-white items-center hover:underline">
-            <p
-              className="size-3.5 bg-text-foreground flex rounded-full items-center justify-center text-sm 
+        <h1 className="ml-2 sm:text-[22px] text-lg text-white">
+          Vault Marketplace
+        </h1>
+        <div className="hidden md:flex ">
+          <Link href={`/explore-vaults`}>
+            <h2 className="ml-10 flex hover:underline text-text-foreground">
+              <IoSearchOutline className="size-[18px] mt-0.5 mr-1" /> Explore
+              vaults
+            </h2>
+          </Link>
+          <Link href="/create-vault-page">
+            <h3 className="ml-8 flex text-white items-center hover:underline">
+              <p
+                className="size-3.5 bg-text-foreground flex rounded-full items-center justify-center text-sm 
             font-semibold mr-1.5 -mt-0.5 text-black"
-            >
-              +
-            </p>
-            Create a vault
-          </h3>
-        </Link>
-        <div className=" ml-auto pr-4">
+              >
+                +
+              </p>
+              Create a vault
+            </h3>
+          </Link>
+        </div>
+        <div className=" ml-auto lg:pr-4">
           <ButtonStyle />
         </div>
-        <MenuMobile />
+        <div className="lg:pr-0 pr-4">
+          <MenuMobile />
+        </div>
       </div>
     </div>
   );
