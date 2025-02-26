@@ -11,9 +11,9 @@ const cardStyle = cva("", {
       small: [
         "w-[412px]",
         "h-[305px]",
-        "lg:w-60",
-        "lg:h-[275px]",
-        "lg:text-[12px]",
+        // "lg:w-60",
+        // "lg:h-[275px]",
+        // "lg:text-[12px]",
         "rounded-2xl",
         "text-[15px]",
       ],
@@ -50,7 +50,7 @@ const cardStyle = cva("", {
     },
     defaultVariants: {
       intent: "primary",
-      size: "large",
+      // size: "",
     },
   },
 });

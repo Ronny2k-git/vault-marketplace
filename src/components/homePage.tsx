@@ -77,12 +77,17 @@ export function TokenVaults() {
   }
 
   return (
-    <div>
-      <div className="flex flex-col font-SpaceGrotesk">
-        <div className="flex pt-11 justify-center items-center">
-          <h1 className="lg:w-[530px] w-[205px] lg:text-3xl sm:text-2xl text-2xl pr-10 mr-6 text-white">
-            Token Vaults
-          </h1>
+    <div className="w-full max-w-screen-xl">
+      <div className="flex flex-col w-full p-4 lg:p-8 font-SpaceGrotesk">
+        <section className="flex justify-between max-sm:flex-col my-10">
+          <div className="flex flex-col items-start">
+            <h1 className="lg:text-3xl sm:text-2xl text-2xl pr-10 mr-6 text-white">
+              Token Vaults
+            </h1>
+            <h2 className="mr-6 mt-1 mb-1 lg:text-base lg:block justify-center items-center flex text-sm pl-1 text-text-foreground">
+              Explore lives and upcoming vaults on Vault Marketplace
+            </h2>
+          </div>
           <Link href={`/create-vault-page`}>
             <Button
               className="hover:bg-purple-600 shadow-shadow"
@@ -95,39 +100,38 @@ export function TokenVaults() {
               Create a token vault
             </Button>
           </Link>
-        </div>
-        <h2 className="mr-6 mt-1 lg:text-base lg:block justify-center items-center flex text-sm pl-1 pb-10 text-text-foreground">
-          Explore lives and upcoming vaults on Vault Marketplace
-        </h2>
+        </section>
         <div className="flex justify-center items-center">
-          <div className="grid gap-2.5 lg:grid lg:w-full lg:grid-cols-3 grid-cols-1 lg:gap-2.5 mb-20">
+          <div className="grid justify-center gap-2.5 w-full grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
             {vaultData.map((vault) => (
               <CardLive key={vault.address} vault={vault} />
             ))}
           </div>
         </div>
 
-        <div className="flex flex-col ">
-          <div className="text-3xl ml-32 lg:ml-0 w-[530px] text-white">
+        <div className="flex flex-col mt-20 ">
+          <div className="text-3xl  w-full text-white">
             Completed Token Vaults
           </div>
-          <div className="text-base ml-32 lg:ml-0 text-text-foreground mb-6">
+          <div className="text-base lg:ml-0 text-text-foreground mb-6">
             Take a glance on previous token vaults.
           </div>
-          <div className="flex justify-center items-center lg:block">
-            <Card
-              className=" py-3 px-3 gap-2.5 hidden lg:flex lg:rounded-t-xl"
-              intent={"primary"}
-              size={"long"}
+          <div className="flex justify-center items-center">
+            <div
+              className="py-3 px-3 text-text-foreground gap-2.5 hidden sm:flex lg:rounded-t-xl"
+              // intent={"primary"}
+              // size={"long"}
             >
-              <div className="w-24 flex ml-7">VAULT NAME</div>
-              <div className="w-28">PARTICIPANTS</div>
-              <div className="w-32">TOTAL DEPOSITED</div>
-              <div className="w-32">START DATE</div>
-            </Card>
+              <div className="flex w-full j ">
+                <div className="w-24 flex ml-7">Vault Name</div>
+                <div className="w-28">Participants</div>
+                <div className="w-40">Total Deposited</div>
+                <div className="w-40">Start Date</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="flex flex-col gap-0.5 items-center lg:block">
+        <div className="flex flex-col gap-1 items-center ">
           {endVaults?.map((vault, index) => (
             <CardTokens key={index} vault={vault} />
           ))}

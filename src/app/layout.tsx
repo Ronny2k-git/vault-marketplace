@@ -11,6 +11,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import "@rainbow-me/rainbowkit/styles.css";
 
 import { ButtonStyle } from "@/components/connectButton";
+import { MenuMobile } from "@/components/interface/menuHamburger";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,15 +57,6 @@ export function TopBar() {
       <div className="h-full w-full flex items-center">
         <div className="size-12 ml-4 -mt-1 rounded-full bg-white" />
         <h1 className="ml-2 text-[22px] text-white">Vault Marketplace</h1>
-        {/* <div>
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? (
-              <img src="/icons/delete.png" />
-            ) : (
-              <img src="/icons/hamburguer.png" />
-            )}
-          </button>
-        </div> */}
         <Link href={`/explore-vaults`}>
           <h2 className="ml-10 flex hover:underline text-text-foreground">
             <IoSearchOutline className="size-[18px] mt-0.5 mr-1" /> Explore
@@ -82,9 +74,10 @@ export function TopBar() {
             Create a vault
           </h3>
         </Link>
-        <div className=" ml-auto mr-4">
+        <div className=" ml-auto pr-4">
           <ButtonStyle />
         </div>
+        <MenuMobile />
       </div>
     </div>
   );
