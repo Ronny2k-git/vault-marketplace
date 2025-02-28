@@ -206,6 +206,7 @@ export function CardRemove() {
             <Input
               className="text-xs text-text-foreground hover:bg-transparent border-transparent"
               intent={"primary"}
+              type="number"
               size={"large"}
               placeholder="0"
               onChange={(event) => setRemoveAmount(event.target.value)}

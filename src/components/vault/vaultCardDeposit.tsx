@@ -285,6 +285,7 @@ export function CardDeposit() {
           <div className="flex">
             <Input
               className="text-xs text-text-foreground hover:bg-transparent border-transparent"
+              type="number"
               intent={"primary"}
               size={"large"}
               placeholder="0"
