@@ -405,3 +405,263 @@ export function CardCreate() {
     </div>
   );
 }
+
+//Exemplo de formulário de criacao de vault para se seguir
+
+// "use client"
+
+// import { Button, Chip, Icon, Input, Text, TextArea } from "@/ui/components"
+// import { DiscordIcon, TwitterIcon } from "@/ui/components/icons"
+// import { Controller, useForm } from "react-hook-form"
+// import { SectionHeading, URLUploaderWithInput } from "."
+// import { DiscordPattern, RoundTypes, TelegramPattern } from "../constants"
+// import { IdentityPreview } from "./IdentityPreview"
+
+// // TODO: Move this component to a proper place.
+// export function ProjectDetailsForm() {
+//   // Form Hook for handling form state.
+//   // refer: https://react-hook-form.com/
+//   const { formState, register, handleSubmit, control } = useForm({
+//     defaultValues: {
+//       projectName: "",
+//       shortDescription: "",
+//       roundType: "",
+//       description: "",
+//       banner: "",
+//       logo: "",
+//       discordLink: "",
+//       telegramLink: "",
+//     },
+//   })
+
+//   return (
+//     <form
+//       onSubmit={handleSubmit(
+//         (form) => console.log(form),
+//         (e) => console.log("ERROR", e),
+//       )}
+//       className={
+//         "max-w-screen-xl w-full mx-auto [&_section]:p-6 [&_section]:sm:p-8 [&_section]:gap-3 [&_section]:sm:flex"
+//       }
+//       // p-6 sm:p-8 flex gap-3 w-full
+//     >
+//       <hr className="border-fj-blue-500" />
+
+//       <section className="flex-wrap">
+//         <div className="gap-3 flex flex-col flex-1">
+//           <SectionHeading tooltipInfo="...">Project Description</SectionHeading>
+
+//           <Input
+//             label="Project Name"
+//             placeholder="Fjapybara Proj"
+//             {...register("projectName", { required: "Project Name is Required", maxLength: 25 })}
+//             error={!!formState.errors.projectName?.message}
+//           />
+
+//           <TextArea
+//             label="Short Description"
+//             placeholder="Fjapybara Proj is a project that aims to create a better world for the Fjapybara species."
+//             {...register("shortDescription", { required: "Project Name is Required", maxLength: 200 })}
+//             error={!!formState.errors.shortDescription?.message}
+//           />
+//         </div>
+
+//         <div className="gap-3 flex flex-col  lg:max-w-80 w-full">
+//           <SectionHeading>Choose Round Type</SectionHeading>
+//           <Controller
+//             control={control}
+//             name="roundType"
+//             rules={{ required: "Round Type is Required" }}
+//             render={({ field }) => (
+//               <div className="flex flex-col gap-2">
+//                 {RoundTypes.map((roundType) => (
+//                   <Button
+//                     value={roundType}
+//                     aria-selected={field.value === roundType}
+//                     onClick={() => field.onChange?.(roundType)}
+//                     className="w-full justify-start capitalize shadow-black-20-indigo-500-30-inset"
+//                     iconLeft={<Icon>group</Icon>}
+//                     key={roundType}
+//                     size="xl"
+//                   >
+//                     {roundType.replace("-", " ")}
+//                   </Button>
+//                 ))}
+//               </div>
+//             )}
+//           />
+//         </div>
+
+//         <div className="basis-full flex flex-col gap-3 mt-4">
+//           <SectionHeading>Describe Your Project</SectionHeading>
+//           <TextArea
+//             className="min-h-80"
+//             label="Project Description"
+//             placeholder="Describe your project in details"
+//             {...register("description", { required: "Description is required", maxLength: 5_000 })}
+//           />
+//         </div>
+//       </section>
+
+//       <hr className="border-fj-blue-500" />
+
+//       <section>
+//         <IdentityPreview control={control} />
+//       </section>
+
+//       <hr className="border-fj-blue-500" />
+
+//       <section className="max-lg:flex-col">
+//         <div className="flex flex-col lg:w-2/4">
+//           <SectionHeading>Brand Images</SectionHeading>
+//           <Text variant="secondary">
+//             Select the round type that best fits your project&apos;s current stage. Select the round type that best fits
+//             your project&apos;s current stage. Learn More.
+//           </Text>
+//         </div>
+//         <div className=" gap-2 flex flex-col lg:w-2/4">
+//           <URLUploaderWithInput
+//             label="Logo"
+//             placeholder="https://drive.google.com/fjapybara.jpeg"
+//             {...register("logo", { required: "Logo is required" })}
+//           />
+//           <URLUploaderWithInput
+//             label="Banner"
+//             placeholder="https://drive.google.com/fjapybara.jpeg"
+//             {...register("banner", { required: "Banner is required" })}
+//           />
+//         </div>
+//         {/* <div className="max-w-3xl w-full gap-3 grid lg:grid-cols-2"></div> */}
+//       </section>
+
+//       <hr className="border-fj-blue-500" />
+
+//       <section>
+//         <div className="max-w-3xl w-full gap-3 grid lg:grid-cols-2">
+//           <div className="col-span-full">
+//             <SectionHeading>Social and Links</SectionHeading>
+//           </div>
+//           <Input
+//             {...register("discordLink", { pattern: { value: DiscordPattern, message: "Invalid Discord URL" } })}
+//             placeholder="https://discord.gg/fjapybara"
+//             label="Discord URL"
+//             iconRight={<DiscordIcon className="size-6 fill-indigo-300" />}
+//           />
+//           <Input
+//             {...register("telegramLink", { pattern: { value: TelegramPattern, message: "Invalid Telegram URK" } })}
+//             placeholder="https://t.me/fjapybara"
+//             label="Telegram Chat"
+//             iconRight={<DiscordIcon className="size-6 fill-indigo-300" />}
+//           />
+//           <Button
+//             size="xl"
+//             iconLeft={<TwitterIcon className="size-5" />}
+//             className="w-full shadow-black-20-indigo-500-30-inset"
+//           >
+//             Connect Twitter
+//           </Button>
+//           <Button size="xl" iconLeft={<Icon>add</Icon>} className="w-full">
+//             Add More Links
+//           </Button>
+//         </div>
+//       </section>
+
+//       <hr className="border-fj-blue-500" />
+
+//       <section className="max-md:flex-col">
+//         <div className="flex flex-col gap-3 md:w-2/4">
+//           <SectionHeading>Select Tags</SectionHeading>
+//           <Text size="sm" variant="secondary">
+//             Choose up to two tags that best describe your project&apos;s category to help potential buyers understand
+//             its focus.
+//           </Text>
+//         </div>
+//         <div className="md:w-2/4 flex flex-col gap-2">
+//           <div className="bg-black-20 rounded-full border-2 gap-2 flex flex-wrap p-2 border-fj-blue-500 shadow-indigo-500-10-black-20-inset w-full">
+//             <Chip variant="primary" className="px-3 py-1">
+//               Gaming
+//             </Chip>
+//             <Chip variant="primary" className="px-3 py-1">
+//               Capybara
+//             </Chip>
+//           </div>
+
+//           <div className="flex items-center gap-2">
+//             <Button
+//               className="shadow-black-20-indigo-500-30-inset"
+//               iconRight={<Icon className="text-base ">add</Icon>}
+//               size="xs"
+//             >
+//               Add
+//             </Button>
+//             <Text size="xs" variant="secondary">
+//               2 / 3
+//             </Text>
+//           </div>
+//         </div>
+//       </section>
+
+//       <hr className="border-fj-blue-500" />
+
+//       <section className="items-center max-md:flex-col">
+//         <div className="flex flex-col gap-3 md:w-2/4">
+//           <Text size="xl" className="w-fit pr-2" iconRight={<Icon className="text-3xl text-indigo-300">help</Icon>}>
+//             Geo-Blocked Countries
+//           </Text>
+//           <Text size="sm" variant="secondary">
+//             Choose up to two tags that best describe your project&apos;s category to help potential buyers understand
+//             its focus.
+//           </Text>
+//         </div>
+
+//         <div className="w-full md:w-2/4 flex flex-col gap-2">
+//           <div className="bg-black-20 rounded-3xl min-h-24 border-2 gap-2 flex flex-wrap p-2 border-fj-blue-500 shadow-indigo-500-10-black-20-inset w-full">
+//             <Chip variant="primary" className="px-3 h-fit py-1">
+//               Brazil
+//             </Chip>
+//             <Chip variant="primary" className="px-3 h-fit py-1">
+//               Brazil
+//             </Chip>
+//           </div>
+
+//           <div className="flex items-center gap-2">
+//             <Button
+//               className="shadow-black-20-indigo-500-30-inset"
+//               iconRight={<Icon className="text-base ">add</Icon>}
+//               size="xs"
+//             >
+//               Add
+//             </Button>
+//             <Text size="xs" variant="secondary">
+//               2 / 250
+//             </Text>
+//           </div>
+//         </div>
+//       </section>
+
+//       <hr className="border-fj-blue-500" />
+
+//       <section className="items-center">
+//         <div className="flex flex-col gap-3 md:w-2/4">
+//           <Text size="xl" className="w-fit pr-2" iconRight={<Icon className="text-3xl text-indigo-300">help</Icon>}>
+//             Previous Investment Rounds
+//           </Text>
+//           <Text size="sm" variant="secondary">
+//             Provide key details about any previous investment rounds. This includes the total amount raised, the
+//             valuation, token generation event (TGE) percentage, and any vesting terms.
+//           </Text>
+//         </div>
+
+//         <Button className="w-fit ml-auto shadow-black-20-indigo-500-30-inset" iconLeft={<Icon>add</Icon>} size="xl">
+//           Add Investment Round
+//         </Button>
+//       </section>
+
+//       <hr className="border-fj-blue-500" />
+
+//       <Button type="submit" className="w-full mt-8" size="xl">
+//         Next
+//       </Button>
+//     </form>
+//   )
+// }
