@@ -92,7 +92,7 @@ export function CardTransaction() {
             <Tabs.List
               size="1"
               color="gray"
-              className="h-7 text-xs data-[state=active]:bg-button-bg-primary  "
+              className="h-7 text-xs data-[state=active]:bg-button-bg-primary "
             >
               <Tabs.Trigger
                 className="data-[state=active]:bg-button-bg-primary !text-white !w-36 !rounded-br-2xl 
@@ -102,7 +102,7 @@ export function CardTransaction() {
                 Deposit
               </Tabs.Trigger>
               <Tabs.Trigger
-                className="data-[state=active]:bg-button-bg-primary !text-white !w-36 
+                className="data-[state=active]:bg-button-bg-primary !text-white !w-36
                 !rounded-bl-2xl !rounded-tr-xl !font-SpaceGrotesk"
                 value="Withdraw"
               >
