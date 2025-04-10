@@ -18,7 +18,7 @@ import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 
 interface CustomVault extends Vault {
-  participants: number;
+  participants?: number;
 }
 export function CardTokens({ vault }: { vault: CustomVault }) {
   const [totalDeposited, setTotalDeposited] = useState(0n);

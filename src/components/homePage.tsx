@@ -10,6 +10,7 @@ import { useAtom } from "jotai";
 import { getVaults, vaultExplore } from "@/utils/atom";
 import { useParams } from "next/navigation";
 import { Vault } from "@prisma/client";
+import { ErrorDatabase } from "./interface/errorDatabase";
 
 export function TokenVaults() {
   const [vaultData, setVaultData] = useAtom<Vault[] | null>(vaultExplore);
@@ -65,16 +66,8 @@ export function TokenVaults() {
     fetchVaultData();
   }, [tokenAddress]);
 
-  if (!vaultData) {
-    return (
-      <p
-        className="h-screen w-screen flex text-red-500 text-x1 justify-center items-center
-       bg-background"
-      >
-        Loading vault data ...
-      </p>
-    );
-  }
+  if (!Array.isArray(vaultData) || vaultData.length === 0)
+    return <ErrorDatabase />;
 
   return (
     <div className="w-full max-w-screen-xl">

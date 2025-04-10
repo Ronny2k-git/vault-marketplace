@@ -47,15 +47,15 @@ export const ButtonStyle = () => {
                       className="ml-4 md:hidden lg:hidden"
                       color={"white"}
                     />
-                    <Button
+                    <div
                       className="hidden md:flex"
-                      intent={"primary"}
-                      size={"large"}
-                      type="button"
+                      // intent={"primary"}
+                      // size={"large"}
+                      // type="button"
                     >
                       <FaWallet color={"white"} />
                       Connect Wallet
-                    </Button>
+                    </div>
                   </button>
                 );
               }

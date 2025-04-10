@@ -11,8 +11,6 @@ import { readContract, simulateContract, writeContract } from "@wagmi/core";
 import { wagmiConfig } from "../provider";
 import { useAccount } from "wagmi";
 import { erc20Abi, Hex, parseUnits } from "viem";
-import { sepolia } from "viem/chains";
-import { waitForTransactionReceipt } from "wagmi/actions";
 
 type ContractParams = {
   abi: any;

@@ -14,7 +14,7 @@ import { useAccount } from "wagmi";
 import { Vault } from "@prisma/client";
 
 interface CustomVault extends Vault {
-  participants: number;
+  participants?: number;
 }
 
 export function CardLive({ vault }: { vault: CustomVault }) {

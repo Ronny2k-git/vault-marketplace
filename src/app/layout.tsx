@@ -11,7 +11,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import "@rainbow-me/rainbowkit/styles.css";
 
 import { ButtonStyle } from "@/components/connectButton";
-import { MenuMobile } from "@/components/interface/menuHamburger";
+import { MenuMobile } from "@/components/interface/Drawer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
