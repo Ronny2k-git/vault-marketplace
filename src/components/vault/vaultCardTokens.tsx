@@ -4,12 +4,12 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
-import { getVaults, swapAtom, vaultAtom } from "@/utils/atom";
+import { swapAtom, vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { formatUnits, Hex, isAddress } from "viem";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { Vault } from "@prisma/client";
+import { vault } from "@prisma/client";
 import { readContract } from "wagmi/actions";
 import { wagmiConfig } from "../provider";
 import { abiVault } from "@/utils/abiVault";
@@ -17,7 +17,7 @@ import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 
-interface CustomVault extends Vault {
+interface CustomVault extends vault {
   participants?: number;
 }
 export function CardTokens({ vault }: { vault: CustomVault }) {

@@ -169,7 +169,7 @@ export function CardCreate() {
 
   return (
     <div className="relative">
-      <Card className="mr-2.5 mb-2.5 " intent={"primary"} size={"high"}>
+      <Card className="mr-2.5 mb-2.5 " intent={"primary"} size={"extrahigh"}>
         <h3 className="text-white text-xs">Network</h3>
         <div className="relative">
           <select

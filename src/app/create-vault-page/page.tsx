@@ -4,7 +4,7 @@ import { Button } from "@/components/interface/button";
 import { CardCreate } from "@/components/vault/vaultCardCreate";
 import { CardPreview } from "@/components/vault/vaultCardPreview";
 
-export default function () {
+export default function PageCreate() {
   return (
     <div className="min-h-screen w-[calc(screen-1px)] bg-background">
       <div className="h-full w-full flex flex-col items-center">

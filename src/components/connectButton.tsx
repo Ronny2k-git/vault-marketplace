@@ -47,15 +47,15 @@ export const ButtonStyle = () => {
                       className="ml-4 md:hidden lg:hidden"
                       color={"white"}
                     />
-                    <div
+                    <Button
                       className="hidden md:flex"
-                      // intent={"primary"}
-                      // size={"large"}
-                      // type="button"
+                      intent={"primary"}
+                      size={"large"}
+                      type="button"
                     >
                       <FaWallet color={"white"} />
                       Connect Wallet
-                    </div>
+                    </Button>
                   </button>
                 );
               }
@@ -89,10 +89,8 @@ export const ButtonStyle = () => {
                     type="button"
                   >
                     <FaWallet />
-                    <div className=" ">
-                      {account &&
-                        account.address &&
-                        abbreviateAddress(account.address)}
+                    <div>
+                      {account.address && abbreviateAddress(account.address)}
                       {/* {account.displayName} */}
                     </div>
                   </Button>

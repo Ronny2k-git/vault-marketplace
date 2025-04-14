@@ -13,7 +13,10 @@ export async function POST(req: NextRequest) {
         { status: 200 }
       );
     } catch (error) {
-      return NextResponse.json({ success: false }, { status: 500 });
+      return NextResponse.json(
+        { success: false, message: "Error creating vault", error },
+        { status: 500 }
+      );
     }
   } else {
     return NextResponse.json(

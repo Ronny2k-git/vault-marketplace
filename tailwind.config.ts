@@ -23,6 +23,11 @@ export default {
         accent: "#8F51FB",
         "red-accent": "#EA6A6A",
         shadow: "#B083FE",
+        "gray-light": "#e3e3e3",
+        "gray-mid": "#b0b0b0",
+        "gray-dark": "#333333",
+        "gray-deep": "#1f1f1f",
+        "gray-glow": "#cccccc",
       },
       fontFamily: {
         SpaceGrotesk: ["SpaceGrotesk", "Arial", "Helvetica", "sans-serif"],

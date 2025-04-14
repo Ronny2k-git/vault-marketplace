@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
       return swaps;
     } catch (error) {
       return NextResponse.json(
-        { success: false, message: "Error getting in the databse" },
+        { success: false, message: "Error getting in the databse", error },
         { status: 500 }
       );
     }

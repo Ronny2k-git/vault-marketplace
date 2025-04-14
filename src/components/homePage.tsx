@@ -2,19 +2,19 @@
 
 import Link from "next/link";
 import { Button } from "./interface/button";
-import { Card } from "./interface/card";
 import { CardLive } from "./vault/vaultCardLive";
 import { CardTokens } from "./vault/vaultCardTokens";
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { getVaults, vaultExplore } from "@/utils/atom";
 import { useParams } from "next/navigation";
-import { Vault } from "@prisma/client";
+import { vault } from "@prisma/client";
 import { ErrorDatabase } from "./interface/errorDatabase";
+import WalletConnect from "./WalletConnect";
 
 export function TokenVaults() {
-  const [vaultData, setVaultData] = useAtom<Vault[] | null>(vaultExplore);
-  const [endVaults, setEndVaults] = useAtom<Vault[] | null>(getVaults);
+  const [vaultData, setVaultData] = useAtom<vault[] | null>(vaultExplore);
+  const [endVaults, setEndVaults] = useAtom<vault[] | null>(getVaults);
   const [currentPage, setCurrentPage] = useState(1);
 
   const { tokenAddress } = useParams();
@@ -101,7 +101,6 @@ export function TokenVaults() {
             ))}
           </div>
         </div>
-
         <div className="flex flex-col mt-20 ">
           <div className="text-3xl  w-full text-white">
             Completed Token Vaults
@@ -125,7 +124,6 @@ export function TokenVaults() {
             <CardTokens key={index} vault={vault} />
           ))}
         </div>
-
         <div className="flex justify-center lg:mr-[70px] text-white mt-6 gap-1">
           <button
             className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
@@ -144,6 +142,7 @@ export function TokenVaults() {
           </button>
         </div>
         <div className="mt-12">.</div>
+        <WalletConnect />
       </div>
     </div>
   );

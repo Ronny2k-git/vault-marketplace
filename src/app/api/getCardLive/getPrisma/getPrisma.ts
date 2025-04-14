@@ -54,6 +54,7 @@ export const getVaultInDb = async () => {
     return NextResponse.json({
       success: false,
       message: "Error fetching vault data",
+      error,
     });
   }
 };

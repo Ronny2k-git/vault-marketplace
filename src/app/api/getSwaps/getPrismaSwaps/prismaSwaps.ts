@@ -25,7 +25,7 @@ export const getSwapsInDb = async (currentPage: number = 1) => {
     return NextResponse.json({ success: true, swaps }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Error getting in the database" },
+      { success: false, message: "Error getting in the database", error },
       { status: 500 }
     );
   }

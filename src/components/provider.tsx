@@ -3,10 +3,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useEffect, useState } from "react";
 import { Config, WagmiProvider } from "wagmi";
-import { getClientConfig } from "@/utils/configRainbow";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css"; /*This fucked me up*/
+import { getConfig } from "@/utils/configWagmi";
 
 type Props = {
   children: ReactNode;
@@ -21,7 +21,7 @@ export let wagmiConfig: Config;
 // });
 
 export function Providers({ children, initialState }: Props) {
-  const [config] = useState(() => getClientConfig());
+  const [config] = useState(() => getConfig());
   const [queryClient] = useState(() => new QueryClient());
 
   useEffect(() => {

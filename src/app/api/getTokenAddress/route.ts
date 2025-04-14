@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ success: true, vault }, { status: 200 });
     } catch (error) {
       return NextResponse.json(
-        { success: false, message: "Error fetching vault data" },
+        { success: false, message: "Error fetching vault data", error },
         { status: 500 }
       );
     }

@@ -39,9 +39,17 @@ const cardStyle = cva("", {
         "w-[412px]",
         "rounded-3xl",
       ],
-      high: [
+      extrahigh: [
         "w-[477px]",
         "h-[702px]",
+        "rounded-2xl",
+        "py-5",
+        "px-5",
+        "gap-2.5",
+      ],
+      high: [
+        "w-[350px]",
+        "h-[488px]",
         "rounded-2xl",
         "py-5",
         "px-5",

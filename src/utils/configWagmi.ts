@@ -9,16 +9,19 @@ import {
 import {
   cookieStorage,
   createConfig,
-  CreateConnectorFn,
   createStorage,
   http,
+  injected,
 } from "wagmi";
+import { metaMask, safe, walletConnect } from "wagmi/connectors";
 
-export function getConfig(test: CreateConnectorFn[] = []) {
+const projectId = "<WALLETCONNECT_PROJECT_ID>";
+
+export function getConfig() {
   return createConfig({
     chains: [mainnet, sepolia, base],
     ssr: true,
-    connectors: test,
+    connectors: [injected(), walletConnect({ projectId }), metaMask(), safe()],
     storage: createStorage({
       storage: cookieStorage,
     }),

@@ -25,7 +25,7 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
   const [maxDeposit] = useAtom(maxDepositAtom);
   const [decimals] = useAtom(tokenDecimals);
   const [currentPage, setCurrentPage] = useState(1);
-  const [swaps, setSwaps] = useAtom(swapAtom);
+  const [, setSwaps] = useAtom(swapAtom);
 
   const { tokenAddress } = useParams();
 
@@ -118,7 +118,7 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
                 <div className="w-32">TIME</div>
                 <div className="w-[70px]">TYPE</div>
               </Card>
-              <TransactionTokens /> //Component Swaps
+              <TransactionTokens />
             </div>
             <CardTransaction />
           </div>

@@ -9,8 +9,8 @@ export function ErrorDatabase() {
         <h1 className="text-white font-bold text-3xl md:text-6xl animate-pulse">
           You got lost in the space ...
         </h1>
-        <h2 className="z-30 text-gray-400 text-sm md:text-xl mt-4">
-          Sorry, we couldn't connect to the database.
+        <h2 className="z-30 text-gray-400 text-sm md:text-xl mt-4 animate-bounce">
+          Sorry, we couldn t connect to the database.
         </h2>
       </div>
     </div>
