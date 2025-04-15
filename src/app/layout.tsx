@@ -10,8 +10,8 @@ import { IoSearchOutline } from "react-icons/io5";
 
 import "@rainbow-me/rainbowkit/styles.css";
 
-import { ButtonStyle } from "@/components/connectButton";
 import { MenuMobile } from "@/components/interface/Drawer";
+import WalletConnect from "@/components/WalletConnect";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -81,7 +81,7 @@ export function TopBar() {
           </Link>
         </div>
         <div className=" ml-auto lg:pr-4">
-          <ButtonStyle />
+          <WalletConnect />
         </div>
         <div className="lg:pr-0 pr-4">
           <MenuMobile />

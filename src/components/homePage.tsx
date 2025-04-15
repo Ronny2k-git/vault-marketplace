@@ -10,7 +10,6 @@ import { getVaults, vaultExplore } from "@/utils/atom";
 import { useParams } from "next/navigation";
 import { vault } from "@prisma/client";
 import { ErrorDatabase } from "./interface/errorDatabase";
-import WalletConnect from "./WalletConnect";
 
 export function TokenVaults() {
   const [vaultData, setVaultData] = useAtom<vault[] | null>(vaultExplore);
@@ -142,7 +141,6 @@ export function TokenVaults() {
           </button>
         </div>
         <div className="mt-12">.</div>
-        <WalletConnect />
       </div>
     </div>
   );

@@ -11,9 +11,9 @@ import { sepolia } from "viem/chains";
 import { wagmiConfig } from "../Providers";
 import { formatUnits, isAddress } from "viem";
 import { useAccount } from "wagmi";
-import { Vault } from "@prisma/client";
+import { vault } from "@prisma/client";
 
-interface CustomVault extends Vault {
+interface CustomVault extends vault {
   participants?: number;
 }
 
@@ -37,7 +37,7 @@ export function CardLive({ vault }: { vault: CustomVault }) {
     setTotalDeposited(deposited);
   }
 
-  const getStatus = (vault: Vault) => {
+  const getStatus = (vault: vault) => {
     const currentDate = new Date();
     const startDate = new Date(vault.startsAt);
     const endDate = new Date(vault.endsAt);
@@ -63,7 +63,7 @@ export function CardLive({ vault }: { vault: CustomVault }) {
           className="rounded-t-xl h-40 w-full object-cover"
           src={vault.banner}
         />
-        <div className="flex z-40 bottom-2 lg:bottom-2 gap-2 left-2 absolute">
+        <div className="flex z-10 bottom-2 lg:bottom-2 gap-2 left-2 absolute">
           <img className="size-8 rounded-full" src={vault.logo} />
           <div className="font-normal text-white text-base">
             {vault.name}

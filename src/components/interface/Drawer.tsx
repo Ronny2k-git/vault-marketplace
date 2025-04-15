@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { ButtonStyle } from "../connectButton";
 import { Button } from "./button";
 import { MdOutlineCreate } from "react-icons/md";
 import { IoMdHelpCircleOutline, IoMdSearch } from "react-icons/io";
@@ -28,12 +27,12 @@ export function MenuMobile() {
       </div>
       {isMenuOpen && (
         <div
-          className="absolute rounded-b-3xl md:hidden top-0 right-0 p-4 z-10 flex flex-col text-red-500
+          className="absolute rounded-b-3xl md:hidden top-0 right-0 p-4 z-30 flex flex-col text-red-500
          bg-background-foreground h-[325px] w-full"
         >
           <div className="flex flex-col ml-2">
             <div className="flex">
-              <h1 className="text-[22px] mb-4 text-white hover:underline">
+              <h1 className="text-[22px] mb- text-white hover:underline">
                 Vault Marketplace
               </h1>
               <button
@@ -47,13 +46,6 @@ export function MenuMobile() {
                 />
               </button>
             </div>
-            <Button
-              className="rounded-xl py-2 gap-2 text-sm"
-              intent={"primary"}
-            >
-              <ButtonStyle />
-              Connect Wallet
-            </Button>
             <div className="Line h-0.5 mt-4 mb-4 w-full bg-gray-500" />
             <Link href="/explore-vaults">
               <Button

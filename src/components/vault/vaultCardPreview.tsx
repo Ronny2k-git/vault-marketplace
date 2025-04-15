@@ -8,7 +8,7 @@ export function CardPreview() {
       <Card intent={"primary"} size={"small"}>
         <div className="relative w-full h-fit aspect-video overflow-hidden flex-grow-0">
           <div className="rounded-t-xl h-36 w-full object-cover bg-[url(/backgroundCard.png)]" />
-          <div className="flex z-40 bottom-1 gap-2 left-2 absolute">
+          <div className="flex z-10 bottom-1 gap-2 left-2 absolute">
             <img className="size-8 mt-1" src="/icons/frame.png" />
             <div className=" font-normal text-white text-base">
               Unnamed
