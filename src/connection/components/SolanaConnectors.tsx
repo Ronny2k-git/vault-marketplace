@@ -18,10 +18,6 @@ export function SolanaConnectors() {
     connecting,
   } = useWallet();
 
-  console.log(wallets);
-
-  console.log(wallets.map((w) => w.adapter.name));
-
   const abreviateAddress = (address: string) => {
     if (!address) return "";
     return `${address.slice(0, 7)}...${address.slice(-5)}`.toLowerCase();
@@ -31,7 +27,12 @@ export function SolanaConnectors() {
 
   return (
     <div className="flex flex-col gap-2.5">
-      <h1 className="text-md mb-2">Solana Connectors</h1>
+      <div className="flex gap-6 mb-2 justify-between items-center">
+        <h1 className="text-md">Solana Connectors</h1>
+        <div className="text-sm flex items-center text-black bg-white rounded-full px-2">
+          {!connected ? "Not connected" : `${abreviateAddress(address!)}`}
+        </div>
+      </div>
       {connected ? (
         <div className="flex justify-between bg-gray-glow rounded-2xl py-2 px-2">
           <Image
@@ -41,7 +42,6 @@ export function SolanaConnectors() {
             alt="user icon"
             className="rounded-full"
           />
-          <p className="text-black">{abreviateAddress(address)}</p>
           <button
             className="h-8 w-8 rounded-full text-sm text-black px-2 bg-gray-100"
             onClick={() => disconnect()}

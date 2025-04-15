@@ -1,9 +1,12 @@
+"use client";
+
 import { Button } from "@/components/interface/button";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import Image from "next/image";
+import { useConnect, useAccount, useDisconnect } from "wagmi";
 
 export function MoveConnectors() {
-  const { connect, connectors, status } = useConnect();
-  const { address, isConnected } = useAccount();
+  const { connect, connectors } = useConnect();
+  const { address, isConnected, connector } = useAccount();
   const { disconnect } = useDisconnect();
 
   const abreviateAddress = (address: string) => {
@@ -19,21 +22,30 @@ export function MoveConnectors() {
     "app.phantom": "/icons/phantom.jpeg",
   };
 
-  console.log();
-
   return (
     <div className="flex flex-col gap-2.5">
-      <h1 className="mb-2 text-md">Move Connectors</h1>
+      <div className="flex gap-6 mb-2 justify-between items-center">
+        <h1 className="text-md">Move Connectors</h1>
+        <div className="text-sm flex items-center text-black bg-white rounded-full px-2">
+          {!isConnected ? "Not connected" : `${abreviateAddress(address!)}`}
+        </div>
+      </div>
       {isConnected ? (
-        <div className="flex justify-between gap-4 mt-4 bg-gray-500 rounded-2xl py-2 px-2">
-          <p className="text-white">
-            {abreviateAddress(address ? address : "")}
-          </p>
+        <div className="flex justify-between bg-gray-glow rounded-2xl py-2 px-2">
+          {connector && (
+            <Image
+              src={connectorIcons[connector.id.toLowerCase()]}
+              width={26}
+              height={20}
+              alt={`${connector.name} icon`}
+              className="rounded-full"
+            />
+          )}
           <button
-            className="h-8 w-8 max-screen- rounded-full text-sm text-black py-1 px-2 bg-gray-100"
+            className="h-8 w-8 rounded-full text-sm text-black px-2 bg-gray-100"
             onClick={() => disconnect()}
           >
-            Get out
+            disconnect
           </button>
         </div>
       ) : (
@@ -45,12 +57,17 @@ export function MoveConnectors() {
             intent="neutral"
             onClick={() => connect({ connector })}
           >
-            <img
-              className="h-6 w-6 rounded-full mr-1"
-              src={connectorIcons[connector.id.toLocaleLowerCase()]}
+            <Image
+              width={24}
+              height={24}
+              alt="connector icon"
+              className="rounded-full mr-1"
+              src={
+                connectorIcons[connector.id.toLowerCase()] ??
+                "/icons/default.png"
+              }
             />
             {connector.name}
-            {status === "pending" ? " (connecting)" : ""}
           </Button>
         ))
       )}
