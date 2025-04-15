@@ -7,6 +7,7 @@ import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css"; /*This fucked me up*/
 import { getConfig } from "@/utils/configWagmi";
+import SolanaProvider from "./SolanaProvider";
 
 type Props = {
   children: ReactNode;
@@ -14,11 +15,6 @@ type Props = {
 };
 
 export let wagmiConfig: Config;
-
-// const { connectors } = getDefaultWallets({
-//   appName: "My RainbowKit App",
-//   projectId: "My app",
-// });
 
 export function Providers({ children, initialState }: Props) {
   const [config] = useState(() => getConfig());
@@ -29,12 +25,14 @@ export function Providers({ children, initialState }: Props) {
   }, [config]);
 
   return (
-    <WagmiProvider config={config} initialState={initialState}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider modalSize="wide" theme={darkTheme()}>
-          <Theme>{children}</Theme>
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <SolanaProvider>
+      <WagmiProvider config={config} initialState={initialState}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider modalSize="wide" theme={darkTheme()}>
+            <Theme>{children}</Theme>
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </SolanaProvider>
   );
 }

@@ -5,7 +5,7 @@ import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import { Input } from "../interface/input";
 import { useAtom } from "jotai";
-import { wagmiConfig } from "../provider";
+import { wagmiConfig } from "../Providers";
 import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
 import {

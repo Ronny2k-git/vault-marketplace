@@ -4,7 +4,7 @@ import "./globals.css";
 import { cookieToInitialState } from "wagmi";
 import { getConfig } from "@/utils/configWagmi";
 import { headers } from "next/headers";
-import { Providers } from "@/components/provider";
+import { Providers } from "@/components/Providers";
 import Link from "next/link";
 import { IoSearchOutline } from "react-icons/io5";
 

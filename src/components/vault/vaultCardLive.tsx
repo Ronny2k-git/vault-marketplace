@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { readContract } from "wagmi/actions";
 import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
-import { wagmiConfig } from "../provider";
+import { wagmiConfig } from "../Providers";
 import { formatUnits, isAddress } from "viem";
 import { useAccount } from "wagmi";
 import { Vault } from "@prisma/client";

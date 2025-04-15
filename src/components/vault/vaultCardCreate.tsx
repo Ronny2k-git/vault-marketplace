@@ -8,7 +8,7 @@ import SelectDate from "../interface/datePicker";
 import { abi } from "@/utils/abiContract";
 import { Button } from "../interface/button";
 import { readContract, simulateContract, writeContract } from "@wagmi/core";
-import { wagmiConfig } from "../provider";
+import { wagmiConfig } from "../Providers";
 import { useAccount } from "wagmi";
 import { erc20Abi, Hex, parseUnits } from "viem";
 

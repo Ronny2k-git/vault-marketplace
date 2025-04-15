@@ -11,7 +11,7 @@ import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { vault } from "@prisma/client";
 import { readContract } from "wagmi/actions";
-import { wagmiConfig } from "../provider";
+import { wagmiConfig } from "../Providers";
 import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";

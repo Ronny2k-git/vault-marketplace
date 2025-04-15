@@ -12,7 +12,7 @@ export default function WalletConnect() {
       <Card className="flex flex-col gap-4" size="high" intent="primary">
         <div className="flex justify-between">
           <h1>Ecosystem</h1>
-          <button className="bg-gray-glow rounded-full h-4 w-4 flex items-center justify-center text-black font-semibold hover:bg-gray-200">
+          <button className="bg-gray-glow text-xs rounded-full h-4 w-4 flex items-center justify-center text-black font-semibold hover:bg-gray-200">
             x
           </button>
         </div>

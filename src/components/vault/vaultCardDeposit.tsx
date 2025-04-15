@@ -17,7 +17,7 @@ import {
   waitForTransactionReceipt,
   writeContract,
 } from "wagmi/actions";
-import { wagmiConfig } from "../provider";
+import { wagmiConfig } from "../Providers";
 import { sepolia } from "viem/chains";
 import {
   maxDepositAtom,
