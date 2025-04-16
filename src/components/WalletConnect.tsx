@@ -9,9 +9,17 @@ import { SolanaConnectors } from "@/connection/components/SolanaConnectors";
 import { MoveConnectors } from "@/connection/components/MoveConnectors";
 import { useState } from "react";
 import { FaWallet } from "react-icons/fa";
+import { useMultiWallet } from "@/hooks/useWallet";
 
 export default function WalletConnect() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const connectedWallet = useMultiWallet();
+
+  const abreviateAddress = (address: string | null | undefined) => {
+    if (!address) return "";
+    return `${address.slice(0, 6)}...${address.slice(-4)}`.toLowerCase();
+  };
 
   return (
     <div className="relative z-30">
@@ -19,15 +27,18 @@ export default function WalletConnect() {
         <div className="flex transition-shadow duration-300">
           <Button
             className="hidden md:flex"
-            intent={"primary"}
+            intent={connectedWallet ? "secondary" : "primary"}
             size={"large"}
             type="button"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <FaWallet color={"white"} /> Connect Wallet
+            <FaWallet color={"white"} />
+            {connectedWallet
+              ? `${abreviateAddress(connectedWallet.address?.toString())}`
+              : "Connect Wallet"}
           </Button>
           <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-            <FaWallet color={"white"} />
+            <FaWallet color={connectedWallet ? "purple" : "white"} />
           </button>
         </div>
       )}
@@ -35,7 +46,6 @@ export default function WalletConnect() {
       {menuOpen && (
         <>
           <div className="fixed inset-0 bg-black/30 backdrop-blur-sm " />
-
           <Card
             className="flex flex-col gap-4 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             size="high"
@@ -51,13 +61,15 @@ export default function WalletConnect() {
                 x
               </button>
             </div>
-            <Tabs.Root>
+            <Tabs.Root defaultValue="ethereum">
               <Tabs.List className="flex gap-4">
                 {ECOSYSTEM.map((ecosystem, index) => (
-                  <Tabs.Trigger key={index} value={ecosystem}>
-                    <Button key={index} size="medium" intent="primary">
-                      {ecosystem}
-                    </Button>
+                  <Tabs.Trigger
+                    key={index}
+                    value={ecosystem}
+                    className="data-[state=active]:bg-gray-500 py-2 px-4 rounded-xl hover:bg-gray-500 data-[state=active]:text-white"
+                  >
+                    {ecosystem}
                   </Tabs.Trigger>
                 ))}
               </Tabs.List>
