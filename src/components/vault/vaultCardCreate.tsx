@@ -28,7 +28,7 @@ export function CardCreate() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      network: "Sepolia",
+      network: "",
       vaultName: "",
       vaultLogo: "",
       bannerUrl: "",
@@ -163,6 +163,7 @@ export function CardCreate() {
         alert("Sucessfull creation a vault");
       }
     } catch (error) {
+      console.log("Error int he creation of a vault", error);
       alert("Error in the creation of a vault");
     }
   }
@@ -170,12 +171,22 @@ export function CardCreate() {
   return (
     <div className="relative">
       <Card className="mr-2.5 mb-2.5 " intent={"primary"} size={"extrahigh"}>
-        <h3 className="text-white text-xs">Network</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-white text-xs">Network</h3>
+          {errors.network && (
+            <p className="text-red-500 text-[11px] ml-2 text-semibold ">
+              {errors.network.message}
+            </p>
+          )}
+        </div>
+
         <div className="relative">
           <select
             className="py-1 pl-5 mb-2.5 text-white px-1.5 rounded-md text-xs bg-button-bg-primary"
+            defaultValue=""
             {...register("network", { required: "Network is required" })}
           >
+            <option value="">Select network</option>
             <option value="Sepolia">Sepolia</option>
             <option value="Arbitrum">Arbitrum</option>
             <option value="Base">Base</option>
@@ -191,7 +202,7 @@ export function CardCreate() {
         <div className="flex">
           <h3 className="text-white text-xs mb-1">Vault Name</h3>
           {errors.vaultName && (
-            <p className="text-red-500 text-[11px] ml-2 text-semibold ">
+            <p className="text-red-500 text-[11px] ml-2 text-semibold">
               {errors.vaultName.message}
             </p>
           )}
@@ -280,7 +291,6 @@ export function CardCreate() {
             },
           })}
         />
-
         <h3 className="text-white text-xs mb-1">Salt</h3>
         <Input
           placeholder="Enter salt (unique value)"
