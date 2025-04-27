@@ -73,7 +73,10 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
               src={vault.banner}
             />
             <div className="flex absolute bottom-3">
-              <img className="size-11 ml-4 mr-1" src={vault.logo} />
+              <img
+                className="size-11 ml-4 mr-1 rounded-full"
+                src={vault.logo}
+              />
               <div className="flex flex-col">
                 <div className="text-2xl font-bold">{vault.name}</div>
                 <div className="-mt-1 text-base">Sepolia</div>

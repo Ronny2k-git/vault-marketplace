@@ -295,7 +295,7 @@ export function CardDeposit() {
               {vaultData.assetTokenName}
             </div>
             <img
-              className="size-5 ml-0.5 absolute right-4"
+              className="size-5 ml-0.5 absolute right-4 rounded-full"
               src={vaultData.logo}
             />
           </div>

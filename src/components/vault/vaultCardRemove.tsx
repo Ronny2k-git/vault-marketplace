@@ -215,7 +215,7 @@ export function CardRemove() {
               {vaultData.assetTokenName}
             </div>
             <img
-              className="size-5 absolute ml-0.5 right-4"
+              className="size-5 absolute ml-0.5 right-4 rounded-full"
               src={vaultData.logo}
             />
           </div>
