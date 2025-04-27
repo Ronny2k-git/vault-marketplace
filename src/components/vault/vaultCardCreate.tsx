@@ -5,6 +5,17 @@ import { Card } from "../interface/card";
 import { Input } from "../interface/input";
 import SelectDate from "../interface/datePicker";
 import { Button } from "../interface/button";
+import {
+  bannerUrlAtom,
+  endDateAtom,
+  maxDepositAtomCreate,
+  minDepositAtomCreate,
+  selectedNetworkAtom,
+  startDateAtom,
+  vaultLogoAtom,
+  vaultNameAtom,
+} from "@/utils/atom";
+import { useAtom } from "jotai";
 
 export type ContractParams = {
   abi: any;
@@ -31,11 +42,19 @@ type CardCreateProps = {
 };
 
 export function CardCreate({ onSubmit }: CardCreateProps) {
+  const [selectedNetwork, setSelectedNetwork] = useAtom(selectedNetworkAtom);
+  const [vaultName, setVaultName] = useAtom(vaultNameAtom);
+  const [vaultLogo, setVaultLogo] = useAtom(vaultLogoAtom);
+  const [bannerUrl, setBannerUrl] = useAtom(bannerUrlAtom);
+  const [minDeposit, setMinDeposit] = useAtom(minDepositAtomCreate);
+  const [maxDeposit, setMaxDeposit] = useAtom(maxDepositAtomCreate);
+  const [starDate, setStartDate] = useAtom(startDateAtom);
+  const [endDate, setEndDate] = useAtom(endDateAtom);
+
   const {
     control,
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm<FormValues>({
@@ -53,9 +72,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
     },
   });
 
-  const formValues = watch();
-
-  const selectedNetwork = formValues.network;
+  // const formValues = watch(); This is not being used in the current code.
 
   const formatDate = (date: Date | null) => {
     if (!date) return "";
@@ -80,6 +97,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
              ${selectedNetwork === "" ? "text-gray-300" : "text-white"}`}
             defaultValue=""
             {...register("network", { required: "Network is required" })}
+            onChange={(e) => setSelectedNetwork(e.target.value)}
           >
             <option value="" disabled hidden>
               Select network
@@ -120,6 +138,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
           placeholder="Enter name"
           intent={"primary"}
           size={"mediumLarge"}
+          onChange={(e) => setVaultName(e.target.value)}
         />
         <div className="flex">
           <h3 className="text-white text-xs mb-1">Vault Logo</h3>
@@ -144,6 +163,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
               message: "Invalid format URL",
             },
           })}
+          onChange={(e) => setVaultLogo(e.target.value)}
         />
         <div className="flex">
           <h3 className="text-white text-xs mb-1">Banner URL</h3>
@@ -168,6 +188,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
               message: "Invalid format URL",
             },
           })}
+          onChange={(e) => setBannerUrl(e.target.value)}
         />
         <div className="flex">
           <h3 className="text-white text-xs mb-1">Asset Token</h3>
@@ -211,6 +232,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
           intent={"primary"}
           size={"mediumLarge"}
           {...register("minDeposit", {})}
+          onChange={(e) => setMinDeposit(BigInt(e.target.value))}
         />
         <h3 className="text-white text-xs mb-1 flex">
           Maximum Deposit per wallet
@@ -226,6 +248,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
           intent={"primary"}
           size={"mediumLarge"}
           {...register("maxDeposit", {})}
+          onChange={(e) => setMaxDeposit(BigInt(e.target.value))}
         />
         <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
         <h3 className="text-white text-xs mb-1">Dates</h3>
@@ -254,7 +277,10 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
                   <SelectDate
                     position="top"
                     selectedDate={value}
-                    onDateChange={(date) => onChange(date)}
+                    onDateChange={(date) => {
+                      onChange(date);
+                      setStartDate(date);
+                    }}
                   />
                 </div>
               </div>
@@ -276,7 +302,10 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
                   <SelectDate
                     position="top"
                     selectedDate={value}
-                    onDateChange={(date) => onChange(date)}
+                    onDateChange={(date) => {
+                      onChange(date);
+                      setEndDate(date);
+                    }}
                   />
                 </div>
               </div>
