@@ -2,9 +2,15 @@ import { erc20Abi, Hex, parseUnits } from "viem";
 import { readContract, simulateContract, writeContract } from "wagmi/actions";
 import { wagmiConfig } from "../Providers";
 import { abi } from "@/utils/abiContract";
-import { ContractParams } from "./vaultCardCreate";
+import { ContractParams, FormValues } from "./vaultCardCreate";
+import { NETWORK_TO_CHAIN_ID } from "@/utils/networks";
 
-export async function CreateVaultEvm(formValues: any, isConnected: boolean) {
+export async function CreateVaultEvm(
+  formValues: FormValues,
+  isConnected: boolean
+) {
+  const chainId = NETWORK_TO_CHAIN_ID[formValues.network];
+
   if (!isConnected) {
     alert("Please connect your wallet");
     return;
@@ -87,7 +93,7 @@ export async function CreateVaultEvm(formValues: any, isConnected: boolean) {
       bannerUrl: formValues.bannerUrl,
       startDate: formValues.startDate,
       endDate: formValues.endDate,
-      chainId: 11155111,
+      chainId,
       assetTokenDecimals: tokenDecimals,
       assetTokenName,
       assetTokenSymbol,

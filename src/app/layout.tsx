@@ -90,11 +90,3 @@ export function TopBar() {
     </div>
   );
 }
-
-export function MenuSelect() {
-  return (
-    <div>
-      <div></div>
-    </div>
-  );
-}

@@ -2,7 +2,7 @@
 
 import { ECOSYSTEM } from "@/global/constants";
 import { Card } from "./interface/card";
-import * as Tabs from "@radix-ui/react-tabs";
+import { Tabs } from "radix-ui";
 import { Button } from "./interface/button";
 import { EthereumConnectors } from "@/connection/components/EthereumConnectors";
 import { SolanaConnectors } from "@/connection/components/SolanaConnectors";

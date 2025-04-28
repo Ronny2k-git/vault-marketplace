@@ -1,12 +1,16 @@
 "use client";
 
+import { CreateVaultSolana } from "@/components/createVaultSolana";
 import { CreateVaultEvm } from "@/components/vault/createVaultEvm";
 import { CardCreate } from "@/components/vault/vaultCardCreate";
 import { CardPreview } from "@/components/vault/vaultCardPreview";
+import { EVM_NETWORKS } from "@/utils/networks";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useAccount } from "wagmi";
 
 export default function PageCreate() {
   const { isConnected } = useAccount();
+  const wallet = useWallet();
 
   return (
     <div className="min-h-screen w-[calc(screen-1px)] bg-background">
@@ -18,10 +22,14 @@ export default function PageCreate() {
         <div className="flex">
           <CardCreate
             onSubmit={async (formValues) => {
-              if (formValues.network === "Sepolia") {
+              if (EVM_NETWORKS.includes(formValues.network)) {
                 await CreateVaultEvm(formValues, isConnected);
               } else if (formValues.network === "Solana") {
-                await console.log("Solana not yet implemented");
+                if (!wallet) {
+                  console.error("wallet not connected");
+                  return;
+                }
+                await CreateVaultSolana(formValues, wallet);
               }
             }}
           />
