@@ -12,6 +12,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 import { MenuMobile } from "@/components/interface/Drawer";
 import WalletConnect from "@/components/WalletConnect";
+import { MdCalculate } from "react-icons/md";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,6 +78,12 @@ export function TopBar() {
                 +
               </p>
               Create a vault
+            </h3>
+          </Link>
+          <Link href="/calculate-mkt-cap">
+            <h3 className="ml-8 flex text-white items-center hover:underline">
+              <MdCalculate className="size-[18px] mr-1" />
+              Calculate mkt cap
             </h3>
           </Link>
         </div>

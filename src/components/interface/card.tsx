@@ -41,6 +41,7 @@ const cardStyle = cva("", {
       ],
       high: [
         "w-[370px]",
+        "max-sm:w-[320px]",
         "h-[488px]",
         "rounded-2xl",
         "py-5",
