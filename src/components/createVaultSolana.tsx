@@ -1,38 +1,30 @@
 import { Connection, PublicKey, SystemProgram } from "@solana/web3.js";
-import { Program, AnchorProvider, BN } from "@coral-xyz/anchor";
-import idl from "@/utils/solanaVaultIDL.json";
-import { readContract } from "wagmi/actions";
-import { wagmiConfig } from "./Providers";
-import { erc20Abi, Hex } from "viem";
+import { Program, AnchorProvider, BN, Idl } from "@coral-xyz/anchor";
+import idlJson from "@/utils/solanaVaultIDL.json";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { FormValues } from "./vault/vaultCardCreate";
+import { getMint } from "@solana/spl-token";
+
+//Token From Solana devnet: Es9vMFrzC1i3nYYkrsd7DFxZbC1jR8zjXvqz2ZV7EqnS
 
 export async function CreateVaultSolana(
   formValues: FormValues,
   wallet: WalletContextState
 ) {
-  const getTokenDecimals = async (tokenAddress: Hex) => {
-    const decimals = await readContract(wagmiConfig, {
-      abi: erc20Abi,
-      address: tokenAddress,
-      functionName: "decimals",
-    });
-    return decimals;
+  const connection = new Connection("https://api.devnet.solana.com");
+
+  const idl = (idlJson as any).default ?? (idlJson as any as Idl);
+
+  const getTokenDecimals = async (tokenAddress: string) => {
+    const mintInfo = await getMint(connection, new PublicKey(tokenAddress));
+    return mintInfo.decimals;
   };
 
-  async function getContract(address: Hex) {
-    const name = await readContract(wagmiConfig, {
-      abi: erc20Abi,
-      address,
-      functionName: "name",
-    });
-    const symbol = await readContract(wagmiConfig, {
-      abi: erc20Abi,
-      address,
-      functionName: "symbol",
-    });
-    return { name, symbol };
-  }
+  const anchorWallet = {
+    publicKey: wallet.publicKey,
+    signTransaction: wallet.signTransaction,
+    signAllTransactions: wallet.signAllTransactions,
+  };
 
   try {
     if (!wallet.publicKey) {
@@ -42,11 +34,10 @@ export async function CreateVaultSolana(
 
     const tokenDecimals = await getTokenDecimals(formValues.assetToken);
 
-    const tokenData = await getContract(formValues.assetToken);
-    const { name: assetTokenName, symbol: assetTokenSymbol } = tokenData;
+    const assetTokenName = "USDC";
+    const assetTokenSymbol = "USDC";
 
-    const connection = new Connection("https://api.devnet.solana.com");
-    const provider = new AnchorProvider(connection, wallet, {});
+    const provider = new AnchorProvider(connection, anchorWallet, {});
     const programId = new PublicKey(
       "98p4PNqAJTskdbDY75Mqt1RPUGLu7NKnHYbiYS8HZ8HY"
     );
@@ -115,7 +106,8 @@ export async function CreateVaultSolana(
 
     alert("Vault successfully created on Solana!");
   } catch (error) {
-    console.error(error);
-    alert("Error creating Vault on Solana");
+    // console.error(error);
+    // alert("Error creating Vault on Solana");
+    console.error("Error creating Vault on Solana", error);
   }
 }

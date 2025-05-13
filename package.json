@@ -11,6 +11,7 @@
   "dependencies": {
     "@aptos-labs/wallet-adapter-react": "^5.0.4",
     "@chakra-ui/react": "^3.3.1",
+    "@coral-xyz/anchor": "^0.31.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.4.0",
@@ -19,6 +20,7 @@
     "@radix-ui/react-tabs": "^1.1.9",
     "@radix-ui/themes": "^3.2.1",
     "@rainbow-me/rainbowkit": "^2.2.2",
+    "@solana/spl-token": "^0.4.13",
     "@solana/wallet-adapter-base": "^0.9.24",
     "@solana/wallet-adapter-react": "^0.15.36",
     "@solana/wallet-adapter-react-ui": "^0.9.36",

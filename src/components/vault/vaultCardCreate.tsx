@@ -204,10 +204,10 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
           size={"mediumLarge"}
           {...register("assetToken", {
             required: { value: true, message: "The token address is required" },
-            pattern: {
-              value: /^0x[a-fA-F0-9]{40}$/,
-              message: "Invalid address format",
-            },
+            // pattern: {
+            //   value: /^0x[a-fA-F0-9]{40}$/,
+            //   message: "Invalid address format",
+            // },
           })}
         />
         <h3 className="text-white text-xs mb-1">Salt</h3>
@@ -318,7 +318,17 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
           className="mr-2.5"
           intent={"primary"}
           size="mediumLarge"
-          onClick={() => reset()}
+          onClick={() => {
+            reset();
+            setSelectedNetwork("");
+            setVaultName("");
+            setVaultLogo("");
+            setBannerUrl("");
+            setMinDeposit(BigInt(0));
+            setMaxDeposit(BigInt(0));
+            setStartDate(null);
+            setEndDate(null);
+          }}
         >
           Reset
         </Button>

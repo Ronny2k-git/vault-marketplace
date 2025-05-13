@@ -29,18 +29,19 @@ export function CardPreview() {
         <div className="relative w-full h-fit aspect-video overflow-hidden flex-grow-0">
           <img
             className="rounded-t-xl h-36 w-full object-cover bg-center"
-            src={bannerUrl ? bannerUrl : "/backgroundCard.png"}
+            src={bannerUrl || "/backgroundCard.png"}
+            onError={(e) => (e.currentTarget.src = "/backgroundCard.png")}
           />
           <div className="flex z-10 bottom-1 gap-2 left-2 absolute">
             <img
               className="size-8 mt-1 rounded-full bg-center bg-cover"
-              src={vaultLogo ? vaultLogo : "/icons/frame.png"}
+              src={vaultLogo || "/icons/frame.png"}
             />
             <div className=" font-normal text-white text-base -mb-6">
-              {vaultName ? vaultName : "Unammed"}
+              {vaultName || "Unammed"}
               <br />
               <div className="text-[10px] -mt-2">
-                {selectedNetwork ? selectedNetwork : "No chain selected"}
+                {selectedNetwork || "No chain selected"}
               </div>
             </div>
           </div>

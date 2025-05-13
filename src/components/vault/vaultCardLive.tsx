@@ -4,7 +4,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { readContract } from "wagmi/actions";
 import { abiVault } from "@/utils/abiVault";
 import { sepolia } from "viem/chains";
@@ -22,7 +22,7 @@ export function CardLive({ vault }: { vault: CustomVault }) {
 
   const { address } = useAccount();
 
-  async function totalAmountDeposited() {
+  const totalAmountDeposited = useCallback(async () => {
     if (!isAddress(vault.address)) {
       throw new Error("Address is invalid");
     }
@@ -35,7 +35,7 @@ export function CardLive({ vault }: { vault: CustomVault }) {
       args: [address!],
     });
     setTotalDeposited(deposited);
-  }
+  }, [vault.address, address]);
 
   const getStatus = (vault: vault) => {
     const currentDate = new Date();
@@ -54,7 +54,7 @@ export function CardLive({ vault }: { vault: CustomVault }) {
 
   useEffect(() => {
     totalAmountDeposited();
-  }, []);
+  }, [totalAmountDeposited]);
 
   return (
     <Card className="pb-2 h-auto rounded-xl" intent={"primary"}>
