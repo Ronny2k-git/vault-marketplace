@@ -21,6 +21,9 @@ export function MoveConnectors() {
             : `${abreviateAddress(account?.address?.toString())}`}
         </div>
       </div>
+      {/* <div className="text-sm flex w-12 items-center text-black bg-white rounded-full px-2">
+        {isLoading ? "Loading..." : "Ready"}
+      </div> */}
       {connected ? (
         <div className="flex justify-between bg-gray-glow rounded-2xl py-2 px-2">
           <Image
