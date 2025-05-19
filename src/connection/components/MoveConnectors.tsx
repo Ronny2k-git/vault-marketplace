@@ -3,7 +3,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Image from "next/image";
 
 export function MoveConnectors() {
-  const { account, wallets, connect, disconnect, connected, isLoading } =
+  const { account, wallets, connect, disconnect, connected, changeNetwork } =
     useWallet();
 
   const abreviateAddress = (address?: string) => {
@@ -27,7 +27,7 @@ export function MoveConnectors() {
       {connected ? (
         <div className="flex justify-between bg-gray-glow rounded-2xl py-2 px-2">
           <Image
-            src="/connectorIcons[wallet!.adapter.name]"
+            src={wallets[0].icon}
             width={26}
             height={20}
             alt="user icon"
@@ -41,7 +41,7 @@ export function MoveConnectors() {
           </button>
         </div>
       ) : (
-        wallets.map((connector) => (
+        wallets?.map((connector) => (
           <Button
             className="flex"
             key={connector.name}
@@ -54,7 +54,7 @@ export function MoveConnectors() {
               height={24}
               alt="connector icon"
               className="rounded-full mr-1"
-              src="/usdc.png"
+              src={connector.icon}
             />
             {connector.name}
           </Button>

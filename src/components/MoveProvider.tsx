@@ -1,19 +1,19 @@
 "use client";
 
 import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
-import { ReactNode, useMemo } from "react";
-import { PetraWallet } from "petra-plugin-wallet-adapter";
-import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
+import { Network } from "@aptos-labs/ts-sdk";
+import { PropsWithChildren } from "react";
 
-type Props = {
-  children: ReactNode;
-};
-
-export default function MoveProvider({ children }: Props) {
-  const wallets = useMemo(() => [new PetraWallet(), new MartianWallet()], []);
-
+export default function MoveProvider({ children }: PropsWithChildren) {
   return (
-    <AptosWalletAdapterProvider autoConnect={true}>
+    <AptosWalletAdapterProvider
+      // optInWallets={["Petra"]}
+      autoConnect={true}
+      dappConfig={{ network: Network.MAINNET }}
+      onError={(error) => {
+        console.error("Wallet error:", error);
+      }}
+    >
       {children}
     </AptosWalletAdapterProvider>
   );
