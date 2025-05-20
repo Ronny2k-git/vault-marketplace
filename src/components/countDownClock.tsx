@@ -68,7 +68,9 @@ export function CountDownClock() {
       <div className="flex text-live-accent text-base">
         <div className="flex flex-col items-center mr-1">
           <span>{twoDigits(days)}</span>
-          <span className="text-white text-xs">day</span>
+          <span className="text-white text-xs">
+            {days === 1 ? "day" : "days"}
+          </span>
         </div>
         <span>/</span>
         <div className="flex flex-col items-center">
