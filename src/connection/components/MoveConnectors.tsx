@@ -3,8 +3,7 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import Image from "next/image";
 
 export function MoveConnectors() {
-  const { account, wallets, connect, disconnect, connected, changeNetwork } =
-    useWallet();
+  const { account, wallets, connect, disconnect, connected } = useWallet();
 
   const abreviateAddress = (address?: string) => {
     if (!address) return "";

@@ -32,10 +32,10 @@ export function CardPreview() {
             src={bannerUrl || "/backgroundCard.png"}
             onError={(e) => (e.currentTarget.src = "/backgroundCard.png")}
           />
-          <div className="flex z-10 bottom-1 gap-2 left-2 absolute">
+          <div className="flex z-10 gap-2 left-2 absolute">
             <img
-              className="size-8 mt-1 rounded-full bg-center bg-cover"
-              src={vaultLogo || "/icons/frame.png"}
+              className="size-8 rounded-full bg-center bg-cover"
+              src={vaultLogo || "/icons/Frame.png"}
             />
             <div className=" font-normal text-white text-base -mb-6">
               {vaultName || "Unammed"}

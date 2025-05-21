@@ -21,7 +21,7 @@ export function CountDownClock() {
       return "Coming soon";
     }
     if (startDate < currentDate && currentDate < endDate) {
-      return "Live";
+      return "Live now";
     } else {
       return "Finished";
     }
@@ -36,7 +36,7 @@ export function CountDownClock() {
 
     if (getStatus() === "Coming soon") {
       setTimeLeft(startDate.getTime() - currentDate.getTime());
-    } else if (getStatus() === "Live") {
+    } else if (getStatus() === "Live now") {
       setTimeLeft(endDate.getTime() - currentDate.getTime());
     } else {
       setTimeLeft(0);
@@ -63,13 +63,13 @@ export function CountDownClock() {
   }, [vaultData]);
 
   return (
-    <div className="flex flex-col ml-16">
+    <div className="flex flex-col ml-12">
       <div className="flex max-sm:flex-col gap-2 sm:gap-6 justify-between sm:items-center"></div>
       <div className="flex text-live-accent text-base">
         <div className="flex flex-col items-center mr-1">
           <span>{twoDigits(days)}</span>
           <span className="text-white text-xs">
-            {days === 1 ? "day" : "days"}
+            {days <= 1 ? "day" : "days"}
           </span>
         </div>
         <span>/</span>

@@ -24,7 +24,7 @@ export function CardTransaction() {
       return "Coming soon";
     }
     if (startDate < currentDate && currentDate < endDate) {
-      return "Live";
+      return "Live now";
     } else {
       return "Finished";
     }
@@ -33,11 +33,11 @@ export function CardTransaction() {
   return (
     <div>
       <Card className="flex flex-col" intent={"secondary"} size={"mediumLarge"}>
-        <div className="px-4 py-2 flex items-center text-sm text-text-foreground">
+        <div className="px-2 py-2 flex items-center text-sm text-text-foreground">
           Status:
           <p
             className={
-              getStatus() === "Live"
+              getStatus() === "Live now"
                 ? "text-live-accent ml-1"
                 : "text-blue-400 ml-1"
             }

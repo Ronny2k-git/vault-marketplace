@@ -49,7 +49,7 @@ export function CardTokens({ vault }: { vault: CustomVault }) {
     <div className="w-full">
       <Link href={`/token-vault/${vault.address}`}>
         <Card
-          className="flex flex-col md:flex-row md:items-center"
+          className="flex rounded-2xl flex-col md:flex-row md:items-center"
           intent={"primary"}
         >
           <img className="size-7 ml-2 mr-1 rounded-full" src={vault.logo} />

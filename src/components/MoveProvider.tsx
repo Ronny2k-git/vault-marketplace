@@ -7,7 +7,6 @@ import { PropsWithChildren } from "react";
 export default function MoveProvider({ children }: PropsWithChildren) {
   return (
     <AptosWalletAdapterProvider
-      // optInWallets={["Petra"]}
       autoConnect={true}
       dappConfig={{ network: Network.MAINNET }}
       onError={(error) => {
