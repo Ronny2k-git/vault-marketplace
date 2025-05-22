@@ -26,7 +26,7 @@ export default function WalletConnect() {
       {!menuOpen && (
         <div className="flex transition-shadow duration-300">
           <Button
-            className="hidden md:flex"
+            className="hidden lg:flex"
             intent={connectedWallet ? "secondary" : "primary"}
             size={"large"}
             type="button"
@@ -37,7 +37,7 @@ export default function WalletConnect() {
               ? `${abreviateAddress(connectedWallet.address?.toString())}`
               : "Connect Wallet"}
           </Button>
-          <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+          <button className="lg:hidden" onClick={() => setMenuOpen(!menuOpen)}>
             <FaWallet color={connectedWallet ? "purple" : "white"} />
           </button>
         </div>

@@ -5,14 +5,8 @@ import { cookieToInitialState } from "wagmi";
 import { getConfig } from "@/utils/configWagmi";
 import { headers } from "next/headers";
 import { Providers } from "@/components/Providers";
-import Link from "next/link";
-import { IoSearchOutline } from "react-icons/io5";
-
 import "@rainbow-me/rainbowkit/styles.css";
-
-import { MenuMobile } from "@/components/interface/Drawer";
-import WalletConnect from "@/components/WalletConnect";
-import { MdCalculate } from "react-icons/md";
+import { TopBar } from "@/components/topBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,51 +43,5 @@ export default async function RootLayout({
         </Providers>
       </body>
     </html>
-  );
-}
-
-export function TopBar() {
-  return (
-    <div className="h-[90px] w-100% bg-background-alt font-SpaceGrotesk">
-      <div className="h-full w-full flex items-center">
-        <div className="size-12 ml-4 -mt-1 rounded-full bg-white" />
-        <Link href="/explore-vaults">
-          <h1 className="ml-2 sm:text-[22px] text-lg text-white">
-            Vault Marketplace
-          </h1>
-        </Link>
-        <div className="hidden md:flex ">
-          <Link href={`/explore-vaults`}>
-            <h2 className="ml-10 flex hover:underline text-text-foreground">
-              <IoSearchOutline className="size-[18px] mt-0.5 mr-1" /> Explore
-              vaults
-            </h2>
-          </Link>
-          <Link href="/create-vault-page">
-            <h3 className="ml-8 flex text-white items-center hover:underline">
-              <p
-                className="size-3.5 bg-text-foreground flex rounded-full items-center justify-center text-sm 
-            font-semibold mr-1.5 -mt-0.5 text-black"
-              >
-                +
-              </p>
-              Create a vault
-            </h3>
-          </Link>
-          <Link href="/calculate-mkt-cap">
-            <h3 className="ml-8 flex text-white items-center hover:underline">
-              <MdCalculate className="size-[18px] mr-1" />
-              Calculate mkt cap
-            </h3>
-          </Link>
-        </div>
-        <div className=" ml-auto lg:pr-4">
-          <WalletConnect />
-        </div>
-        <div className="lg:pr-0 pr-4">
-          <MenuMobile />
-        </div>
-      </div>
-    </div>
   );
 }

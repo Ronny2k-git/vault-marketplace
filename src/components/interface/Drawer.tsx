@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "./button";
-import { MdOutlineCreate } from "react-icons/md";
+import { MdCalculate, MdOutlineCreate } from "react-icons/md";
 import { IoMdHelpCircleOutline, IoMdSearch } from "react-icons/io";
 import { PiPlant } from "react-icons/pi";
 import Link from "next/link";
@@ -12,7 +12,7 @@ export function MenuMobile() {
 
   return (
     <div>
-      <div className="md:hidden flex items-center ml-4">
+      <div className="lg:hidden flex items-center ml-4">
         <button className="" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? (
             <img className="h-4 w-4" src="/icons/delete.png" alt="Close" />
@@ -27,7 +27,7 @@ export function MenuMobile() {
       </div>
       {isMenuOpen && (
         <div
-          className="absolute rounded-b-3xl md:hidden top-0 right-0 p-4 z-30 flex flex-col text-red-500
+          className="absolute rounded-b-3xl lg:hidden top-0 right-0 p-4 z-30 flex flex-col text-red-500
          bg-background-foreground h-[325px] w-full"
         >
           <div className="flex flex-col ml-2">
@@ -63,12 +63,22 @@ export function MenuMobile() {
                 <MdOutlineCreate /> Create a vault
               </Button>
             </Link>
-            <Button
-              className="rounded-xl py-2 text-sm mb-2 gap-1 w-full"
-              intent={"primary"}
-            >
-              <PiPlant /> Staking
-            </Button>
+            <Link href="/calculate-mkt-cap">
+              <Button
+                className="rounded-xl py-2 text-sm mb-2 gap-1 w-full"
+                intent={"primary"}
+              >
+                <MdCalculate /> Calculate mkt cap
+              </Button>
+            </Link>
+            <Link href="/calculate-mkt-cap">
+              <Button
+                className="rounded-xl py-2 text-sm mb-2 gap-1 w-full"
+                intent={"primary"}
+              >
+                <MdCalculate /> Create your ERC-20 token
+              </Button>
+            </Link>
             <Button
               className="rounded-xl py-2 text-sm gap-1 w-full"
               intent={"primary"}
