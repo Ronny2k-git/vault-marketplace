@@ -71,7 +71,7 @@ export function MenuMobile() {
                 <MdCalculate /> Calculate mkt cap
               </Button>
             </Link>
-            <Link href="/calculate-mkt-cap">
+            <Link href="/create-token">
               <Button
                 className="rounded-xl py-2 text-sm mb-2 gap-1 w-full"
                 intent={"primary"}
