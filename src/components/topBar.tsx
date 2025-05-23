@@ -3,7 +3,7 @@
 import { Tabs } from "@radix-ui/themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoCreateSharp, IoSearchOutline } from "react-icons/io5";
 import { MdCalculate } from "react-icons/md";
 import WalletConnect from "./WalletConnect";
 import { MenuMobile } from "./interface/Drawer";
@@ -62,7 +62,7 @@ export function TopBar() {
               <Tabs.Trigger value="create-token">
                 <Link href="/create-token">
                   <h3 className="flex text-white items-center hover:underline">
-                    <MdCalculate className="size-[18px] mr-1" />
+                    <IoCreateSharp className="size-[18px] -mt-1 mr-1" />
                     Create ERC20 token
                   </h3>
                 </Link>

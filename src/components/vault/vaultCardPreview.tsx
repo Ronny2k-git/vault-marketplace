@@ -25,7 +25,7 @@ export function CardPreview() {
 
   return (
     <div>
-      <Card intent={"primary"} size={"small"}>
+      <Card className="w-80" intent={"primary"} size={"small"}>
         <div className="relative w-full h-fit aspect-video overflow-hidden flex-grow-0">
           <img
             className="rounded-t-xl h-36 w-full object-cover bg-center"
