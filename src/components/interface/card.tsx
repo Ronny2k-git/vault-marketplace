@@ -41,11 +41,11 @@ const cardStyle = cva("", {
         "gap-2.5",
       ],
       mediumHigh: [
-        "w-[320px]",
-        "h-96",
+        "max-w-[320px]",
+        "h-auto",
         "rounded-2xl",
         "py-5",
-        "px-5",
+        "px-8",
         "gap-2.5",
       ],
       extrahigh: [
