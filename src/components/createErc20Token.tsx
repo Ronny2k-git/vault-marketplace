@@ -8,15 +8,46 @@ import { FaArrowAltCircleUp } from "react-icons/fa";
 import { PiNetwork } from "react-icons/pi";
 import { Input } from "./interface/input";
 import { Button } from "./interface/button";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+type TokenForm = {
+  network: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenBanner: string;
+  totalSupply: string;
+  tokenDecimals: number;
+};
 
 export function CreateErc20Token() {
-  const [network, setNetwork] = useState("");
-  const [tokenName, setTokenName] = useState("");
-  const [tokenSymbol, setTokenSymbol] = useState("");
-  const [tokenBanner, setTokenBanner] = useState("");
-  const [totalSupply, setTotalSupply] = useState("");
-  const [tokenDecimals, setTokenDecimals] = useState(16);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<TokenForm>({
+    defaultValues: {
+      network: "",
+      tokenName: "",
+      tokenSymbol: "",
+      tokenBanner: "",
+      totalSupply: "",
+      tokenDecimals: 16,
+    },
+  });
+
+  const onSubmit = (data: TokenForm) => {
+    console.log("Token data:", data);
+    //Create the token functionality would go here
+  };
+
+  //For preview
+  const tokenName = watch("tokenName");
+  const tokenSymbol = watch("tokenSymbol");
+  const tokenBanner = watch("tokenBanner");
+  const network = watch("network");
+  const totalSupply = watch("totalSupply");
+  const tokenDecimals = watch("tokenDecimals");
 
   return (
     <div className="flex max-md:flex-col gap-6 justify-between">
@@ -26,7 +57,7 @@ export function CreateErc20Token() {
           <div className="flex">
             <select
               className="h-5 w-40 px-6 mb-2 text-white text-xs bg-background-alt-2 border-solid  border-border-primary rounded-md"
-              onChange={(e) => setNetwork(e.target.value)}
+              {...register("network", { required: true })}
             >
               <option value="" hidden>
                 Select network
@@ -44,7 +75,7 @@ export function CreateErc20Token() {
               size={"mediumLarge"}
               placeholder="Insert Your Token Name"
               type="text"
-              onChange={(e) => setTokenName(e.target.value)}
+              {...register("tokenName", { required: true })}
             />
             <MdOutlineDriveFileRenameOutline
               className="size-4 absolute -mt-3 ml-2"
@@ -58,7 +89,7 @@ export function CreateErc20Token() {
               intent={"primary"}
               size={"mediumLarge"}
               placeholder="Insert Your Image URl"
-              onChange={(e) => setTokenSymbol(e.target.value)}
+              {...register("tokenName", { required: true })}
             />
             <GiToken className="size-4 absolute -mt-2 ml-2" color="white" />
           </div>
@@ -69,7 +100,7 @@ export function CreateErc20Token() {
               intent={"primary"}
               size={"mediumLarge"}
               placeholder="Insert Your Image URl"
-              onChange={(e) => setTokenBanner(e.target.value)}
+              {...register("tokenBanner", { required: true })}
             />
             <FaArrowAltCircleUp
               className="size-4 absolute -mt-2 ml-2"
@@ -88,11 +119,16 @@ export function CreateErc20Token() {
               intent={"primary"}
               size={"mediumLarge"}
               placeholder="Ex: 1,000,000"
-              onChange={(e) => setTotalSupply(e.target.value)}
+              {...register("totalSupply", { required: true })}
             />
             <TbNumber16Small className="size-7 -mt-2 absolute" color="white" />
           </div>
-          <Button className="mx- my-2 max-w-64" size="small" intent="secondary">
+          <Button
+            className="mx- my-2 max-w-64"
+            onClick={handleSubmit(onSubmit)}
+            size="small"
+            intent="secondary"
+          >
             Create token
           </Button>
         </div>
