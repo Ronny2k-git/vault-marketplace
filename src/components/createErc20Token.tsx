@@ -9,21 +9,25 @@ import { PiNetwork } from "react-icons/pi";
 import { Input } from "./interface/input";
 import { Button } from "./interface/button";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 type TokenForm = {
   network: string;
   tokenName: string;
   tokenSymbol: string;
   tokenBanner: string;
-  totalSupply: string;
+  totalSupply: bigint;
   tokenDecimals: number;
 };
 
 export function CreateErc20Token() {
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<TokenForm>({
     defaultValues: {
@@ -31,7 +35,7 @@ export function CreateErc20Token() {
       tokenName: "",
       tokenSymbol: "",
       tokenBanner: "",
-      totalSupply: "",
+      totalSupply: 0n,
       tokenDecimals: 16,
     },
   });
@@ -41,7 +45,6 @@ export function CreateErc20Token() {
     //Create the token functionality would go here
   };
 
-  //For preview
   const tokenName = watch("tokenName");
   const tokenSymbol = watch("tokenSymbol");
   const tokenBanner = watch("tokenBanner");
@@ -89,7 +92,7 @@ export function CreateErc20Token() {
               intent={"primary"}
               size={"mediumLarge"}
               placeholder="Insert Your Image URl"
-              {...register("tokenName", { required: true })}
+              {...register("tokenSymbol", { required: true })}
             />
             <GiToken className="size-4 absolute -mt-2 ml-2" color="white" />
           </div>
@@ -123,14 +126,24 @@ export function CreateErc20Token() {
             />
             <TbNumber16Small className="size-7 -mt-2 absolute" color="white" />
           </div>
-          <Button
-            className="mx- my-2 max-w-64"
-            onClick={handleSubmit(onSubmit)}
-            size="small"
-            intent="secondary"
-          >
-            Create token
-          </Button>
+          <div className="flex">
+            <Button
+              intent="primary"
+              size="small"
+              className="mx- my-2 max-w-64"
+              onClick={() => reset()}
+            >
+              Reset
+            </Button>
+            <Button
+              className="mx-2 w-full my-2 max-w-64"
+              onClick={handleSubmit(onSubmit)}
+              size="small"
+              intent="secondary"
+            >
+              {loading ? "Creating token..." : "Create Token"}
+            </Button>
+          </div>
         </div>
       </Card>
       <Card size="small" intent="primary">
