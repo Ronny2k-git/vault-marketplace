@@ -56,7 +56,13 @@ export function CreateErc20Token() {
     <div className="flex max-md:flex-col gap-6 justify-between">
       <Card size="mediumHigh" intent="primary">
         <div className="flex flex-col relative">
-          <h3 className="text-white text-xs">Network</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-white text-xs my-1">Network</h3>
+            {errors.network && (
+              <p className="text-red-500 text-xs">Network is required</p>
+            )}
+          </div>
+
           <div className="flex">
             <select
               className="h-5 w-40 px-6 mb-2 text-white text-xs bg-background-alt-2 border-solid  border-border-primary rounded-md"
@@ -70,8 +76,13 @@ export function CreateErc20Token() {
             </select>
             <PiNetwork className="size-4 absolute ml-1" color="white" />
           </div>
-          <h3 className="text-white text-xs my-1">Token name</h3>
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
+            <h3 className="text-white text-xs my-1">Token name</h3>
+            {errors.tokenName && (
+              <p className="text-red-500 text-xs">Token name is required</p>
+            )}
+          </div>
+          <div className="flex relative items-center">
             <Input
               className="pl-7"
               intent={"primary"}
@@ -85,7 +96,12 @@ export function CreateErc20Token() {
               color="white"
             />
           </div>
-          <h3 className="text-white text-xs">Token symbol</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-white text-xs my-1">Token symbol</h3>
+            {errors.tokenSymbol && (
+              <p className="text-red-500 text-xs">Token symbol is required</p>
+            )}
+          </div>
           <div className="flex items-center">
             <Input
               className="pl-7"
@@ -96,7 +112,12 @@ export function CreateErc20Token() {
             />
             <GiToken className="size-4 absolute -mt-2 ml-2" color="white" />
           </div>
-          <h3 className="text-white text-xs">Token Banner</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-white text-xs my-1">Token banner</h3>
+            {errors.tokenBanner && (
+              <p className="text-red-500 text-xs">Token banner is required</p>
+            )}
+          </div>
           <div className="flex items-center">
             <Input
               className="pl-7"
