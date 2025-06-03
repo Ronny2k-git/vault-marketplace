@@ -7,6 +7,7 @@ import { headers } from "next/headers";
 import { Providers } from "@/components/Providers";
 import "@rainbow-me/rainbowkit/styles.css";
 import { TopBar } from "@/components/topBar";
+import { Button } from "@/components/interface/button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,8 +41,39 @@ export default async function RootLayout({
       >
         <Providers initialState={initialState}>
           <TopBar /> {children}
+          <Footer />
         </Providers>
       </body>
     </html>
+  );
+}
+
+function Footer() {
+  return (
+    <div>
+      <div className="line h-0.5 bg-gray-500 my-8" />
+      <div className="flex items-center gap-2">
+        <p className="pl-8 text-sm text-gray-400">
+          To become a curator, service provider or just report a bug:
+        </p>
+        <a>
+          <span className="text-white hover:underline text-xl font-semibold">
+            Contact Us
+          </span>
+        </a>
+      </div>
+      <div className="line h-0.5 bg-gray-500 my-8" />
+      <div className="flex items-center gap-2 text-sm pl-8">
+        <p className="hover:underline">Documentation</p>
+        <p className="hover:underline">Terms & Conditions</p>
+        <p className="hover:underline">Privacy Policy</p>
+        <p className="hover:underline">Account Verification</p>
+      </div>
+      <div className="flex ml-8 mt-4">
+        <p className="text-sm">Follow Us:</p>
+        <Button></Button>
+        <Button></Button>
+      </div>
+    </div>
   );
 }

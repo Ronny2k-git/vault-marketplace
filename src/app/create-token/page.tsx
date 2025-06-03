@@ -1,4 +1,5 @@
 import { CreateErc20Token } from "@/components/createErc20Token";
+import { Button } from "@/components/interface/button";
 
 export default function CreateTokenPage() {
   return (
@@ -15,6 +16,19 @@ export default function CreateTokenPage() {
         </h2>
         <CreateErc20Token />
         <div className="line h-0.5 bg-gray-500 my-10" />
+        <h2 className="text-white text-2xl mb-4">How to Use</h2>
+        <p className="text-text-foreground mb-6">
+          1. Fill in the token details: name, symbol, total supply, and
+          decimals.
+          <br />
+          2. Select the network (Mainnet or Sepolia).
+          <br />
+          3. Click (Create Token) to generate your ERC-20 token.
+          <br />
+          4. Review the transaction details and confirm the deployment.
+          <br />
+          5. Your token will be created and deployed to the selected network.
+        </p>
       </div>
     </div>
   );
