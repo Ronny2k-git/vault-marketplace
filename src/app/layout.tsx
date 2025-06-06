@@ -8,6 +8,8 @@ import { Providers } from "@/components/Providers";
 import "@rainbow-me/rainbowkit/styles.css";
 import { TopBar } from "@/components/topBar";
 import { Button } from "@/components/interface/button";
+import { FaDiscord } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,11 +52,11 @@ export default async function RootLayout({
 
 function Footer() {
   return (
-    <div>
+    <div className="min-w-full min-h-full bg-background pt-8 px-2">
       <div className="line h-0.5 bg-gray-500 my-8" />
       <div className="flex items-center gap-2">
         <p className="pl-8 text-sm text-gray-400">
-          To become a curator, service provider or just report a bug:
+          To service provider or just report a bug:
         </p>
         <a>
           <span className="text-white hover:underline text-xl font-semibold">
@@ -63,16 +65,30 @@ function Footer() {
         </a>
       </div>
       <div className="line h-0.5 bg-gray-500 my-8" />
-      <div className="flex items-center gap-2 text-sm pl-8">
-        <p className="hover:underline">Documentation</p>
-        <p className="hover:underline">Terms & Conditions</p>
-        <p className="hover:underline">Privacy Policy</p>
-        <p className="hover:underline">Account Verification</p>
-      </div>
-      <div className="flex ml-8 mt-4">
-        <p className="text-sm">Follow Us:</p>
-        <Button></Button>
-        <Button></Button>
+      <div className="flex items-center gap-2 text-gray-400 pb-8">
+        <div className="flex items-center  gap-2 text-sm pl-8">
+          <p className="hover:underline">Documentation</p>
+          <p className="hover:underline">Terms & Conditions</p>
+          <p className="hover:underline">Privacy Policy</p>
+          <p className="hover:underline ">Account Verification</p>
+        </div>
+        <p className="text-sm ml-auto ">Follow Us:</p>
+        <Button
+          className="flex gap-1 hover:bg-none"
+          intent="neutral"
+          size="medium"
+        >
+          <FaDiscord />
+          Discord
+        </Button>
+        <Button
+          className="flex gap-1 hover:bg-none"
+          intent="neutral"
+          size="medium"
+        >
+          <FaXTwitter />
+          Twitter
+        </Button>
       </div>
     </div>
   );
