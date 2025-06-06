@@ -10,6 +10,7 @@ import { TopBar } from "@/components/topBar";
 import { Button } from "@/components/interface/button";
 import { FaDiscord } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -73,22 +74,26 @@ function Footer() {
           <p className="hover:underline ">Account Verification</p>
         </div>
         <p className="text-sm ml-auto ">Follow Us:</p>
-        <Button
-          className="flex gap-1 hover:bg-none"
-          intent="neutral"
-          size="medium"
-        >
-          <FaDiscord />
-          Discord
-        </Button>
-        <Button
-          className="flex gap-1 hover:bg-none"
-          intent="neutral"
-          size="medium"
-        >
-          <FaXTwitter />
-          Twitter
-        </Button>
+        <a href="https://discord.com/" target="_blank">
+          <Button
+            className="flex gap-1 hover:bg-none"
+            intent="neutral"
+            size="medium"
+          >
+            <FaDiscord />
+            Discord
+          </Button>
+        </a>
+        <a href="https://x.com" target="_blank">
+          <Button
+            className="flex gap-1 hover:bg-none"
+            intent="neutral"
+            size="medium"
+          >
+            <FaXTwitter />
+            Twitter
+          </Button>
+        </a>
       </div>
     </div>
   );
