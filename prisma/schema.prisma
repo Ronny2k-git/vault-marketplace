@@ -35,3 +35,13 @@ model vault {
   assetTokenAddress  String
   swap               swap[]
 }
+
+model token {
+  id        Int      @id @default(autoincrement()) 
+  network   String
+  name      String
+  symbol    String
+  banner    String
+  maxSupply Int
+  decimals  Int
+}

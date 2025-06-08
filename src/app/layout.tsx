@@ -10,7 +10,6 @@ import { TopBar } from "@/components/topBar";
 import { Button } from "@/components/interface/button";
 import { FaDiscord } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,7 +41,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers initialState={initialState}>
+        <Providers initialState={initialState!}>
           <TopBar /> {children}
           <Footer />
         </Providers>

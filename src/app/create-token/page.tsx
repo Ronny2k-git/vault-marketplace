@@ -1,5 +1,4 @@
 import { CreateErc20Token } from "@/components/createErc20Token";
-import { Button } from "@/components/interface/button";
 
 export default function CreateTokenPage() {
   return (
