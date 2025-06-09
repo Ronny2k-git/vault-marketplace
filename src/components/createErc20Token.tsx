@@ -40,9 +40,27 @@ export function CreateErc20Token() {
     },
   });
 
-  const onSubmit = (data: TokenForm) => {
+  const onSubmit = async (data: TokenForm) => {
     console.log("Token data:", data);
-    //Create the token functionality would go here
+
+    const response = await fetch("/api/createToken", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        network: data.network,
+        name: data.tokenName,
+        symbol: data.tokenSymbol,
+        banner: data.tokenBanner,
+        maxSupply: data.totalSupply.toString(),
+        decimals: data.tokenDecimals,
+      }),
+    });
+
+    if (response.ok) {
+      return alert("Token sucessfully created on Blockchain!");
+    } else {
+      console.error("Erro creating token and saving on database:");
+    }
   };
 
   const tokenName = watch("tokenName");

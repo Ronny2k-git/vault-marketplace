@@ -42,6 +42,6 @@ model token {
   name      String
   symbol    String
   banner    String
-  maxSupply Int
+  maxSupply BigInt
   decimals  Int
 }
