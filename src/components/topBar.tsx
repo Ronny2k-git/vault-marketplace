@@ -1,10 +1,9 @@
 "use client";
 
+import { APP_ROUTES } from "@/global/constants";
 import { Tabs } from "@radix-ui/themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IoCreateSharp, IoSearchOutline } from "react-icons/io5";
-import { MdCalculate } from "react-icons/md";
 import WalletConnect from "./WalletConnect";
 import { MenuMobile } from "./interface/Drawer";
 
@@ -22,52 +21,32 @@ export function TopBar() {
     <div className="h-[90px] w-100% bg-background-alt font-SpaceGrotesk">
       <div className="h-full w-full flex items-center">
         <div className="size-12 ml-4 -mt-1 rounded-full bg-white" />
-        <Link href="/explore-vaults">
-          <h1 className="ml-2 sm:text-[22px] text-lg text-white">
+        <Link href="/">
+          <h1 className="ml-2 sm:text-[22px] mr-4 text-lg text-white">
             Vault Marketplace
           </h1>
         </Link>
-        <div className="hidden lg:flex ">
-          <Tabs.Root defaultValue={activeTab()} value={activeTab()}>
-            <Tabs.List className="flex">
-              <Tabs.Trigger
-                className="hover:underline text-text-foreground"
-                value="explore"
-              >
-                <Link href={`/explore-vaults`}>
-                  <h2 className="flex hover:underline text-text-foreground">
-                    <IoSearchOutline className="size-[18px] mt-0.5 mr-1" />{" "}
-                    Explore vaults
-                  </h2>
-                </Link>
-              </Tabs.Trigger>
-              <Tabs.Trigger value="create">
-                <Link href="/create-vault-page">
-                  <h3 className="flex text-white items-center hover:underline">
-                    <p className="size-3.5 bg-text-foreground flex rounded-full items-center justify-center text-sm font-semibold mr-1.5 -mt-0.5 text-black">
-                      +
-                    </p>
-                    Create a vault
-                  </h3>
-                </Link>
-              </Tabs.Trigger>
-              <Tabs.Trigger value="calculate">
-                <Link href="/calculate-mkt-cap">
-                  <h3 className="flex text-white items-center hover:underline">
-                    <MdCalculate className="size-[18px] mr-1" />
-                    Calculate mkt cap
-                  </h3>
-                </Link>
-              </Tabs.Trigger>
-              <Tabs.Trigger value="create-token">
-                <Link href="/create-token">
-                  <h3 className="flex text-white items-center hover:underline">
-                    <IoCreateSharp className="size-[18px] -mt-1 mr-1" />
-                    Create ERC20 token
-                  </h3>
-                </Link>
-              </Tabs.Trigger>
-            </Tabs.List>
+        <div className="hidden md:flex ">
+          <Tabs.Root
+            className="flex gap-4"
+            defaultValue={activeTab()}
+            value={activeTab()}
+          >
+            {APP_ROUTES.map((route) => (
+              <Tabs.List key={route.value}>
+                <Tabs.Trigger value={route.value}>
+                  <Link href={route.path}>
+                    <h2 className="flex items-center gap-1 hover:underline text-text-foreground">
+                      <span>{route.icon}</span>
+                      {activeTab() === route.value && (
+                        <div className="xl:hidden">{route.label}</div>
+                      )}
+                      <div className="max-xl:hidden">{route.label}</div>
+                    </h2>
+                  </Link>
+                </Tabs.Trigger>
+              </Tabs.List>
+            ))}
           </Tabs.Root>
         </div>
 

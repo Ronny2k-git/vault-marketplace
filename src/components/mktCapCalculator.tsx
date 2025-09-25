@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { LuDollarSign } from "react-icons/lu";
 import { GiToken } from "react-icons/gi";
+import { LuDollarSign } from "react-icons/lu";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 
 export function MktCapCalculator() {

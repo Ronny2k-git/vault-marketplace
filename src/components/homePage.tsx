@@ -1,15 +1,15 @@
 "use client";
 
+import { getVaults, vaultExplore } from "@/utils/atom";
+import { vault } from "@prisma/client";
+import { useAtom } from "jotai";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Button } from "./interface/button";
+import { ErrorDatabase } from "./interface/errorDatabase";
 import { CardLive } from "./vault/vaultCardLive";
 import { CardTokens } from "./vault/vaultCardTokens";
-import { useEffect, useState } from "react";
-import { useAtom } from "jotai";
-import { getVaults, vaultExplore } from "@/utils/atom";
-import { useParams } from "next/navigation";
-import { vault } from "@prisma/client";
-import { ErrorDatabase } from "./interface/errorDatabase";
 
 export function TokenVaults() {
   const [vaultData, setVaultData] = useAtom<vault[] | null>(vaultExplore);
@@ -40,11 +40,9 @@ export function TokenVaults() {
     });
 
     const data = await response.json();
-    console.log("API response:", data);
 
     if (data.success) {
       setEndVaults(data.endVaults);
-      console.log("Updated endVaults:", data.endVaults);
     } else {
       console.error("Error getting in the database", data.message);
     }
