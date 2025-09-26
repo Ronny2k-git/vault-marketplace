@@ -1,13 +1,9 @@
 "use client";
 
+import { abreviateAddress } from "@/global/utils";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Button } from "./interface/button";
 import { FaWallet } from "react-icons/fa";
-
-const abbreviateAddress = (address: string) => {
-  if (!address) return "";
-  return `${address.slice(0, 7)}...${address.slice(-5)}`.toLowerCase();
-};
+import { Button } from "./interface/button";
 
 export const ButtonStyle = () => {
   return (
@@ -79,8 +75,7 @@ export const ButtonStyle = () => {
                     onClick={openChainModal}
                     style={{ display: "flex", alignItems: "center" }}
                     type="button"
-                  ></button>
-
+                  />
                   <Button
                     className="hover:bg-purple-600 md:flex shadow-shadow hidden"
                     intent={"secondary"}
@@ -90,8 +85,7 @@ export const ButtonStyle = () => {
                   >
                     <FaWallet />
                     <div>
-                      {account.address && abbreviateAddress(account.address)}
-                      {/* {account.displayName} */}
+                      {account.address && abreviateAddress(account.address)}
                     </div>
                   </Button>
                 </button>

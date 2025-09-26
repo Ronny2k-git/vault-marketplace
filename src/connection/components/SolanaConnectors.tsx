@@ -1,6 +1,6 @@
 import { Button } from "@/components/interface/button";
+import { abreviateAddress } from "@/global/utils";
 import { useWallet } from "@solana/wallet-adapter-react";
-import Image from "next/image";
 
 const connectorIcons: Record<string, string> = {
   Phantom: "/icons/phantom.jpeg",
@@ -18,11 +18,6 @@ export function SolanaConnectors() {
     connecting,
   } = useWallet();
 
-  const abreviateAddress = (address: string) => {
-    if (!address) return "";
-    return `${address.slice(0, 7)}...${address.slice(-5)}`.toLowerCase();
-  };
-
   const address = publicKey?.toBase58() ?? "";
 
   return (
@@ -34,13 +29,11 @@ export function SolanaConnectors() {
         </div>
       </div>
       {connected ? (
-        <div className="flex justify-between bg-gray-glow rounded-2xl py-2 px-2">
-          <Image
+        <div className="flex justify-between items-center bg-gray-glow rounded-2xl py-2 px-2">
+          <img
             src={connectorIcons[wallet!.adapter.name]}
-            width={26}
-            height={20}
             alt="user icon"
-            className="rounded-full"
+            className="rounded-full size-8"
           />
           <button
             className="h-8 w-8 rounded-full text-sm text-black px-2 bg-gray-100"
@@ -52,16 +45,14 @@ export function SolanaConnectors() {
       ) : (
         wallets.map((walletAdapter) => (
           <Button
-            className="flex"
+            className="flex items-center"
             key={walletAdapter.adapter.name}
             size="medium"
             intent="neutral"
             onClick={() => select(walletAdapter.adapter.name)}
           >
-            <Image
-              width={24}
-              height={24}
-              className="rounded-full mr-1"
+            <img
+              className="size-6 rounded-full mr-1"
               src={connectorIcons[walletAdapter.adapter.name]}
               alt="wallet icon"
             />

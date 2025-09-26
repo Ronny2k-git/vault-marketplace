@@ -1,49 +1,29 @@
 "use client";
 
+import { getStatus } from "@/global/utils";
 import { vaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function CountDownClock() {
   const [vaultData] = useAtom(vaultAtom);
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
-  const getStatus = () => {
-    const currentDate = new Date();
-    const startDate = new Date(vaultData.startsAt);
-    const endDate = new Date(vaultData.endsAt);
-
-    if (!vaultData) {
-      return "No vault data";
-    }
-
-    if (startDate > currentDate) {
-      return "Coming soon";
-    }
-    if (startDate < currentDate && currentDate < endDate) {
-      return "Live now";
-    } else {
-      return "Finished";
-    }
-  };
-
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = useCallback(() => {
     const currentDate = new Date();
     const startDate = new Date(vaultData.startsAt);
     const endDate = new Date(vaultData.endsAt);
 
     if (!vaultData) return;
 
-    if (getStatus() === "Coming soon") {
+    if (getStatus(vaultData) === "Coming") {
       setTimeLeft(startDate.getTime() - currentDate.getTime());
-    } else if (getStatus() === "Live now") {
+    } else if (getStatus(vaultData) === "Live") {
       setTimeLeft(endDate.getTime() - currentDate.getTime());
     } else {
       setTimeLeft(0);
     }
-  };
-
-  //Math.floor rounds a number down.
+  }, [vaultData]);
 
   const days = Math.max(Math.floor(timeLeft / 1000 / 60 / 60 / 24), 0);
   const hours = Math.max(Math.floor(timeLeft / 1000 / 60 / 60) % 24, 0);
@@ -60,7 +40,7 @@ export function CountDownClock() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [vaultData]);
+  }, [calculateTimeLeft]);
 
   return (
     <div className="flex flex-col ml-12">

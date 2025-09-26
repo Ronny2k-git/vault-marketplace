@@ -1,25 +1,21 @@
 "use client";
 
-import { ECOSYSTEM } from "@/global/constants";
-import { Card } from "./interface/card";
-import { Tabs } from "radix-ui";
-import { Button } from "./interface/button";
 import { EthereumConnectors } from "@/connection/components/EthereumConnectors";
-import { SolanaConnectors } from "@/connection/components/SolanaConnectors";
 import { MoveConnectors } from "@/connection/components/MoveConnectors";
+import { SolanaConnectors } from "@/connection/components/SolanaConnectors";
+import { useMultiWallet } from "@/connection/hooks/useWallet";
+import { ECOSYSTEM } from "@/global/constants";
+import { abreviateAddress } from "@/global/utils";
+import { Tabs } from "radix-ui";
 import { useState } from "react";
 import { FaWallet } from "react-icons/fa";
-import { useMultiWallet } from "@/hooks/useWallet";
+import { Button } from "./interface/button";
+import { Card } from "./interface/card";
 
 export default function WalletConnect() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const connectedWallet = useMultiWallet();
-
-  const abreviateAddress = (address: string | null | undefined) => {
-    if (!address) return "";
-    return `${address.slice(0, 6)}...${address.slice(-4)}`.toLowerCase();
-  };
 
   return (
     <div className="relative z-30">
@@ -75,9 +71,9 @@ export default function WalletConnect() {
               </Tabs.List>
 
               <div className="flex items-center gap-4 py-4">
-                <div className="w-1/2 h-px bg-gray-100"></div>
+                <div className="w-1/2 h-px bg-gray-100" />
                 Wallets
-                <div className="w-1/2 h-px  bg-gray-100"></div>
+                <div className="w-1/2 h-px  bg-gray-100" />
               </div>
               <Tabs.Content value="ethereum">
                 <EthereumConnectors />

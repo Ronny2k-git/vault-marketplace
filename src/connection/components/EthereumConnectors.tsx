@@ -1,18 +1,13 @@
 "use client";
 
 import { Button } from "@/components/interface/button";
-import Image from "next/image";
-import { useConnect, useAccount, useDisconnect } from "wagmi";
+import { abreviateAddress } from "@/global/utils";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 
 export function EthereumConnectors() {
   const { connect, connectors } = useConnect();
   const { address, isConnected, connector } = useAccount();
   const { disconnect } = useDisconnect();
-
-  const abreviateAddress = (address: string) => {
-    if (!address) return "";
-    return `${address.slice(0, 7)}...${address.slice(-5)}`.toLowerCase();
-  };
 
   const connectorIcons: Record<string, string> = {
     metamasksdk: "/icons/metamask.png",
@@ -31,14 +26,12 @@ export function EthereumConnectors() {
         </div>
       </div>
       {isConnected ? (
-        <div className="flex justify-between bg-gray-glow rounded-2xl py-2 px-2">
+        <div className="flex justify-between items-center bg-gray-glow rounded-2xl py-2 px-2">
           {connector && (
-            <Image
+            <img
               src={connectorIcons[connector.id.toLowerCase()]}
-              width={26}
-              height={20}
               alt={`${connector.name} icon`}
-              className="rounded-full"
+              className="rounded-full size-8"
             />
           )}
           <button
@@ -57,11 +50,9 @@ export function EthereumConnectors() {
             intent="neutral"
             onClick={() => connect({ connector })}
           >
-            <Image
-              width={24}
-              height={24}
+            <img
               alt="connector icon"
-              className="rounded-full mr-1"
+              className="rounded-full size-6"
               src={
                 connectorIcons[connector.id.toLowerCase()] ??
                 "/icons/default.png"

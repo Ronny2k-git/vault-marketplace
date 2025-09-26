@@ -12,15 +12,11 @@ export function MenuMobile() {
     <div>
       <div className="md:hidden flex items-center ml-4">
         <button className="" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? (
-            <img className="h-4 w-4" src="/icons/delete.png" alt="Close" />
-          ) : (
-            <img
-              className="h-6 w-6"
-              src="/icons/hamburguer.png"
-              alt="Hamburguer"
-            />
-          )}
+          <img
+            className="h-6 w-6"
+            src="/icons/hamburguer.png"
+            alt="Hamburguer"
+          />
         </button>
       </div>
       {isMenuOpen && (
@@ -37,18 +33,15 @@ export function MenuMobile() {
                 className="flex justify-end ml-auto items-center"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                <img
-                  className="h-3 w-3 -mt-8"
-                  src="/icons/delete.png"
-                  alt="Close"
-                />
+                <img className="size-5" src="/icons/delete.png" alt="Close" />
               </button>
             </div>
             <div className="Line h-0.5 mt-2 mb-4 w-full bg-gray-500" />
             {APP_ROUTES.map((route) => (
               <Link href={route.path} key={route.value}>
                 <Button
-                  className="rounded-xl py-2 flex gap-2 mb-2 text-sm w-full"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="rounded-xl py-2 flex gap-2 my-1 text-sm w-full"
                   intent={"primary"}
                 >
                   <span>{route.icon}</span>

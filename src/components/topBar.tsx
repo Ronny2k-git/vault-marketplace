@@ -18,7 +18,7 @@ export function TopBar() {
   };
 
   return (
-    <div className="h-[90px] w-100% bg-background-alt font-SpaceGrotesk">
+    <div className="h-[5.5rem] w-full bg-background-alt font-SpaceGrotesk">
       <div className="h-full w-full flex items-center">
         <div className="size-12 ml-4 -mt-1 rounded-full bg-white" />
         <Link href="/">
@@ -26,7 +26,7 @@ export function TopBar() {
             Vault Marketplace
           </h1>
         </Link>
-        <div className="hidden md:flex ">
+        <div className="hidden md:flex">
           <Tabs.Root
             className="flex gap-4"
             defaultValue={activeTab()}
