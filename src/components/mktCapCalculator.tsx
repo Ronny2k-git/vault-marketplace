@@ -82,7 +82,11 @@ export function MktCapCalculator() {
           })}`}
         </div>
       </div>
-      <img className="w-[300px] h-60" src="bannercripto.jpg" />
+      <img
+        alt="Token banner"
+        className="w-[300px] h-60"
+        src="bannercripto.jpg"
+      />
     </div>
   );
 }

@@ -1,15 +1,14 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+import { FaArrowAltCircleUp } from "react-icons/fa";
 import { GiToken } from "react-icons/gi";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
-import { TbNumber16Small } from "react-icons/tb";
-import { Card } from "./interface/card";
-import { FaArrowAltCircleUp } from "react-icons/fa";
 import { PiNetwork } from "react-icons/pi";
-import { Input } from "./interface/input";
+import { TbNumber16Small } from "react-icons/tb";
 import { Button } from "./interface/button";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { Card } from "./interface/card";
+import { Input } from "./interface/input";
 
 type TokenForm = {
   network: string;
@@ -20,9 +19,7 @@ type TokenForm = {
   tokenDecimals: number;
 };
 
-export function CreateErc20Token() {
-  const [loading, setLoading] = useState(false);
-
+export function CreateErc20TokenForm() {
   const {
     register,
     handleSubmit,
@@ -39,6 +36,15 @@ export function CreateErc20Token() {
       tokenDecimals: 16,
     },
   });
+
+  const {
+    tokenName,
+    tokenSymbol,
+    tokenBanner,
+    network,
+    totalSupply,
+    tokenDecimals,
+  } = watch();
 
   const onSubmit = async (data: TokenForm) => {
     console.log("Token data:", data);
@@ -62,13 +68,6 @@ export function CreateErc20Token() {
       console.error("Erro creating token and saving on database:");
     }
   };
-
-  const tokenName = watch("tokenName");
-  const tokenSymbol = watch("tokenSymbol");
-  const tokenBanner = watch("tokenBanner");
-  const network = watch("network");
-  const totalSupply = watch("totalSupply");
-  const tokenDecimals = watch("tokenDecimals");
 
   return (
     <div className="flex max-md:flex-col gap-6 justify-between">
@@ -180,7 +179,7 @@ export function CreateErc20Token() {
               size="small"
               intent="secondary"
             >
-              {loading ? "Creating token..." : "Create Token"}
+              Create Token
             </Button>
           </div>
         </div>
@@ -188,6 +187,7 @@ export function CreateErc20Token() {
       <Card size="small" intent="primary">
         <div className="w-full h-40 ">
           <img
+            alt="Token banner"
             className="rounded-t-xl h-36 w-full object-cover bg-center"
             src={tokenBanner || "/backgroundCard.png"}
           />
@@ -195,6 +195,7 @@ export function CreateErc20Token() {
         <div className="flex flex-col my-2 mx-2 gap-0.5 text-sm">
           <div className="flex items-center gap-2 font-SpaceGrotesk mb-2 max-md:-mt-6">
             <img
+              alt="Token symbol"
               className="size-8 rounded-full bg-center bg-cover"
               src={tokenSymbol || "/icons/Frame.png"}
             />

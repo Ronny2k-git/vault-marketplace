@@ -1,10 +1,10 @@
 "use client";
 
-import { useHydrateAtoms } from "jotai/utils";
 import { VaultFromDb } from "@/app/api/getTokenAddress/getPrisma.ts/prisma";
 import { Card } from "@/components/interface/card";
 import { TransactionTokens } from "@/components/vault/vaultCardTokens";
 import { CardTransaction } from "@/components/vault/vaultCardTransaction";
+import { useHydrateAtoms } from "jotai/utils";
 
 import {
   maxDepositAtom,
@@ -69,11 +69,13 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
         <div className="h-full w-full flex flex-col pt-12 items-center">
           <Card className="relative" intent={"primary"} size={"large"}>
             <img
+              alt="banner"
               className="size-full object-cover rounded-2xl"
               src={vault.banner}
             />
             <div className="flex absolute bottom-3">
               <img
+                alt="logo"
                 className="size-11 ml-4 mr-1 rounded-full"
                 src={vault.logo}
               />

@@ -1,49 +1,34 @@
 "use client";
 
+import { getStatus } from "@/global/utils";
+import { vaultAtom } from "@/utils/atom";
 import { Tabs } from "@radix-ui/themes";
+import { useAtom } from "jotai";
+import { CountDownClock } from "../countDownClock";
 import { Card } from "../interface/card";
 import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
-import { vaultAtom } from "@/utils/atom";
-import { useAtom } from "jotai";
-import { CountDownClock } from "../countDownClock";
 
 export function CardTransaction() {
   const [vaultData] = useAtom(vaultAtom);
 
-  const getStatus = () => {
-    const currentDate = new Date();
-    const startDate = new Date(vaultData.startsAt);
-    const endDate = new Date(vaultData.endsAt);
-
-    if (!vaultData) {
-      return "No vault data";
-    }
-
-    if (startDate > currentDate) {
-      return "Coming soon";
-    }
-    if (startDate < currentDate && currentDate < endDate) {
-      return "Live now";
-    } else {
-      return "Finished";
-    }
-  };
-
   return (
     <div>
       <Card className="flex flex-col" intent={"secondary"} size={"mediumLarge"}>
-        <div className="px-2 py-2 flex items-center text-sm text-text-foreground">
-          Status:
-          <p
-            className={
-              getStatus() === "Live now"
-                ? "text-live-accent ml-1"
-                : "text-blue-400 ml-1"
-            }
-          >
-            {getStatus()}
-          </p>
+        <div className="px-2 py-2 flex items-center justify-between text-sm text-text-foreground">
+          <div className="flex">
+            <p>Status:</p>
+            <div
+              className={
+                getStatus(vaultData) === "Live"
+                  ? "text-live-accent ml-1"
+                  : "text-blue-400 ml-1"
+              }
+            >
+              {getStatus(vaultData)}
+            </div>
+          </div>
+
           <CountDownClock />
         </div>
 

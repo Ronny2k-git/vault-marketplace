@@ -1,9 +1,9 @@
+import { abi } from "@/utils/abiContract";
+import { NETWORK_TO_CHAIN_ID } from "@/utils/networks";
 import { erc20Abi, Hex, parseUnits } from "viem";
 import { readContract, simulateContract, writeContract } from "wagmi/actions";
 import { wagmiConfig } from "../Providers";
-import { abi } from "@/utils/abiContract";
 import { ContractParams, FormValues } from "./vaultCardCreate";
-import { NETWORK_TO_CHAIN_ID } from "@/utils/networks";
 
 export async function CreateVaultEvm(
   formValues: FormValues,

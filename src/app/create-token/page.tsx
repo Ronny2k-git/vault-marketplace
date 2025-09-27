@@ -1,4 +1,4 @@
-import { CreateErc20Token } from "@/components/createErc20Token";
+import { CreateErc20TokenForm } from "@/components/createErc20Token";
 
 export default function CreateTokenPage() {
   return (
@@ -13,7 +13,7 @@ export default function CreateTokenPage() {
           we handle the smart contract generation. Start building your crypto
           project today with full control and security.
         </h2>
-        <CreateErc20Token />
+        <CreateErc20TokenForm />
         <div className="line h-0.5 bg-gray-500 my-10" />
         <h2 className="text-white text-2xl mb-4">How to Use</h2>
         <p className="text-text-foreground mb-6">
