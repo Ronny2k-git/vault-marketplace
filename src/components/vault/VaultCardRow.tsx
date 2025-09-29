@@ -1,26 +1,26 @@
 "use client";
 
-import { FaArrowRightLong } from "react-icons/fa6";
-import { Button } from "../interface/button";
-import { Card } from "../interface/card";
-import Link from "next/link";
-import { swapAtom, vaultAtom } from "@/utils/atom";
-import { useAtom } from "jotai";
-import { formatUnits, Hex, isAddress } from "viem";
+import { abiVault } from "@/utils";
+import { vault } from "@prisma/client";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { vault } from "@prisma/client";
-import { readContract } from "wagmi/actions";
-import { wagmiConfig } from "../Providers";
-import { abiVault } from "@/utils/abiVault";
+import { useAtom } from "jotai";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { formatUnits, Hex, isAddress } from "viem";
 import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
+import { readContract } from "wagmi/actions";
+import { swapAtom, vaultAtom } from "../../utils/atom";
+import { Button } from "../interface/button";
+import { Card } from "../interface/card";
+import { wagmiConfig } from "../Providers";
 
 interface CustomVault extends vault {
   participants?: number;
 }
-export function CardTokens({ vault }: { vault: CustomVault }) {
+export function VaultCardRow({ vault }: { vault: CustomVault }) {
   const [totalDeposited, setTotalDeposited] = useState(0n);
 
   const { address } = useAccount();
@@ -46,40 +46,42 @@ export function CardTokens({ vault }: { vault: CustomVault }) {
   }, []);
 
   return (
-    <div className="w-full">
-      <Link href={`/token-vault/${vault.address}`}>
-        <Card
-          className="flex rounded-2xl flex-col md:flex-row md:items-center"
-          intent={"primary"}
+    <div className="w-full relative">
+      <Card
+        className="flex rounded-2xl px-2 py-2 min-w-[50rem] items-center"
+        intent={"primary"}
+      >
+        <img
+          alt="Vault logo"
+          className="size-10 mr-4 rounded-full"
+          src={vault.logo}
+        />
+        <div className="flex-1">
+          {vault.name}
+          <br /> {vault.chainId === 11155111 ? "Sepolia" : "Unknown Chain"}
+        </div>
+        <div className="flex-1">{vault.participants}</div>
+        <div className="flex flex-1 gap-2">
+          <p>{formatUnits(totalDeposited, vault.assetTokenDecimals)}</p>
+          {vault.assetTokenName}
+        </div>
+        <div className="flex-1">
+          {new Date(vault.startsAt).toLocaleDateString("en-US")}
+        </div>
+        <Link
+          className="flex items-center"
+          href={`/token-vault/${vault.address}`}
         >
-          <img className="size-7 ml-2 mr-1 rounded-full" src={vault.logo} />
-          <div className="flex-1 w-auto">
-            {vault.name}
-            <br /> Sepolia
-          </div>
-          {/* <div className="flex lg:flex-1 lg:w-auto items-center"> */}
-          <div className="flex-1 w-auto ">{vault.participants}</div>
-          <div className="w-auto flex-1">
-            <p className="w-auto flex-1">
-              {formatUnits(totalDeposited, vault.assetTokenDecimals)}
-            </p>
-
-            {vault.assetTokenName}
-          </div>
-          <div className="w-56">
-            {new Date(vault.startsAt).toLocaleDateString("en-US")}
-          </div>
-          {/* </div> */}
           <Button
-            className="lg:flex hidden ml-auto mr-2"
+            className="flex gap-2 py-2 px-4 right-2"
             intent={"primary"}
             size={"small"}
           >
             View now
             <FaArrowRightLong />
           </Button>
-        </Card>
-      </Link>
+        </Link>
+      </Card>
     </div>
   );
 }

@@ -13,6 +13,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({
         success: false,
         message: "Error fetching completed vaults from the database",
+        error,
       });
     }
   }

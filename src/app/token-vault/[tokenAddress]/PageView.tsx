@@ -2,10 +2,10 @@
 
 import { VaultFromDb } from "@/app/api/getTokenAddress/getPrisma.ts/prisma";
 import { Card } from "@/components/interface/card";
-import { TransactionTokens } from "@/components/vault/vaultCardTokens";
 import { CardTransaction } from "@/components/vault/vaultCardTransaction";
 import { useHydrateAtoms } from "jotai/utils";
 
+import { TransactionTokens } from "@/components/vault/VaultCardRow";
 import {
   maxDepositAtom,
   minDepositAtom,

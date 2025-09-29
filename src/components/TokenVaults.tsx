@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { Button } from "./interface/button";
 import { ErrorDatabase } from "./interface/errorDatabase";
 import { CardLive } from "./vault/vaultCardLive";
-import { CardTokens } from "./vault/vaultCardTokens";
+import { VaultCardRow } from "./vault/VaultCardRow";
 
 export function TokenVaults() {
   const [vaultData, setVaultData] = useAtom<vault[] | null>(vaultExplore);
@@ -33,7 +33,7 @@ export function TokenVaults() {
     }
   }
 
-  async function fetchEndVaultsData(page: number = 1) {
+  async function fetchEndVaultsData(page: number) {
     const response = await fetch(`/api/getEndVaults?page=${page}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -59,7 +59,7 @@ export function TokenVaults() {
   };
 
   useEffect(() => {
-    fetchEndVaultsData();
+    fetchEndVaultsData(currentPage);
     fetchVaultData();
   }, [tokenAddress]);
 
@@ -98,47 +98,59 @@ export function TokenVaults() {
             ))}
           </div>
         </div>
-        <div className="flex flex-col mt-20 ">
-          <div className="text-3xl  w-full text-white">
+
+        {/* Ended Vaults Section */}
+        <div className="flex flex-col mt-20">
+          <div id="completed-vaults" className="text-3xl  w-full text-white">
             Completed Token Vaults
           </div>
-          <div className="text-base lg:ml-0 text-text-foreground mb-6">
+          <div className="text-base text-text-foreground mb-6">
             Take a glance on previous token vaults.
           </div>
           <div className="flex justify-center items-center">
-            <div className=" w-full py-3 text-text-foreground hidden sm:flex">
-              <div className="flex w-full ">
+            <div className=" w-full py-3 text-text-foreground hidden md:flex">
+              <div className="flex-1 flex">
                 <div className="flex-1">Vault Name</div>
                 <div className="flex-1">Participants</div>
                 <div className="flex-1">Total Deposited</div>
                 <div className="flex-1">Start Date</div>
+                <div className="mr-8">Link</div>
               </div>
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-1 items-center ">
+        <div className="flex flex-col gap-1 items-center overflow-y-auto">
           {endVaults?.map((vault, index) => (
-            <CardTokens key={index} vault={vault} />
+            <VaultCardRow key={index} vault={vault} />
           ))}
         </div>
-        <div className="flex justify-center lg:mr-[70px] text-white mt-6 gap-1">
+        <div className="flex justify-center text-white mt-6 gap-1">
           <button
-            className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
-            onClick={previousPage}
+            className="size-8 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
+            onClick={() => {
+              const element = document.getElementById("completed-vaults");
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+
+              previousPage();
+            }}
           >
             {"<"}
           </button>
-          <button className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+          <button className="size-8 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
             {currentPage}
           </button>
+          <button className="size-8 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
+            {currentPage + 1}
+          </button>
           <button
-            className="h-5 w-5 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
+            className="size-8 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
             onClick={nextPage}
           >
             {">"}
           </button>
         </div>
-        <div className="mt-12">.</div>
       </div>
     </div>
   );
