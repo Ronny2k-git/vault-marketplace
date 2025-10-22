@@ -12,16 +12,24 @@ import {
 } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { Controller, useForm } from "react-hook-form";
+import { Abi } from "viem";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import SelectDate from "../interface/datePicker";
 import { Input } from "../interface/input";
 
 export type ContractParams = {
-  abi: any;
+  abi: Abi;
   address: `0x${string}`;
   functionName: string;
-  args: any[];
+  args: [
+    assetToken: string,
+    startDate: number,
+    endDate: number,
+    minDeposit: bigint,
+    maxDeposit: bigint,
+    salt: bigint
+  ];
 };
 
 export type FormValues = {
@@ -30,7 +38,7 @@ export type FormValues = {
   vaultLogo: string;
   bannerUrl: string;
   assetToken: `0x${string}`;
-  salt: number;
+  salt: bigint;
   minDeposit: bigint;
   maxDeposit: bigint;
   startDate: Date | null;
@@ -64,7 +72,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
       vaultLogo: "",
       bannerUrl: "",
       assetToken: "" as `0x${string}`,
-      salt: 0,
+      salt: BigInt(""),
       minDeposit: BigInt(""),
       maxDeposit: BigInt(""),
       startDate: null,

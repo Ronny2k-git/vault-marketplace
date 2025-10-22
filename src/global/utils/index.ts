@@ -1,16 +1,18 @@
 import { VaultFromDb } from "@/app/api/getTokenAddress/getPrisma.ts/prisma";
 
+// Function to format 0x address
 export const abreviateAddress = (address: string | null | undefined) => {
   if (!address) return "";
   return `${address.slice(0, 6)}...${address.slice(-4)}`.toLowerCase();
 };
 
-export const getStatus = (vaultData: VaultFromDb) => {
+// Function that returns a status based on the provided date.
+export const getStatus = (date: VaultFromDb) => {
   const currentDate = new Date();
-  const startDate = new Date(vaultData.startsAt);
-  const endDate = new Date(vaultData.endsAt);
+  const startDate = new Date(date.startsAt);
+  const endDate = new Date(date.endsAt);
 
-  if (!vaultData) {
+  if (!date) {
     return "No Data";
   }
 

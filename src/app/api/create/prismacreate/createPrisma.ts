@@ -2,35 +2,35 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const createVaultInDb = async (vaultDate: any) => {
-  try {
-    const {
-      address,
-      vaultName,
-      vaultLogo,
-      bannerUrl,
-      startDate,
-      endDate,
-      chainId,
-      assetTokenDecimals,
-      assetTokenName,
-      assetTokenSymbol,
-      assetTokenAddress,
-    } = vaultDate;
+type createVaultInDbProps = {
+  address: string;
+  vaultName: string;
+  vaultLogo: string;
+  bannerUrl: string;
+  startDate: Date;
+  endDate: Date;
+  chainId: number;
+  assetTokenDecimals: number;
+  assetTokenName: string;
+  assetTokenSymbol: string;
+  assetTokenAddress: string;
+};
 
+export const createVaultInDb = async (vaultDate: createVaultInDbProps) => {
+  try {
     const vault = await prisma.vault.create({
       data: {
-        address,
-        name: vaultName,
-        logo: vaultLogo,
-        banner: bannerUrl,
-        startsAt: startDate,
+        address: vaultDate.address,
+        name: vaultDate.vaultName,
+        logo: vaultDate.vaultLogo,
+        banner: vaultDate.bannerUrl,
+        startsAt: vaultDate.startDate,
         endsAt: endDate,
-        chainId,
-        assetTokenDecimals,
-        assetTokenName,
-        assetTokenSymbol,
-        assetTokenAddress,
+        chainId: vaultDate.chainId,
+        assetTokenDecimals: vaultDate.assetTokenDecimals,
+        assetTokenName: vaultDate.assetTokenName,
+        assetTokenSymbol: vaultDate.assetTokenSymbol,
+        assetTokenAddress: vaultDate.assetTokenAddress,
       },
     });
     return vault;

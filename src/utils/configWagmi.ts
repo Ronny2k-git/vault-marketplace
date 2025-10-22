@@ -1,18 +1,18 @@
 import {
-  base,
-  mainnet,
-  polygon,
-  optimism,
-  sepolia,
-  arbitrum,
-} from "wagmi/chains";
-import {
   cookieStorage,
   createConfig,
   createStorage,
   http,
   injected,
 } from "wagmi";
+import {
+  arbitrum,
+  base,
+  mainnet,
+  optimism,
+  polygon,
+  sepolia,
+} from "wagmi/chains";
 import { metaMask, safe, walletConnect } from "wagmi/connectors";
 
 const projectId = "<WALLETCONNECT_PROJECT_ID>";
