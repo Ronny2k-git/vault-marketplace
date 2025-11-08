@@ -7,7 +7,7 @@ export function MoveConnectors() {
 
   return (
     <div className="flex flex-col gap-2.5">
-      <div className="flex justify-between gap-6 mb-2">
+      <div className="flex justify-between max-sm:flex-col gap-2 mb-2">
         <h1>Move Connectors</h1>
         <div className="text-sm flex items-center text-black bg-white rounded-full px-2">
           {!connected
@@ -40,10 +40,10 @@ export function MoveConnectors() {
           >
             <img
               alt="connector icon"
-              className="rounded-full size-6"
+              className="h-8 w-8 rounded-full"
               src={connector.icon}
             />
-            {connector.name}
+            <span className="text-[15px]">{connector.name}</span>
           </Button>
         ))
       )}

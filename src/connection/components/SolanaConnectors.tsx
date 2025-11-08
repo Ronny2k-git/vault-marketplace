@@ -5,6 +5,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 const connectorIcons: Record<string, string> = {
   Phantom: "/icons/phantom.jpeg",
   "Burner Wallet": "/icons/burnerwallet.png",
+  MetaMask: "/icons/metamask.png",
 };
 
 export function SolanaConnectors() {
@@ -52,11 +53,11 @@ export function SolanaConnectors() {
             onClick={() => select(walletAdapter.adapter.name)}
           >
             <img
-              className="size-6 rounded-full mr-1"
+              className="h-8 w-8 rounded-full mr-1"
               src={connectorIcons[walletAdapter.adapter.name]}
               alt="wallet icon"
             />
-            {walletAdapter.adapter.name}
+            <span className="text-[15px]">{walletAdapter.adapter.name}</span>
             {connecting && wallet?.adapter.name === walletAdapter.adapter.name
               ? `${connecting}`
               : ""}

@@ -11,7 +11,7 @@ export function EthereumConnectors() {
 
   const connectorIcons: Record<string, string> = {
     metamasksdk: "/icons/metamask.png",
-    walletconnect: "/icons/walletconnect.png",
+    walletconnect: "/icons/walletConnect.png",
     injected: "/icons/injected.webp",
     safe: "/icons/safe.jpeg",
     "app.phantom": "/icons/phantom.jpeg",
@@ -52,13 +52,13 @@ export function EthereumConnectors() {
           >
             <img
               alt="connector icon"
-              className="rounded-full size-6"
+              className="h-8 w-8 rounded-full "
               src={
                 connectorIcons[connector.id.toLowerCase()] ??
                 "/icons/default.png"
               }
             />
-            {connector.name}
+            <span className="text-[15px]">{connector.name}</span>
           </Button>
         ))
       )}
