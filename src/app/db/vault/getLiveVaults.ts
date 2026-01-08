@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export const getVaultInDb = async () => {
+export const getLiveVaultsInDb = async () => {
   const currentDate = new Date();
 
   try {

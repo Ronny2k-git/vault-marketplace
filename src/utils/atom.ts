@@ -1,4 +1,4 @@
-import { VaultFromDb } from "@/app/api/getTokenAddress/getPrisma.ts/prisma";
+import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
 import { vault } from "@prisma/client";
 import { atom } from "jotai";
 

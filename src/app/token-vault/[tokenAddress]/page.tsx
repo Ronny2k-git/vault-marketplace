@@ -1,4 +1,4 @@
-import { getVaultInDb } from "@/app/api/getTokenAddress/getPrisma.ts/prisma";
+import { getVaultInDb } from "@/app/api/getTokenAddress/prisma";
 import { PageView } from "./PageView";
 
 export default async function HomePage({

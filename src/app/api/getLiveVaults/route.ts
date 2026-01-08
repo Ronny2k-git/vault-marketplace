@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getVaultInDb } from "../../db/vault/getLiveVaults";
+import { getLiveVaultsInDb } from "../../db/vault/getLiveVaults";
 
 export async function GET(req: NextRequest) {
   if (req.method === "GET") {
     try {
-      const vaults = await getVaultInDb();
+      const vaults = await getLiveVaultsInDb();
 
       return NextResponse.json({ success: true, vaults }, { status: 200 });
     } catch (error) {

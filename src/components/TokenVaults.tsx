@@ -1,77 +1,29 @@
 "use client";
 
-import { getVaults, vaultExplore } from "@/utils/atom";
+import { Pagination } from "@/global/components/Pagination";
+import { useGetCompletedVaults } from "@/global/hooks/useGetCompletedVaults";
+import { useGetLiveVaults } from "@/global/hooks/useGetLiveVaults";
 import { vault } from "@prisma/client";
-import { useAtom } from "jotai";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "./interface/button";
 import { ErrorDatabase } from "./interface/errorDatabase";
 import { CardLive } from "./vault/vaultCardLive";
 import { VaultCardRow } from "./vault/VaultCardRow";
 
 export function TokenVaults() {
-  const [vaultData, setVaultData] = useAtom<vault[] | null>(vaultExplore);
-  const [endVaults, setEndVaults] = useAtom<vault[] | null>(getVaults);
   const [currentPage, setCurrentPage] = useState(1);
+  const { data: getLiveVaults } = useGetLiveVaults();
+  const { data: getCompletedVaults } = useGetCompletedVaults(currentPage);
 
-  const { tokenAddress } = useParams();
-
-  async function fetchVaultData() {
-    const response = await fetch("/api/getLiveVaults", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      setVaultData(data.vaults);
-    } else {
-      console.error("Error getting in the database", data.message);
-    }
-  }
-
-  async function fetchEndVaultsData(page: number) {
-    const response = await fetch(`/api/getEndVaults?page=${page}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      setEndVaults(data.endVaults);
-    } else {
-      console.error("Error getting in the database", data.message);
-    }
-  }
-
-  const nextPage = () => {
-    setCurrentPage((prev) => prev + 1);
-    fetchEndVaultsData(currentPage + 1);
-  };
-
-  const previousPage = () => {
-    setCurrentPage((prev) => prev - 1);
-    fetchEndVaultsData(currentPage - 1);
-  };
-
-  useEffect(() => {
-    fetchEndVaultsData(currentPage);
-    fetchVaultData();
-  }, [tokenAddress]);
-
-  if (!Array.isArray(vaultData) || vaultData.length === 0)
-    return <ErrorDatabase />;
+  if (!getLiveVaults && !getCompletedVaults) return <ErrorDatabase />;
 
   return (
     <div className="w-full max-w-screen-xl">
       <div className="flex flex-col w-full p-4 lg:p-8 font-SpaceGrotesk">
-        <section className="flex justify-between max-sm:flex-col mt-4 mb-10">
+        <section className="flex justify-between max-sm:flex-col gap-4 mt-4 mb-10">
           <div className="flex flex-col items-start">
-            <h1 className="lg:text-3xl sm:text-2xl text-2xl pr-10 mr-6 text-white">
+            <h1 className="lg:text-3xl sm:text-2xl text-2xl mr-6 text-white">
               Token Vaults
             </h1>
             <h2 className="mr-6 mt-1 mb-1 lg:text-base lg:block justify-center items-center flex text-sm pl-1 text-text-foreground">
@@ -93,7 +45,7 @@ export function TokenVaults() {
         </section>
         <div className="flex justify-center items-center">
           <div className="grid justify-center gap-2.5 w-full grid-cols-[repeat(auto-fill,minmax(250px,1fr))]">
-            {vaultData.map((vault) => (
+            {getLiveVaults?.map((vault: vault) => (
               <CardLive key={vault.address} vault={vault} />
             ))}
           </div>
@@ -120,36 +72,20 @@ export function TokenVaults() {
           </div>
         </div>
         <div className="flex flex-col gap-1 items-center overflow-y-auto">
-          {endVaults?.map((vault, index) => (
-            <VaultCardRow key={index} vault={vault} />
+          {getCompletedVaults?.vaults.map((vault: vault) => (
+            <VaultCardRow key={vault.address} vault={vault} />
           ))}
         </div>
-        <div className="flex justify-center text-white mt-6 gap-1">
-          <button
-            className="size-8 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
-            onClick={() => {
-              const element = document.getElementById("completed-vaults");
-              if (element) {
-                element.scrollIntoView({ behavior: "smooth", block: "start" });
-              }
 
-              previousPage();
-            }}
-          >
-            {"<"}
-          </button>
-          <button className="size-8 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
-            {currentPage}
-          </button>
-          <button className="size-8 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
-            {currentPage + 1}
-          </button>
-          <button
-            className="size-8 text-xs bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
-            onClick={nextPage}
-          >
-            {">"}
-          </button>
+        <div className="flex justify-center text-white my-10">
+          <Pagination
+            onChange={setCurrentPage}
+            page={currentPage}
+            totalPages={Math.ceil(
+              getCompletedVaults?.total / getCompletedVaults?.limit
+            )}
+            scrollId="completed-vaults"
+          />
         </div>
       </div>
     </div>

@@ -8,7 +8,16 @@ export async function GET(req: NextRequest) {
 
     try {
       const endVaults = await getEndVaultsInDb(page);
-      return NextResponse.json({ success: true, endVaults }, { status: 200 });
+
+      return NextResponse.json(
+        {
+          success: true,
+          endVaults,
+          total: endVaults.total,
+          limit: endVaults.limit,
+        },
+        { status: 200 }
+      );
     } catch (error) {
       return NextResponse.json({
         success: false,

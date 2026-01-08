@@ -3,16 +3,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const getEndVaultsInDb = async (currentPage: number = 1) => {
-  try {
-    const limit = 10;
-    const skip = limit * (currentPage - 1);
-    const currentDate = new Date();
+  const limit = 10;
+  const skip = limit * (currentPage - 1);
+  const currentDate = new Date();
 
-    const endVaults = await prisma.vault.findMany({
+  const [vaults, total] = await Promise.all([
+    prisma.vault.findMany({
       where: {
-        endsAt: {
-          lt: currentDate,
-        },
+        endsAt: { lt: currentDate },
       },
       select: {
         id: true,
@@ -25,30 +23,29 @@ export const getEndVaultsInDb = async (currentPage: number = 1) => {
         assetTokenDecimals: true,
       },
       take: limit,
-      skip: skip,
-      orderBy: {
-        startsAt: "desc",
+      skip,
+      orderBy: { startsAt: "desc" },
+    }),
+    prisma.vault.count({
+      where: {
+        endsAt: { lt: currentDate },
       },
-    });
+    }),
+  ]);
 
-    const vaultsWithParticipants = await Promise.all(
-      endVaults.map(async (vault) => {
-        const swapCount = await prisma.swap.count({
-          where: {
-            vaultId: vault.id,
-          },
-        });
-        return {
-          ...vault,
-          participants: swapCount,
-        };
-      })
-    );
+  const vaultsWithParticipants = await Promise.all(
+    vaults.map(async (vault) => {
+      const participants = await prisma.swap.count({
+        where: { vaultId: vault.id },
+      });
 
-    return vaultsWithParticipants;
+      return { ...vault, participants };
+    })
+  );
 
-    // return endVaults;
-  } catch (error) {
-    console.error("Error while fetching the completed vaults", error);
-  }
+  return {
+    vaults: vaultsWithParticipants,
+    total,
+    limit,
+  };
 };

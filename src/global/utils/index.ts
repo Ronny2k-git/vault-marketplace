@@ -1,4 +1,4 @@
-import { VaultFromDb } from "@/app/api/getTokenAddress/getPrisma.ts/prisma";
+import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
 
 // Function to format 0x address
 export const abreviateAddress = (address: string | null | undefined) => {
@@ -25,3 +25,13 @@ export const getStatus = (date: VaultFromDb) => {
     return "Finished";
   }
 };
+
+export function scrollToContainer(id: string) {
+  const element = document.getElementById(id);
+
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+  } else {
+    console.warn(`Id not found: "${id}"`);
+  }
+}
