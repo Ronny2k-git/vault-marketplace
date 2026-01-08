@@ -12,7 +12,7 @@ import { FaWallet } from "react-icons/fa";
 import { Button } from "./interface/button";
 import { Card } from "./interface/card";
 
-export default function WalletConnect() {
+export default function WalletConnection() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const connectedWallet = useMultiWallet();
@@ -41,7 +41,9 @@ export default function WalletConnect() {
 
       {menuOpen && (
         <>
+          {/* Overlay */}
           <div className="fixed inset-0 bg-black/30 backdrop-blur-sm " />
+
           <Card
             className="flex flex-col gap-4 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             size="high"

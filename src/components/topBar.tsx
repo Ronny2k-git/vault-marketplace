@@ -4,7 +4,7 @@ import { APP_ROUTES } from "@/global/constants";
 import { Tabs } from "@radix-ui/themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import WalletConnect from "./WalletConnect";
+import WalletConnect from "./WalletConnection";
 import { MenuMobile } from "./interface/Drawer";
 
 export function TopBar() {

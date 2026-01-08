@@ -19,7 +19,7 @@ const projectId = "<WALLETCONNECT_PROJECT_ID>";
 
 export function getConfig() {
   return createConfig({
-    chains: [mainnet, sepolia, base],
+    chains: [mainnet, sepolia, base, polygon, optimism, arbitrum],
     ssr: true,
     connectors: [injected(), walletConnect({ projectId }), metaMask(), safe()],
     storage: createStorage({

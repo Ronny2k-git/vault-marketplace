@@ -16,6 +16,12 @@ const buttonStyle = cva("flex justify-center font-SpaceGrotesk items-center", {
         "hover:bg-gray-400",
         "shadow-[2px_2px_0px_0px]",
       ],
+      dark: [
+        "bg-gray-800/50",
+        "border",
+        "border-gray-500",
+        "hover:bg-gray-800/70",
+      ],
     },
     size: {
       small: [
