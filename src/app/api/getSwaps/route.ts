@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSwapsInDb } from "./getPrismaSwaps/prismaSwaps";
+import { getSwapsInDb } from "../../db/swap/getSwaps";
 
 export async function GET(req: NextRequest) {
   if (req.method === "GET") {

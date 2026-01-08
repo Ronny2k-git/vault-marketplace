@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getVaultInDb } from "./getPrisma/getPrisma";
+import { getVaultInDb } from "../../db/vault/getLiveVaults";
 
 export async function GET(req: NextRequest) {
   if (req.method === "GET") {

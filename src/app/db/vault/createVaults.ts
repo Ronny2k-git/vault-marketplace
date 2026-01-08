@@ -25,7 +25,7 @@ export const createVaultInDb = async (vaultDate: createVaultInDbProps) => {
         logo: vaultDate.vaultLogo,
         banner: vaultDate.bannerUrl,
         startsAt: vaultDate.startDate,
-        endsAt: endDate,
+        endsAt: vaultDate.endDate,
         chainId: vaultDate.chainId,
         assetTokenDecimals: vaultDate.assetTokenDecimals,
         assetTokenName: vaultDate.assetTokenName,

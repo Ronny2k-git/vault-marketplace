@@ -4,6 +4,8 @@ import { useState } from "react";
 import { GiToken } from "react-icons/gi";
 import { LuDollarSign } from "react-icons/lu";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import { Card } from "./interface/card";
+import { Input } from "./interface/input";
 
 export function MktCapCalculator() {
   const [currentPrice, setCurrentPrice] = useState("");
@@ -35,56 +37,70 @@ export function MktCapCalculator() {
       parseFloat(circulatingSupply.replace(/,/g, "")) || 0;
 
   return (
-    <div className="flex justify-between">
-      <div className="flex flex-col gap-2 relative">
+    <div className="flex max-md:flex-col justify-between gap-8">
+      <Card
+        intent={"primary"}
+        className="flex flex-col p-6 w-full rounded-xl gap-2 relative"
+      >
+        {/* Token Name */}
         <h3 className="text-white">Token name</h3>
-        <MdOutlineDriveFileRenameOutline
-          className="size-5 absolute mt-9 ml-2"
-          color="white"
-        />
-        <input
-          className="h-8 max-w-md bg-gray-400 rounded-lg px-8 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        <Input
+          className="h-10 rounded-lg px-8 focus:outline-none"
           placeholder="Ex: 1.20"
           type="text"
           onChange={(e) => setTokenName(e.target.value)}
+          iconLeft={
+            <MdOutlineDriveFileRenameOutline className="size-6 text-gray-300" />
+          }
           value={tokenName}
+          size="mediumLarge"
+          intent={"primary"}
         />
+
+        {/* Token Current Price */}
         <h3 className="text-white">Token Current price $</h3>
-        <LuDollarSign
-          className="size-5 absolute mt-[108px] ml-2"
-          color="white"
-        />
-        <input
-          className="h-8 max-w-md bg-gray-400 rounded-lg px-8 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        <Input
+          className="h-10 rounded-lg px-8 focus:outline-none"
           placeholder="Ex: 1.20"
           value={currentPrice}
           onChange={handlePriceChange}
+          iconLeft={<LuDollarSign className="size-6 text-gray-300" />}
+          size="mediumLarge"
+          intent={"primary"}
         />
 
+        {/* Token Circulating Supply */}
         <h3 className="text-white">Token circulating supply</h3>
-        <GiToken className="size-5 absolute mt-[183px] ml-2" color="white" />
-        <input
-          className="h-8 max-w-md bg-gray-400 rounded-lg px-8 focus:outline-none focus:ring-2 focus:ring-gray-200"
+
+        <Input
+          className="h-10 rounded-lg px-8 focus:outline-none"
           placeholder="Ex: 1,000,000"
           value={circulatingSupply}
           onChange={handleSupplyChange}
+          iconLeft={<GiToken className="size-6 text-gray-300" />}
+          size="mediumLarge"
+          intent={"primary"}
         />
-        <h3 className="flex gap-2 text-white">
-          So the{" "}
+
+        {/* Result of the calculation */}
+        <h3 className="flex flex-wrap gap-1 text-white">
+          The
           <p className="text-green-500 underline">
             {tokenName || "token name"}
           </p>
           market cap is:
         </h3>
-        <div className="h-12 max-w-md text-green-500 flex justify-center items-center bg-gray-900 rounded-lg px-5">
+
+        <div className="h-12 text-green-500 flex justify-center items-center bg-gray-900 rounded-lg px-5">
           {`$ ${marketCap.toLocaleString("en-US", {
             maximumFractionDigits: 2,
           })}`}
         </div>
-      </div>
+      </Card>
+
       <img
         alt="Token banner"
-        className="w-[300px] h-60"
+        className="max-md:w-full max-md:aspect-video md:h-72 w-[20rem] rounded-xl"
         src="bannercripto.jpg"
       />
     </div>

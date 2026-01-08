@@ -1,5 +1,5 @@
-import { createVaultInDb } from "./prismacreate/createPrisma";
 import { NextRequest, NextResponse } from "next/server";
+import { createVaultInDb } from "../../db/vault/createVaults";
 
 export async function POST(req: NextRequest) {
   if (req.method === "POST") {

@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createTableSwapsInDb } from "./prismaSwaps/swaps";
+import { createSwapsInDb } from "../../db/swap/createSwaps";
 
 export async function POST(req: NextRequest) {
   if (req.method === "POST") {
     try {
       const swap = await req.json();
 
-      const swapsTable = await createTableSwapsInDb(swap);
+      const swapsTable = await createSwapsInDb(swap);
 
       return NextResponse.json(
         { success: true, swap: swapsTable },

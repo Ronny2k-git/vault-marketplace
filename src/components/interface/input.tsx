@@ -1,4 +1,5 @@
 import { cva, VariantProps } from "class-variance-authority";
+import { twMerge } from "tailwind-merge";
 
 const inputStyle = cva(
   "pl-2 flex justify-center border-2 border-border-primary items-center",
@@ -18,14 +19,14 @@ const inputStyle = cva(
           "text-xs",
         ],
         mediumLarge: [
-          "w-64",
+          "w-full",
           "py-2",
-          "h-7",
+          "h-11",
           "px-1.5",
           "gap-2.5",
           "text-white",
-          "rounded-md",
-          "text-xs",
+          "rounded-xl",
+          "text-sm",
           "mb-2.5",
         ],
         large: [
@@ -54,11 +55,29 @@ export interface InputProps
     VariantProps<typeof inputStyle> {
   placeholder?: string;
   size?: "medium" | "mediumLarge" | "large";
+  iconLeft?: React.ReactNode;
 }
 
-export const Input: React.FC<InputProps> = ({
+export function Input({
+  iconLeft,
   className,
   intent,
   size,
   ...props
-}) => <input className={inputStyle({ intent, size, className })} {...props} />;
+}: InputProps) {
+  return (
+    <div className="flex relative">
+      <input
+        className={twMerge(
+          inputStyle({ intent, size, className }),
+          iconLeft && "pl-10"
+        )}
+        {...props}
+      />
+
+      {iconLeft && (
+        <span className="absolute left-0 top-2.5 pl-2">{iconLeft}</span>
+      )}
+    </div>
+  );
+}

@@ -19,7 +19,7 @@ export function TokenVaults() {
   const { tokenAddress } = useParams();
 
   async function fetchVaultData() {
-    const response = await fetch("/api/getCardLive", {
+    const response = await fetch("/api/getLiveVaults", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });

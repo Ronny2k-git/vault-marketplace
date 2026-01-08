@@ -3,8 +3,7 @@
 import { useForm } from "react-hook-form";
 import { FaArrowAltCircleUp } from "react-icons/fa";
 import { GiToken } from "react-icons/gi";
-import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
-import { PiNetwork } from "react-icons/pi";
+import { MdDriveFileRenameOutline } from "react-icons/md";
 import { TbNumber16Small } from "react-icons/tb";
 import { Button } from "./interface/button";
 import { Card } from "./interface/card";
@@ -32,7 +31,7 @@ export function CreateErc20TokenForm() {
       tokenName: "",
       tokenSymbol: "",
       tokenBanner: "",
-      totalSupply: 0n,
+      totalSupply: undefined,
       tokenDecimals: 16,
     },
   });
@@ -57,7 +56,7 @@ export function CreateErc20TokenForm() {
         name: data.tokenName,
         symbol: data.tokenSymbol,
         banner: data.tokenBanner,
-        maxSupply: data.totalSupply.toString(),
+        masmupply: data.totalSupply.toString(),
         decimals: data.tokenDecimals,
       }),
     });
@@ -71,18 +70,19 @@ export function CreateErc20TokenForm() {
 
   return (
     <div className="flex max-md:flex-col gap-6 justify-between">
-      <Card size="mediumHigh" intent="primary">
-        <div className="flex flex-col relative">
-          <div className="flex items-center gap-2">
-            <h3 className="text-white text-xs my-1">Network</h3>
-            {errors.network && (
-              <p className="text-red-500 text-xs">Network is required</p>
-            )}
-          </div>
+      <Card className="w-full p-8 rounded-2xl" intent="primary">
+        <div className="grid gap-2 relative">
+          {/* Chain selector */}
+          <div className="col-span-full flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <h3 className="text-white text-sm">Network</h3>
+              {errors.network && (
+                <p className="text-red-500 text-sm">Network is required</p>
+              )}
+            </div>
 
-          <div className="flex">
             <select
-              className="h-5 w-40 px-6 mb-2 text-white text-xs bg-background-alt-2 border-solid  border-border-primary rounded-md"
+              className="h-11 w-40 px-6 mb-2 text-white text-sm bg-background-alt-2 border-solid  border-border-primary rounded-xl"
               {...register("network", { required: true })}
             >
               <option value="" hidden>
@@ -91,92 +91,94 @@ export function CreateErc20TokenForm() {
               <option value="Mainnet">Mainnet</option>
               <option value="Sepolia">Sepolia</option>
             </select>
-            <PiNetwork className="size-4 absolute ml-1" color="white" />
           </div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-white text-xs my-1">Token name</h3>
-            {errors.tokenName && (
-              <p className="text-red-500 text-xs">Token name is required</p>
-            )}
-          </div>
-          <div className="flex relative items-center">
+
+          {/* Token Name */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <h3 className="text-white text-sm">Token name</h3>
+              {errors.tokenName && (
+                <p className="text-red-500 text-sm">Token name is required</p>
+              )}
+            </div>
+
             <Input
-              className="pl-7"
               intent={"primary"}
               size={"mediumLarge"}
               placeholder="Insert Your Token Name"
               type="text"
+              iconLeft={<MdDriveFileRenameOutline className="size-6" />}
               {...register("tokenName", { required: true })}
             />
-            <MdOutlineDriveFileRenameOutline
-              className="size-4 absolute -mt-3 ml-2"
-              color="white"
-            />
           </div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-white text-xs my-1">Token symbol</h3>
-            {errors.tokenSymbol && (
-              <p className="text-red-500 text-xs">Token symbol is required</p>
-            )}
-          </div>
-          <div className="flex items-center">
+
+          {/* Token Symbol */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <h3 className="text-white text-sm">Token symbol</h3>
+              {errors.tokenSymbol && (
+                <p className="text-red-500 text-sm">Token symbol is required</p>
+              )}
+            </div>
+
             <Input
-              className="pl-7"
               intent={"primary"}
               size={"mediumLarge"}
               placeholder="Insert Your Image URl"
+              iconLeft={<GiToken className="size-6" />}
               {...register("tokenSymbol", { required: true })}
             />
-            <GiToken className="size-4 absolute -mt-2 ml-2" color="white" />
           </div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-white text-xs my-1">Token banner</h3>
-            {errors.tokenBanner && (
-              <p className="text-red-500 text-xs">Token banner is required</p>
-            )}
-          </div>
-          <div className="flex items-center">
+
+          {/* Token Banner */}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <h3 className="text-white text-sm">Token banner</h3>
+              {errors.tokenBanner && (
+                <p className="text-red-500 text-sm">Token banner is required</p>
+              )}
+            </div>
+
             <Input
-              className="pl-7"
               intent={"primary"}
               size={"mediumLarge"}
               placeholder="Insert Your Image URl"
+              iconLeft={<FaArrowAltCircleUp className="size-6" />}
               {...register("tokenBanner", { required: true })}
             />
-            <FaArrowAltCircleUp
-              className="size-4 absolute -mt-2 ml-2"
-              color="white"
-            />
           </div>
-          <h3 className="flex max-sm:flex-col sm:items-center sm:gap-2 text-white text-xs">
-            Total Supply
-            <span className="text-gray-300 text-xs sm:mt-1">
-              (Max supply for the token)
-            </span>
-          </h3>
-          <div className="flex items-center">
+
+          {/* Total Supply */}
+          <div className="flex flex-col gap-2">
+            <h3 className="col-span-full flex items-center gap-2 text-white text-sm">
+              Total Supply
+              {errors.totalSupply && (
+                <p className="text-red-500 text-sm">Total Supply is required</p>
+              )}
+            </h3>
+
             <Input
-              className="pl-7"
               intent={"primary"}
               size={"mediumLarge"}
               placeholder="Ex: 1,000,000"
+              iconLeft={<TbNumber16Small className="size-8 -mt-1" />}
               {...register("totalSupply", { required: true })}
             />
-            <TbNumber16Small className="size-7 -mt-2 absolute" color="white" />
           </div>
+
           <div className="flex">
             <Button
               intent="primary"
-              size="small"
-              className="mx- my-2 max-w-64"
+              size="medium"
+              className="m-2 w-full max-w-64"
               onClick={() => reset()}
             >
               Reset
             </Button>
             <Button
-              className="mx-2 w-full my-2 max-w-64"
+              className="m-2 w-full max-w-64"
               onClick={handleSubmit(onSubmit)}
-              size="small"
+              size="medium"
               intent="secondary"
             >
               Create Token
@@ -184,6 +186,8 @@ export function CreateErc20TokenForm() {
           </div>
         </div>
       </Card>
+
+      {/* Card Preview */}
       <Card size="small" intent="primary">
         <div className="w-full h-40 ">
           <img

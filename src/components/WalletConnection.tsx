@@ -45,19 +45,21 @@ export default function WalletConnection() {
           <div className="fixed inset-0 bg-black/30 backdrop-blur-sm " />
 
           <Card
-            className="flex flex-col gap-4 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="flex flex-col fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             size="high"
             intent="primary"
           >
             <div className="flex justify-between">
-              <h1>Ecosystem</h1>
-              <button
-                className="bg-gray-glow text-xs rounded-full h-4 w-4 flex items-center justify-center text-black 
-            font-semibold hover:bg-gray-200"
+              <h1 className="text-xl">Ecosystem</h1>
+
+              <Button
+                className="text-base rounded-full h-5 w-5 p-4 text-black 
+            font-semibold"
                 onClick={() => setMenuOpen(!menuOpen)}
+                intent={"primary"}
               >
                 x
-              </button>
+              </Button>
             </div>
             <Tabs.Root defaultValue="ethereum">
               <Tabs.List className="flex gap-4">
@@ -65,7 +67,7 @@ export default function WalletConnection() {
                   <Tabs.Trigger
                     key={index}
                     value={ecosystem}
-                    className="data-[state=active]:bg-gray-500 py-2 px-4 rounded-xl hover:bg-gray-500 data-[state=active]:text-white"
+                    className="data-[state=active]:bg-gray-800/50 py-2 px-4 data-[state=active]:border border-gray-500 rounded-xl data-[state=active]:text-gray-300"
                   >
                     {ecosystem}
                   </Tabs.Trigger>
@@ -73,9 +75,9 @@ export default function WalletConnection() {
               </Tabs.List>
 
               <div className="flex items-center gap-4 py-4">
-                <div className="w-1/2 h-px bg-gray-100" />
+                <div className="w-1/2 h-px bg-gray-400/80" />
                 Wallets
-                <div className="w-1/2 h-px  bg-gray-100" />
+                <div className="w-1/2 h-px  bg-gray-400/80" />
               </div>
               <Tabs.Content value="ethereum">
                 <EthereumConnectors />

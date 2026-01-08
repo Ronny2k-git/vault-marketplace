@@ -2,7 +2,17 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const createTableSwapsInDb = async (swaps: any) => {
+export type Swaps = {
+  id: number;
+  amount: string;
+  type: string;
+  txHash: string;
+  sender: string;
+  dateTime: Date;
+  vaultId: number;
+};
+
+export const createSwapsInDb = async (swaps: Swaps) => {
   try {
     console.log("swap data:", swaps);
 

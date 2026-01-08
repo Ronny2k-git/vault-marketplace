@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createTokenInDb } from "./prismaTokens/prismaTokens";
+import { createTokenInDb } from "../../db/token/prismaTokens";
 
 export async function POST(req: NextRequest) {
   try {
