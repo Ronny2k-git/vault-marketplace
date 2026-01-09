@@ -34,7 +34,10 @@ export default function WalletConnection() {
               : "Connect Wallet"}
           </Button>
           <button className="lg:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-            <FaWallet color={connectedWallet ? "purple" : "white"} />
+            <FaWallet
+              className="w-5 h-5"
+              color={connectedWallet ? "purple" : "white"}
+            />
           </button>
         </div>
       )}

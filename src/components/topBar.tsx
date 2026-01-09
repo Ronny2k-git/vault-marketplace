@@ -1,11 +1,10 @@
 "use client";
 
 import { APP_ROUTES } from "@/global/constants";
-import { Tabs } from "@radix-ui/themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import WalletConnect from "./WalletConnection";
-import { MenuMobile } from "./interface/Drawer";
+import { MenuMobile } from "./interface/MenuMobile";
 
 export function TopBar() {
   const pathname = usePathname();
@@ -18,42 +17,50 @@ export function TopBar() {
   };
 
   return (
-    <div className="h-[5.5rem] w-full bg-background-alt font-SpaceGrotesk">
-      <div className="h-full w-full flex items-center">
-        <div className="size-12 ml-4 -mt-1 rounded-full bg-white" />
-        <Link href="/">
-          <h1 className="ml-2 sm:text-[22px] mr-4 text-lg text-white">
-            Vault Marketplace
-          </h1>
-        </Link>
-        <div className="hidden md:flex">
-          <Tabs.Root
-            className="flex gap-4"
-            defaultValue={activeTab()}
-            value={activeTab()}
-          >
+    <div className="max-md:h-20 w-full bg-background-alt font-SpaceGrotesk">
+      <div className="h-full w-full flex items-center justify-between px-4">
+        <div className="flex items-center">
+          <div className="flex items-center gap-2 lg:mr-4">
+            <img
+              alt="website-logo"
+              className="size-12 rounded-full border-2 border-gray-800"
+              src={"/website-logo.jpg"}
+            />
+
+            <Link href="/">
+              <h1 className="ml- sm:text-2xl mr-4 text-lg text-white">
+                Vault Marketplace
+              </h1>
+            </Link>
+          </div>
+
+          {/* App Routes */}
+          <div className="max-md:hidden flex gap-4 max-xl:gap-8 items-center text-text-foreground">
             {APP_ROUTES.map((route) => (
-              <Tabs.List key={route.value}>
-                <Tabs.Trigger value={route.value}>
-                  <Link href={route.path}>
-                    <h2 className="flex items-center gap-1 hover:underline text-text-foreground">
-                      <span>{route.icon}</span>
-                      {activeTab() === route.value && (
-                        <div className="xl:hidden">{route.label}</div>
-                      )}
-                      <div className="max-xl:hidden">{route.label}</div>
-                    </h2>
-                  </Link>
-                </Tabs.Trigger>
-              </Tabs.List>
+              <Link
+                className={`px-2 py-8 ${
+                  activeTab() === route.value
+                    ? "border-b-2 border-b-gray-400"
+                    : ""
+                } hover:bg-gray-800/20`}
+                key={route.path}
+                href={route.path}
+              >
+                <div className="flex gap-2">
+                  <span>{route.icon}</span>
+                  {activeTab() === route.value && (
+                    <div className="xl:hidden">{route.label}</div>
+                  )}
+                  <div className="max-xl:hidden">{route.label}</div>
+                </div>
+              </Link>
             ))}
-          </Tabs.Root>
+          </div>
         </div>
 
-        <div className=" ml-auto lg:pr-4">
+        <div className="flex items-center max-md:gap-4">
           <WalletConnect />
-        </div>
-        <div className="lg:pr-0 pr-4">
+
           <MenuMobile />
         </div>
       </div>

@@ -1,17 +1,18 @@
 "use client";
 
-import { FaArrowRightLong } from "react-icons/fa6";
-import { Button } from "../interface/button";
-import { Card } from "../interface/card";
+import { getStatus } from "@/global/utils";
+import { abiVault } from "@/utils/abiVault";
+import { vault } from "@prisma/client";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { readContract } from "wagmi/actions";
-import { abiVault } from "@/utils/abiVault";
-import { sepolia } from "viem/chains";
-import { wagmiConfig } from "../Providers";
+import { FaArrowRightLong } from "react-icons/fa6";
 import { formatUnits, isAddress } from "viem";
+import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
-import { vault } from "@prisma/client";
+import { readContract } from "wagmi/actions";
+import { Button } from "../interface/button";
+import { Card } from "../interface/card";
+import { wagmiConfig } from "../Providers";
 
 interface CustomVault extends vault {
   participants?: number;
@@ -37,34 +38,25 @@ export function CardLive({ vault }: { vault: CustomVault }) {
     setTotalDeposited(deposited);
   }, [vault.address, address]);
 
-  const getStatus = (vault: vault) => {
-    const currentDate = new Date();
-    const startDate = new Date(vault.startsAt);
-    const endDate = new Date(vault.endsAt);
-
-    if (startDate > currentDate) {
-      return "Coming soon";
-    }
-    if (startDate <= currentDate && currentDate < endDate) {
-      return "Live";
-    } else {
-      return "Finished";
-    }
-  };
-
   useEffect(() => {
     totalAmountDeposited();
   }, [totalAmountDeposited]);
 
   return (
-    <Card className="pb-2 h-auto rounded-xl" intent={"primary"}>
-      <div className="relative w-full lg:aspect-video overflow-hidden flex-grow-0">
+    <Card className="h-auto rounded-xl" intent={"primary"}>
+      {/* Banner, logo and name */}
+      <div className="relative w-full overflow-hidden">
         <img
-          className="rounded-t-xl h-40 w-full object-cover"
+          alt="vault-banner"
+          className="rounded-t-xl aspect-video max-h-52 w-full object-cover"
           src={vault.banner}
         />
         <div className="flex z-10 bottom-2 lg:bottom-2 gap-2 left-2 absolute">
-          <img className="size-8 rounded-full" src={vault.logo} />
+          <img
+            alt="vault-logo"
+            className="size-8 rounded-full"
+            src={vault.logo}
+          />
           <div className="font-normal text-white text-base">
             {vault.name}
             <br />
@@ -72,47 +64,63 @@ export function CardLive({ vault }: { vault: CustomVault }) {
           </div>
         </div>
       </div>
-      <div className="flex mt-4 ml-4 font-SpaceGrotesk justify-between mr-4 max-md:flex-col">
-        <div className="flex">
-          <img className="size-4 mr-1" src="/icons/user-group.png" />
-          <div>Participants:</div>
+
+      <div className="flex flex-col p-4 gap-1">
+        {/* Participants */}
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <img
+              alt="participants"
+              className="size-4"
+              src="/icons/user-group.png"
+            />
+            Participants:
+          </div>
+          <div>{vault.participants}</div>
         </div>
-        <div>{vault.participants}</div>
-      </div>
-      <div className="flex ml-4 font-SpaceGrotesk justify-between mr-4 max-md:flex-col">
-        <div className="flex">
-          <img className="size-4 mr-1" src="/icons/token.png" />
-          <div>Token name: </div>
+        {/* Token Name */}
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <img alt="token-name" className="size-4" src="/icons/token.png" />
+            Token name:
+          </div>
+          <div>{vault.assetTokenName}</div>
         </div>
-        <div>{vault.assetTokenName}</div>
-      </div>
-      <div className="flex  ml-4 font-SpaceGrotesk justify-between mr-4 max-md:flex-col">
-        <div className="flex">
-          <img className="size-4 mr-1" src="/icons/money.png" />
-          <div>Total deposited: </div>
+        {/* Total Deposited */}
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <img
+              alt="total-deposited"
+              className="size-4"
+              src="/icons/money.png"
+            />
+            Total deposited:
+          </div>
+          <div>{formatUnits(totalDeposited, vault.assetTokenDecimals)}</div>
         </div>
-        <div>{formatUnits(totalDeposited, vault.assetTokenDecimals)}</div>
-      </div>
-      <div className="flex  ml-4 font-SpaceGrotesk justify-between mr-4 max-md:flex-col">
-        <div className="flex">
-          <img className="size-4 mr-1" src="/icons/time.png" />
-          <div>Status:</div>
+        {/* Status */}
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <img alt="vault-status" className="size-4" src="/icons/time.png" />
+            Status:
+          </div>
+          <div
+            className={`${
+              getStatus(vault) === "Live" ? "text-live-accent" : "text-blue-300"
+            }`}
+          >
+            {getStatus(vault)}
+          </div>
         </div>
-        <div
-          className={`${
-            getStatus(vault) === "Live" ? "text-live-accent" : "text-blue-300"
-          }`}
-        >
-          {getStatus(vault)}
+        {/*  View the vault on your specific page */}
+        <div>
+          <Link href={`/token-vault/${vault.address}`}>
+            <Button intent={"primary"} size={"small"}>
+              View now
+              <FaArrowRightLong />
+            </Button>
+          </Link>
         </div>
-      </div>
-      <div className="ml-4 mt-auto self-end">
-        <Link href={`/token-vault/${vault.address}`}>
-          <Button intent={"primary"} size={"small"}>
-            View now
-            <FaArrowRightLong />
-          </Button>
-        </Link>
       </div>
     </Card>
   );

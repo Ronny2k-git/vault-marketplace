@@ -10,10 +10,10 @@ export function MenuMobile() {
 
   return (
     <div>
-      <div className="md:hidden flex items-center ml-4">
+      <div className="md:hidden flex items-center">
         <button className="" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <img
-            className="h-6 w-6"
+            className="h-7 w-7"
             src="/icons/hamburguer.png"
             alt="Hamburguer"
           />
@@ -21,7 +21,7 @@ export function MenuMobile() {
       </div>
       {isMenuOpen && (
         <div
-          className="absolute rounded-b-3xl lg:hidden top-0 right-0 p-4 z-30 flex flex-col text-red-500
+          className="absolute rounded-b-3xl md:hidden top-0 right-0 p-4 z-30 flex flex-col text-red-500
          bg-background-foreground h-auto w-full"
         >
           <div className="flex flex-col ml-2">
