@@ -34,14 +34,14 @@ const cardStyle = cva("", {
       high: [
         "w-full",
         "max-w-sm",
-        "min-h-[480px]",
+        "min-h-[30rem]",
         "rounded-2xl",
         "py-5",
         "px-5",
         "gap-2.5",
       ],
       mediumHigh: [
-        "max-w-[320px]",
+        "max-w-[20rem]",
         "h-auto",
         "rounded-2xl",
         "py-5",

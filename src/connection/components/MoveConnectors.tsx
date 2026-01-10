@@ -7,9 +7,9 @@ export function MoveConnectors() {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex justify-between items-center max-sm:flex-col gap-2 mb-2">
+      <div className="flex justify-between max-sm:flex-col gap-2 mb-2">
         <h1>Move Connectors</h1>
-        <div className="text-sm h-5 px-2 text-black bg-white rounded-full">
+        <div className="flex text-sm h-5 px-2 justify-center text-black bg-white rounded-full">
           {!connected
             ? "Not connected"
             : `${abreviateAddress(account?.address?.toString())}`}

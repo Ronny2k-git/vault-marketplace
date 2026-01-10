@@ -6,7 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { useAtom } from "jotai";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { formatUnits, Hex, isAddress } from "viem";
 import { sepolia } from "viem/chains";
@@ -25,25 +25,24 @@ export function VaultCardRow({ vault }: { vault: CustomVault }) {
 
   const { address } = useAccount();
 
-  async function getBalance() {
-    if (!isAddress(vault.address)) {
-      throw new Error("Address is invalid");
-    }
+  const getBalance = useCallback(async () => {
+    if (!address) return;
+    if (!isAddress(vault.address)) return;
 
     const amountDeposited = await readContract(wagmiConfig, {
       abi: abiVault,
       address: vault.address,
       functionName: "deposited",
       chainId: sepolia.id,
-      args: [address!],
+      args: [address],
     });
 
-    return setTotalDeposited(amountDeposited);
-  }
+    setTotalDeposited(amountDeposited);
+  }, [address, vault.address]);
 
   useEffect(() => {
     getBalance();
-  }, []);
+  }, [getBalance]);
 
   return (
     <div className="w-full relative">

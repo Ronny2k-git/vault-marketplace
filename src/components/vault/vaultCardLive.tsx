@@ -24,16 +24,15 @@ export function CardLive({ vault }: { vault: CustomVault }) {
   const { address } = useAccount();
 
   const totalAmountDeposited = useCallback(async () => {
-    if (!isAddress(vault.address)) {
-      throw new Error("Address is invalid");
-    }
+    if (!address) return;
+    if (!isAddress(vault.address)) return;
 
     const deposited = await readContract(wagmiConfig, {
       abi: abiVault,
       address: vault.address,
       functionName: "deposited",
       chainId: sepolia.id,
-      args: [address!],
+      args: [address],
     });
     setTotalDeposited(deposited);
   }, [vault.address, address]);

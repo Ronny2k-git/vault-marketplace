@@ -21,7 +21,7 @@ export function EthereumConnectors() {
     <div className="flex flex-col gap-2">
       <div className="flex max-sm:flex-col gap-2 sm:gap-6 mb-2 justify-between sm:items-center">
         <h1 className="text-base">Ethereum Connectors</h1>
-        <div className="text-sm flex items-center text-black bg-white rounded-full px-2">
+        <div className="text-sm flex items-center justify-center text-black bg-white rounded-full px-2">
           {!isConnected ? "Not connected" : `${abreviateAddress(address!)}`}
         </div>
       </div>

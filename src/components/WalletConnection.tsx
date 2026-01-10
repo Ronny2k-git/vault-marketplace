@@ -22,7 +22,7 @@ export default function WalletConnection() {
       {!menuOpen && (
         <div className="flex transition-shadow duration-300">
           <Button
-            className="hidden lg:flex"
+            className="hidden lg:flex "
             intent={connectedWallet ? "secondary" : "primary"}
             size={"large"}
             type="button"

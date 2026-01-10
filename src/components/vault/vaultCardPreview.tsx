@@ -1,7 +1,5 @@
 "use client";
 
-import { useAtom } from "jotai";
-import { Card } from "../interface/card";
 import {
   bannerUrlAtom,
   endDateAtom,
@@ -12,6 +10,8 @@ import {
   vaultLogoAtom,
   vaultNameAtom,
 } from "@/utils/atom";
+import { useAtom } from "jotai";
+import { Card } from "../interface/card";
 
 export function CardPreview() {
   const [selectedNetwork] = useAtom(selectedNetworkAtom);
@@ -25,7 +25,7 @@ export function CardPreview() {
 
   return (
     <div>
-      <Card className="w-96" intent={"primary"} size={"small"}>
+      <Card className="!p-2 rounded-2xl size-[20rem]" intent={"primary"}>
         <div className="relative w-full h-fit aspect-video overflow-hidden flex-grow-0">
           <img
             className="rounded-t-xl h-36 w-full object-cover bg-center"
@@ -49,19 +49,19 @@ export function CardPreview() {
         <div className="flex flex-col my-2 mx-2 gap-0.5">
           <div className="flex font-SpaceGrotesk justify-between">
             <h3>Minimum Deposit</h3>
-            <div>{minDeposit}</div>
+            <span>{minDeposit}</span>
           </div>
           <div className="flex font-SpaceGrotesk justify-between">
             <h3>Max dep.per wallet</h3>
-            <div>{maxDeposit}</div>
+            <span>{maxDeposit}</span>
           </div>
           <div className="flex font-SpaceGrotesk justify-between">
             <h3>Start Date</h3>
-            <div>{startDate?.toLocaleDateString("en-US")}</div>
+            <span>{startDate?.toLocaleDateString("en-US")}</span>
           </div>
           <div className="flex font-SpaceGrotesk justify-between">
             <h3>End Date</h3>
-            <div>{endDate?.toLocaleDateString("en-US")}</div>
+            <span>{endDate?.toLocaleDateString("en-US")}</span>
           </div>
         </div>
       </Card>

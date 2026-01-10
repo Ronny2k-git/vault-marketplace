@@ -1,5 +1,6 @@
 "use client";
 
+import { FormValues } from "@/global/types";
 import {
   bannerUrlAtom,
   endDateAtom,
@@ -12,44 +13,16 @@ import {
 } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { Controller, useForm } from "react-hook-form";
-import { Abi } from "viem";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
 import SelectDate from "../interface/datePicker";
 import { Input } from "../interface/input";
 
-export type ContractParams = {
-  abi: Abi;
-  address: `0x${string}`;
-  functionName: string;
-  args: [
-    assetToken: string,
-    startDate: number,
-    endDate: number,
-    minDeposit: bigint,
-    maxDeposit: bigint,
-    salt: bigint
-  ];
-};
-
-export type FormValues = {
-  network: string;
-  vaultName: string;
-  vaultLogo: string;
-  bannerUrl: string;
-  assetToken: `0x${string}`;
-  salt: bigint;
-  minDeposit: bigint;
-  maxDeposit: bigint;
-  startDate: Date | null;
-  endDate: Date | null;
-};
-
 type CardCreateProps = {
   onSubmit: (data: FormValues) => Promise<void>;
 };
 
-export function CardCreate({ onSubmit }: CardCreateProps) {
+export function VaultCardCreate({ onSubmit }: CardCreateProps) {
   const [selectedNetwork, setSelectedNetwork] = useAtom(selectedNetworkAtom);
   const [, setVaultName] = useAtom(vaultNameAtom);
   const [, setVaultLogo] = useAtom(vaultLogoAtom);
@@ -80,8 +53,6 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
     },
   });
 
-  // const formValues = watch(); This is not being used in the current code.
-
   const formatDate = (date: Date | null) => {
     if (!date) return "";
     return date.toLocaleDateString("en-US");
@@ -89,7 +60,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
 
   return (
     <div className="relative">
-      <Card className="mr-2.5 mb-2.5 " intent={"primary"} size={"extrahigh"}>
+      <Card intent={"primary"} size={"extrahigh"}>
         <div className="flex items-center gap-2">
           <h3 className="text-white text-xs">Network</h3>
           {errors.network && (
@@ -101,7 +72,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
 
         <div className="relative">
           <select
-            className={`py-1 pl-5 mb-2.5 text-white px-1.5 rounded-md text-xs bg-button-bg-primary
+            className={`py-2 px-8 mb-2.5 text-white rounded-md text-sm bg-button-bg-primary
              ${selectedNetwork === "" ? "text-gray-300" : "text-white"}`}
             defaultValue=""
             {...register("network", { required: "Network is required" })}
@@ -119,7 +90,7 @@ export function CardCreate({ onSubmit }: CardCreateProps) {
           </select>
           <img
             alt="Icon"
-            className="absolute top-1 ml-1.5 mt-0.5 size-4"
+            className="absolute top-2 left-2.5 mt-0.5 size-4"
             src="/icons/iconSelect.png"
           />
         </div>
