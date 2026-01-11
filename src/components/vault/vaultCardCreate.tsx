@@ -15,7 +15,7 @@ import { useAtom } from "jotai";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../interface/button";
 import { Card } from "../interface/card";
-import SelectDate from "../interface/datePicker";
+import SelectDate from "../interface/DatePickerInput";
 import { Input } from "../interface/input";
 
 type CardCreateProps = {
@@ -37,6 +37,7 @@ export function VaultCardCreate({ onSubmit }: CardCreateProps) {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -58,9 +59,12 @@ export function VaultCardCreate({ onSubmit }: CardCreateProps) {
     return date.toLocaleDateString("en-US");
   };
 
+  const startDate = watch("startDate");
+  const endDate = watch("endDate");
+
   return (
-    <div className="relative">
-      <Card intent={"primary"} size={"extrahigh"}>
+    <div className="flex flex-col gap-4">
+      <Card className="h-auto" intent={"primary"} size={"extrahigh"}>
         <div className="flex items-center gap-2">
           <h3 className="text-white text-xs">Network</h3>
           {errors.network && (
@@ -72,7 +76,7 @@ export function VaultCardCreate({ onSubmit }: CardCreateProps) {
 
         <div className="relative">
           <select
-            className={`py-2 px-8 mb-2.5 text-white rounded-md text-sm bg-button-bg-primary
+            className={`py-2 px-8 my-3 text-white rounded-md text-sm bg-button-bg-primary
              ${selectedNetwork === "" ? "text-gray-300" : "text-white"}`}
             defaultValue=""
             {...register("network", { required: "Network is required" })}
@@ -94,166 +98,202 @@ export function VaultCardCreate({ onSubmit }: CardCreateProps) {
             src="/icons/iconSelect.png"
           />
         </div>
-        <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
-        <div className="flex">
-          <h3 className="text-white text-xs mb-1">Vault Name</h3>
-          {errors.vaultName && (
-            <p className="text-red-500 text-[11px] ml-2 text-semibold">
-              {errors.vaultName.message}
-            </p>
-          )}
-        </div>
-        <Input
-          {...register("vaultName", {
-            required: { value: true, message: "The vault name is required" },
-            minLength: {
-              value: 5,
-              message: "Vault Name must be at least 5 characters",
-            },
-            maxLength: {
-              value: 20,
-              message: "Vault Name must be at most 20 characters",
-            },
-          })}
-          placeholder="Enter name"
-          intent={"primary"}
-          size={"mediumLarge"}
-          onChange={(e) => setVaultName(e.target.value)}
-        />
-        <div className="flex">
-          <h3 className="text-white text-xs mb-1">Vault Logo</h3>
-          {errors.vaultLogo && (
-            <p className="text-red-500 text-[11px] ml-2 text-semibold ">
-              {errors.vaultLogo.message}
-            </p>
-          )}
-        </div>
-        <h4 className="text-text-foreground text-[10px] mb-1">
-          The card logo to be displayed on pages
-        </h4>
-        <Input
-          placeholder="Enter URL"
-          intent={"primary"}
-          size={"mediumLarge"}
-          {...register("vaultLogo", {
-            required: { value: true, message: "The vault logo is required" },
-            pattern: {
-              value:
-                /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
-              message: "Invalid format URL",
-            },
-          })}
-          onChange={(e) => setVaultLogo(e.target.value)}
-        />
-        <div className="flex">
-          <h3 className="text-white text-xs mb-1">Banner URL</h3>
-          {errors.bannerUrl && (
-            <p className="text-red-500 text-[11px] ml-2 text-semibold ">
-              {errors.bannerUrl.message}
-            </p>
-          )}
-        </div>
-        <h4 className="text-text-foreground text-[10px] mb-1">
-          The vault banner to be showed on pages
-        </h4>
-        <Input
-          placeholder="Enter URL"
-          intent={"primary"}
-          size={"mediumLarge"}
-          {...register("bannerUrl", {
-            required: { value: true, message: "The vault banner is required" },
-            pattern: {
-              value:
-                /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
-              message: "Invalid format URL",
-            },
-          })}
-          onChange={(e) => setBannerUrl(e.target.value)}
-        />
-        <div className="flex">
-          <h3 className="text-white text-xs mb-1">Asset Token</h3>
-          {errors.assetToken && (
-            <p className="text-red-500 text-[11px] ml-2 text-semibold ">
-              {errors.assetToken.message}
-            </p>
-          )}
-        </div>
-        <Input
-          placeholder="Enter address"
-          intent={"primary"}
-          size={"mediumLarge"}
-          {...register("assetToken", {
-            required: { value: true, message: "The token address is required" },
-            // pattern: {
-            //   value: /^0x[a-fA-F0-9]{40}$/,
-            //   message: "Invalid address format",
-            // },
-          })}
-        />
-        <h3 className="text-white text-xs mb-1">Salt</h3>
-        <Input
-          placeholder="Enter salt (unique value)"
-          intent={"primary"}
-          size={"mediumLarge"}
-          {...register("salt", { required: true, valueAsNumber: true })}
-        />
-        <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
-        <h3 className="text-white text-xs mb-1 flex">
-          Minimum Deposit per wallet
-          <div className="text-[10px] text-text-foreground ml-1">
-            (optional)
+
+        <div className=" h-px w-full my-3 bg-border-primary" />
+
+        <div className="grid grid-cols-2 gap-4">
+          {/* Vault Name */}
+          <div className="flex flex-col gap-1">
+            <h3 className="text-white text-xs mb-1">Vault Name</h3>
+            {errors.vaultName && (
+              <p className="text-red-500 text-[11px] ml-2 text-semibold">
+                {errors.vaultName.message}
+              </p>
+            )}
+
+            <Input
+              {...register("vaultName", {
+                required: {
+                  value: true,
+                  message: "The vault name is required",
+                },
+                minLength: {
+                  value: 5,
+                  message: "Vault Name must be at least 5 characters",
+                },
+                maxLength: {
+                  value: 20,
+                  message: "Vault Name must be at most 20 characters",
+                },
+              })}
+              placeholder="Enter name"
+              intent={"primary"}
+              size={"mediumLarge"}
+              onChange={(e) => setVaultName(e.target.value)}
+            />
           </div>
-        </h3>
-        <h4 className="text-text-foreground text-[10px] mb-1">
-          The minimum amount that can be deposited per transaction
-        </h4>
-        <Input
-          placeholder="Enter value"
-          intent={"primary"}
-          size={"mediumLarge"}
-          {...register("minDeposit", {})}
-          onChange={(e) => setMinDeposit(BigInt(e.target.value))}
-        />
-        <h3 className="text-white text-xs mb-1 flex">
-          Maximum Deposit per wallet
-          <div className="text-[10px] text-text-foreground ml-1">
-            (optional)
+
+          {/* Vault Logo */}
+          <div className="flex flex-col gap-1">
+            <h3 className="text-white text-xs mb-1">Vault Logo</h3>
+            {errors.vaultLogo && (
+              <p className="text-red-500 text-[11px] ml-2 text-semibold ">
+                {errors.vaultLogo.message}
+              </p>
+            )}
+
+            <Input
+              placeholder="Enter URL"
+              intent={"primary"}
+              size={"mediumLarge"}
+              {...register("vaultLogo", {
+                required: {
+                  value: true,
+                  message: "The vault logo is required",
+                },
+                pattern: {
+                  value:
+                    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
+                  message: "Invalid format URL",
+                },
+              })}
+              onChange={(e) => setVaultLogo(e.target.value)}
+            />
           </div>
-        </h3>
-        <h4 className="text-text-foreground text-[10px] mb-1">
-          The maximum amount that can be deposited per transaction
-        </h4>
-        <Input
-          placeholder="Enter value"
-          intent={"primary"}
-          size={"mediumLarge"}
-          {...register("maxDeposit", {})}
-          onChange={(e) => setMaxDeposit(BigInt(e.target.value))}
-        />
-        <div className="Line h-[1px] w-[439px] mb-2.5 bg-border-primary" />
-        <h3 className="text-white text-xs mb-1">Dates</h3>
-        <h4 className="text-[10px] text-text-foreground mb-1">
-          Chose the period when your vault will be available for do deposits.
-          (Withdraw can be done anytime since user has balance deposited)
-        </h4>
-        <div className="flex">
-          <h3 className="text-white text-xs w-52">Start date</h3>
-          <h3 className="text-white text-xs">End date</h3>
-        </div>
-        <div className="flex relative">
-          <Controller
-            control={control}
-            name="startDate"
-            render={({ field: { value, onChange } }) => (
-              <div className="mr-3">
-                <Input
-                  value={value ? formatDate(value) : ""}
-                  onChange={() => {}}
-                  placeholder="00/00/0000 00:00"
-                  intent={"primary"}
-                  size={"medium"}
-                />
-                <div className="absolute left-44  -mt-5">
+
+          {/* Banner Url */}
+          <div className="flex flex-col gap-1">
+            <h3 className="text-white text-xs mb-1">Banner URL</h3>
+            {errors.bannerUrl && (
+              <p className="text-red-500 text-[11px] ml-2 text-semibold ">
+                {errors.bannerUrl.message}
+              </p>
+            )}
+            <Input
+              placeholder="Enter URL"
+              intent={"primary"}
+              size={"mediumLarge"}
+              {...register("bannerUrl", {
+                required: {
+                  value: true,
+                  message: "The vault banner is required",
+                },
+                pattern: {
+                  value:
+                    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
+                  message: "Invalid format URL",
+                },
+              })}
+              onChange={(e) => setBannerUrl(e.target.value)}
+            />
+          </div>
+
+          {/* Salt Token */}
+          <div className="flex flex-col gap-1">
+            <h3 className="text-white text-xs mb-1">Salt</h3>
+            <Input
+              placeholder="Enter salt (unique value)"
+              intent={"primary"}
+              size={"mediumLarge"}
+              {...register("salt", { required: true, valueAsNumber: true })}
+            />
+          </div>
+
+          {/* Asset Token */}
+          <div className="flex flex-col gap-1 col-span-full">
+            <h3 className="text-white text-xs mb-1">Asset Token</h3>
+            {errors.assetToken && (
+              <p className="text-red-500 text-[11px] ml-2 text-semibold ">
+                {errors.assetToken.message}
+              </p>
+            )}
+            <Input
+              placeholder="Enter address"
+              intent={"primary"}
+              size={"mediumLarge"}
+              {...register("assetToken", {
+                required: {
+                  value: true,
+                  message: "The token address is required",
+                },
+                // pattern: {
+                //   value: /^0x[a-fA-F0-9]{40}$/,
+                //   message: "Invalid address format",
+                // },
+              })}
+            />
+          </div>
+
+          <div className=" h-px w-full col-span-full my-3 bg-border-primary" />
+
+          {/* Min Deposit */}
+          <div className="flex flex-col gap-1">
+            <h3 className="text-white text-xs mb-1 flex">
+              Minimum Deposit per wallet
+              <div className="text-[10px] text-text-foreground ml-1">
+                (optional)
+              </div>
+            </h3>
+            <h4 className="text-text-foreground text-[10px] mb-1">
+              The minimum amount that can be deposited per transaction
+            </h4>
+            <Input
+              placeholder="Enter value"
+              intent={"primary"}
+              size={"mediumLarge"}
+              {...register("minDeposit", {})}
+              onChange={(e) => setMinDeposit(BigInt(e.target.value))}
+            />
+          </div>
+
+          {/* Max Deposit */}
+          <div className="flex flex-col gap-1">
+            <h3 className="text-white text-xs mb-1 flex">
+              Maximum Deposit per wallet
+              <div className="text-[10px] text-text-foreground ml-1">
+                (optional)
+              </div>
+            </h3>
+            <h4 className="text-text-foreground text-[10px] mb-1">
+              The maximum amount that can be deposited per transaction
+            </h4>
+            <Input
+              placeholder="Enter value"
+              intent={"primary"}
+              size={"mediumLarge"}
+              {...register("maxDeposit", {})}
+              onChange={(e) => setMaxDeposit(BigInt(e.target.value))}
+            />
+          </div>
+
+          <div className=" h-px w-full col-span-full my-3 bg-border-primary" />
+
+          <div className="flex flex-col col-span-full">
+            <h3 className="text-white text-xs mb-1">Dates</h3>
+            <h4 className="text-[10px] text-text-foreground mb-1">
+              Chose the period when your vault will be available for do
+              deposits. (Withdraw can be done anytime since user has balance
+              deposited)
+            </h4>
+          </div>
+
+          {/* Start Date */}
+          <div className="flex gap-2 relative">
+            <div className="flex flex-col relative gap-1">
+              <h3 className="text-white text-xs w-52">Start date</h3>
+              <Input
+                value={startDate ? formatDate(startDate) : ""}
+                placeholder="00/00/0000 00:00"
+                intent={"primary"}
+                size={"medium"}
+              />
+            </div>
+
+            <Controller
+              control={control}
+              name="startDate"
+              render={({ field: { value, onChange } }) => (
+                <div className="absolute right-8 mt-7">
                   <SelectDate
                     position="top"
                     selectedDate={value}
@@ -263,22 +303,27 @@ export function VaultCardCreate({ onSubmit }: CardCreateProps) {
                     }}
                   />
                 </div>
-              </div>
-            )}
-          />
-          <Controller
-            control={control}
-            name="endDate"
-            render={({ field: { value, onChange } }) => (
-              <div>
-                <Input
-                  value={value ? formatDate(value) : ""}
-                  onChange={() => {}}
-                  placeholder="00/00/0000 00:00"
-                  intent={"primary"}
-                  size={"medium"}
-                />
-                <div className="absolute right-12 -mt-5">
+              )}
+            />
+          </div>
+
+          {/* Start Date */}
+          <div className="flex gap-2 relative">
+            <div className="flex flex-col relative gap-1">
+              <h3 className="text-white text-xs w-52">End date</h3>
+              <Input
+                value={endDate ? formatDate(endDate) : ""}
+                placeholder="00/00/0000 00:00"
+                intent={"primary"}
+                size={"medium"}
+              />
+            </div>
+
+            <Controller
+              control={control}
+              name="endDate"
+              render={({ field: { value, onChange } }) => (
+                <div className="absolute right-8 mt-7">
                   <SelectDate
                     position="top"
                     selectedDate={value}
@@ -288,12 +333,13 @@ export function VaultCardCreate({ onSubmit }: CardCreateProps) {
                     }}
                   />
                 </div>
-              </div>
-            )}
-          />
+              )}
+            />
+          </div>
         </div>
       </Card>
-      <div className="flex mb-11">
+
+      <div className="flex ">
         <Button
           className="mr-2.5"
           intent={"primary"}

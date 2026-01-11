@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -8,9 +8,10 @@ interface SelectDateProps {
   position?: "top" | "bottom";
   selectedDate: Date | null;
   onDateChange: (date: Date | null) => void;
+  className?: string;
 }
 
-export default function SelectDate({
+export default function DatePickerInput({
   position = "bottom",
   selectedDate,
   onDateChange,
@@ -31,6 +32,7 @@ export default function SelectDate({
       <button onClick={clickCalendar}>
         <img src="/icons/calendar.png" />
       </button>
+
       {showCalendar && (
         <div
           className={`absolute z-40 ${

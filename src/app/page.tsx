@@ -51,7 +51,7 @@ export default function TokenVaults() {
 
           {/* Live Vaults */}
           <div className="flex justify-center items-center">
-            <div className="grid justify-center gap-4 w-full grid-cols-[repeat(auto-fill,minmax(350px,1fr))]">
+            <div className="grid justify-center gap-4 w-full grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
               {getLiveVaults?.map((vault: vault) => (
                 <CardLive key={vault.address} vault={vault} />
               ))}
