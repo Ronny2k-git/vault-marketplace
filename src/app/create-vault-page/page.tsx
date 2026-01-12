@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/interface/button";
-import { VaultCardCreate } from "@/components/vault/vaultCardCreate";
-import { CardPreview } from "@/components/vault/vaultCardPreview";
+import { VaultCardCreate } from "@/components/vault/VaultCardCreate";
+import { VaultCardPreview } from "@/components/vault/VaultCardPreview";
 import { CreateVaultEvm } from "@/global/functions/CreateVaultEvm";
 import { FormValues } from "@/global/types";
 import { createVaultAtom } from "@/utils/atom";
@@ -55,7 +55,7 @@ export default function VaultCreationPage() {
         <div className="flex max-[850px]:flex-col gap-4">
           <VaultCardCreate form={form} />
 
-          <CardPreview />
+          <VaultCardPreview />
         </div>
 
         <div className="flex gap-3 max-w-md">

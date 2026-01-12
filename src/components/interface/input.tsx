@@ -30,10 +30,9 @@ const inputStyle = cva(
         ],
         large: [
           "w-full",
+          "!p-0",
           "h-12",
-          "py-2",
-          "px-2",
-          "gap-2.5",
+          "gap-2",
           "border-0",
           "focus:outline-none",
         ],

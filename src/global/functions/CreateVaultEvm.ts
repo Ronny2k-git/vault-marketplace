@@ -6,7 +6,7 @@ import { wagmiConfig } from "../../components/Providers";
 import {
   ContractParams,
   FormValues,
-} from "../../components/vault/vaultCardCreate";
+} from "../../components/vault/VaultCardCreate";
 
 export async function CreateVaultEvm(
   formValues: FormValues,

@@ -35,7 +35,9 @@ export function VaultCardCreate({ form }: CardCreateProps) {
     >
       {/* ================= BASIC INFO ================= */}
       <section className="space-y-4">
-        <h3 className="text-sm font-semibold text-white">Basic Information</h3>
+        <h3 className="text-base font-semibold text-indigo-200">
+          Basic Information
+        </h3>
 
         <div className="grid sm:grid-cols-2 gap-y-6 gap-x-4">
           <div className="flex flex-col gap-2">
@@ -159,7 +161,7 @@ export function VaultCardCreate({ form }: CardCreateProps) {
           {/* Divider */}
           <div className=" h-px w-full col-span-full my-3 bg-border-primary" />
 
-          <h3 className="text-sm font-semibold text-white col-span-full">
+          <h3 className="text-base font-semibold text-indigo-200 col-span-full">
             Token & Deposit Rules
           </h3>
 
@@ -242,7 +244,7 @@ export function VaultCardCreate({ form }: CardCreateProps) {
           <div className=" h-px w-full col-span-full my-3 bg-border-primary" />
 
           <div className="flex flex-col col-span-full">
-            <h3 className="text-white text-sm font-semibold">Dates</h3>
+            <h3 className=" text-base font-semibold text-indigo-200"> Dates</h3>
             <h4 className="text-[10px] text-text-foreground">
               Chose the period when your vault will be available for do
               deposits. (Withdraw can be done anytime since user has balance
@@ -251,7 +253,6 @@ export function VaultCardCreate({ form }: CardCreateProps) {
           </div>
 
           {/* Start Date */}
-
           <div className="flex flex-col relative gap-2">
             <h3 className="text-white text-sm">Start date</h3>
             <Input
@@ -283,7 +284,6 @@ export function VaultCardCreate({ form }: CardCreateProps) {
           </div>
 
           {/* End Date */}
-
           <div className="flex flex-col relative gap-2">
             <h3 className="text-white text-sm">End date</h3>
             <Input

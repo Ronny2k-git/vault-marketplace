@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/interface/button";
 import { ErrorDatabase } from "@/components/interface/errorDatabase";
-import { CardLive } from "@/components/vault/vaultCardLive";
+import { CardLive } from "@/components/vault/VaultCardLive";
 import { VaultCardRow } from "@/components/vault/VaultCardRow";
 import { Pagination } from "@/global/components/Pagination";
 import { useGetCompletedVaults } from "@/global/hooks/useGetCompletedVaults";

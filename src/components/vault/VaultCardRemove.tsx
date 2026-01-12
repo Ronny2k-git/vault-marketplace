@@ -18,7 +18,7 @@ import { Card } from "../interface/Card";
 import { Input } from "../interface/input";
 import { wagmiConfig } from "../Providers";
 
-export function CardRemove() {
+export function VaultCardRemove() {
   const [vaultData] = useAtom(vaultAtom);
   const [totalDeposited, setTotalDeposited] = useAtom(amountTotalDeposited);
   const [decimals] = useAtom(tokenDecimals);
@@ -186,56 +186,83 @@ export function CardRemove() {
   }
 
   return (
-    <div>
-      <h1 className="ml-4 mb-2.5 text-white text-xl">
-        Withdraw {vaultData.assetTokenName}
-      </h1>
-      <h2 className="text-xs ml-4 mb-2.5">
-        Deposit yours tokens into a {vaultData.name} for safety!
-      </h2>
+    <div className="flex flex-col p-2 gap-4">
+      <div className="flex flex-col gap-2">
+        <h1 className=" text-white text-xl">
+          Withdraw {vaultData.assetTokenName}
+        </h1>
+        <h2 className="text-sm flex flex-wrap items-center gap-2 text-gray-300">
+          Claim yours tokens right now!
+        </h2>
+      </div>
+
       <div className="flex justify-center">
-        <Card intent={"tertiary"} size={"mediumSmall"}>
-          <div className="flex justify-between">
-            <h1 className="text-sm ml-2 pb-1 mt-1">Vault token</h1>
-            <h2 className="text-xs mr-2 mt-2">
-              Deposited:
+        <Card className="py-4 px-2" intent={"tertiary"} size={"mediumSmall"}>
+          <div className="flex justify-between items-center">
+            <h1 className="text-base text-gray-300">Vault token</h1>
+            <h2 className="text-sm text-gray-300">
+              Deposited:{" "}
               {formatUnits(totalDeposited, decimals) || "Loading ..."}
             </h2>
           </div>
-          <div className="flex">
+
+          <div className="flex items-center justify-between gap-2">
             <Input
-              className="text-xs text-text-foreground hover:bg-transparent border-transparent"
+              className="text-lg text-text-foreground hover:bg-transparent border-transparent"
               intent={"primary"}
               type="number"
               size={"large"}
               placeholder="0"
+              onClick={onSubmit}
               onChange={(event) => setRemoveAmount(event.target.value)}
-            ></Input>
-            <div className="text-xs mt-0.5 right-10 absolute text-white">
-              {vaultData.assetTokenName}
-            </div>
-            <img
-              className="size-5 absolute ml-0.5 right-4 rounded-full"
-              src={vaultData.logo}
             />
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-nowrap text-white">
+                {vaultData.assetTokenName}
+              </span>
+
+              <img
+                alt="vault-logo"
+                className="size-6 rounded-full"
+                src={vaultData.logo}
+              />
+            </div>
           </div>
+
+          {/* <div className="flex items-center justify-between gap-2">
+            <Input
+              className="text-lg text-white hover:bg-transparent border-transparent"
+              type="number"
+              intent={"primary"}
+              size={"large"}
+              placeholder="0"
+              onChange={(event) => setDepositAmount(event.target.value)}
+            />
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-nowrap text-white">
+                {vaultData.assetTokenName}
+              </span>
+
+              <img className="size-6 rounded-full" src={vaultData.logo} />
+            </div>
+          </div> */}
         </Card>
       </div>
-      <div className="flex justify-center">
-        <Button
-          className={`mt-2.5 w-[270px] ${
-            isButtonDisabled
-              ? "bg-gray-500 shadow-gray-300"
-              : "bg-accent hover:bg-purple-600 shadow-shadow"
-          }`}
-          intent={"secondary"}
-          size={"mediumLarge"}
-          onClick={onSubmit}
-          disabled={isButtonDisabled}
-        >
-          {message || `Withdraw ${vaultData.assetTokenName}`}
-        </Button>
-      </div>
+
+      {/* Action */}
+      <Button
+        className={`w-full ${
+          isButtonDisabled
+            ? "bg-gray-500 shadow-gray-300"
+            : "bg-accent hover:bg-purple-600 shadow-shadow"
+        }`}
+        intent={"secondary"}
+        size={"mediumLarge"}
+        onClick={onSubmit}
+        disabled={isButtonDisabled}
+      >
+        {message || `Withdraw ${vaultData.assetTokenName}`}
+      </Button>
     </div>
   );
 }

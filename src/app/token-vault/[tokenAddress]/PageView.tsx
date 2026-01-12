@@ -1,11 +1,13 @@
 "use client";
 
 import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
-import { Card } from "@/components/interface/Card";
-import { CardTransaction } from "@/components/vault/vaultCardTransaction";
+
+import { VaultCardTransaction } from "@/components/vault/VaultCardTransaction";
 import { useHydrateAtoms } from "jotai/utils";
 
-import { TransactionTokens } from "@/components/vault/VaultCardRow";
+import { Card } from "@/components/interface/Card";
+import { Swap, TransactionCardRow } from "@/components/swap/TransactionCardRow";
+import { Pagination } from "@/global/components";
 import {
   maxDepositAtom,
   minDepositAtom,
@@ -20,6 +22,7 @@ import { formatUnits } from "viem";
 
 export function PageView({ vault }: { vault: VaultFromDb }) {
   useHydrateAtoms([[vaultAtom, vault]]);
+  const [swaps] = useAtom<Swap[]>(swapAtom);
 
   const [minDeposit] = useAtom(minDepositAtom);
   const [maxDeposit] = useAtom(maxDepositAtom);
@@ -44,108 +47,100 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
     }
   }
 
-  const nextPage = () => {
-    setCurrentPage((prev) => prev + 1);
-    fetchSwapData(currentPage + 1);
-  };
-
-  const previousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-    fetchSwapData(currentPage - 1);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   useEffect(() => {
     if (tokenAddress) {
-      fetchSwapData();
+      fetchSwapData(currentPage);
     }
-  }, [tokenAddress]);
+  }, [tokenAddress, currentPage]);
 
   const formatStartDate = new Date(vault.startsAt).toLocaleDateString("en-US");
   const formatEndDate = new Date(vault.endsAt).toLocaleDateString("en-US");
 
   return (
-    <div>
-      <div className="h-screen w-[calc(screen-1px)] bg-background font-SpaceGrotesk">
-        <div className="h-full w-full flex flex-col pt-12 items-center">
-          <Card className="relative" intent={"primary"} size={"large"}>
-            <img
-              alt="banner"
-              className="size-full object-cover rounded-2xl"
-              src={vault.banner}
-            />
-            <div className="flex absolute bottom-3">
-              <img
-                alt="logo"
-                className="size-11 ml-4 mr-1 rounded-full"
-                src={vault.logo}
+    <div className="min-h-screen bg-background font-SpaceGrotesk flex justify-center py-12">
+      <div className="w-full max-w-5xl flex flex-col items-start gap-6">
+        {/* ================= BANNER CARD ================= */}
+        <Card className="relative w-full" intent="primary" size="large">
+          <img
+            alt="banner"
+            className="w-full h-full object-cover rounded-2xl"
+            src={vault.banner}
+          />
+
+          <div className="absolute bottom-3 left-4 flex items-center gap-3 bg-black/40 backdrop-blur-sm px-3 py-2 rounded-xl">
+            <img alt="logo" className="size-11 rounded-full" src={vault.logo} />
+            <div>
+              <div className="text-2xl font-bold text-white">{vault.name}</div>
+              <div className="text-sm text-text-foreground">Sepolia</div>
+            </div>
+          </div>
+        </Card>
+
+        {/* ================= VAULT INFO ================= */}
+        <div className="flex gap-8 text-sm">
+          <Info label="Start date" value={formatStartDate} />
+          <Info label="End date" value={formatEndDate} />
+          <Info
+            label="Max deposit per wallet"
+            value={`${formatUnits(maxDeposit, decimals)} ${vault.name}`}
+          />
+          <Info
+            label="Min deposit per wallet"
+            value={`${formatUnits(minDeposit, decimals)} ${vault.name}`}
+          />
+        </div>
+
+        {/* ================= TRANSACTIONS ================= */}
+        <div className="flex gap-4 w-full justify-center">
+          <div className="flex flex-col">
+            <Card
+              className="rounded-t-xl text-xs flex"
+              intent="primary"
+              size="mediumLong"
+            >
+              <div className="w-20 ml-2">AMOUNT</div>
+              <div className="w-28">ACCOUNT</div>
+              <div className="w-32">TIME</div>
+              <div className="w-16">TYPE</div>
+            </Card>
+
+            {swaps.map((swap, index) => (
+              <TransactionCardRow
+                key={index}
+                amount={swap.amount}
+                dateTime={swap.dateTime}
+                sender={swap.sender}
+                txHash={swap.txHash}
+                type={swap.type}
               />
-              <div className="flex flex-col">
-                <div className="text-2xl font-bold">{vault.name}</div>
-                <div className="-mt-1 text-base">Sepolia</div>
-              </div>
-            </div>
-          </Card>
-          <div className="mt-4 flex gap-5 mr-56 mb-4">
-            <div>
-              <div className="text-sm text-white">Start date</div>
-              <div className="text-xs text-text-foreground">
-                {formatStartDate}
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-white">End date</div>
-              <div className="text-xs text-text-foreground">
-                {formatEndDate}
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-white">Max.deposite per wallet.</div>
-              <div className="text-xs text-text-foreground">
-                {formatUnits(maxDeposit, decimals)} {vault.name}
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-white">Min.deposit per wallet.</div>
-              <div className="text-xs text-text-foreground">
-                {formatUnits(minDeposit, decimals)} {vault.name}
-              </div>
-            </div>
+            ))}
           </div>
-          <div className="flex gap-2.5">
-            <div className="flex flex-col">
-              <Card
-                className="rounded-t-xl text-xs flex"
-                intent={"primary"}
-                size={"mediumLong"}
-              >
-                <div className="w-20 ml-2">AMOUNT</div>
-                <div className="w-28">ACCOUNT</div>
-                <div className="w-32">TIME</div>
-                <div className="w-[70px]">TYPE</div>
-              </Card>
-              <TransactionTokens />
-            </div>
-            <CardTransaction />
-          </div>
-          <div className="text-white flex gap-2 text-[10px] mr-72">
-            <button
-              onClick={previousPage}
-              className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
-            >
-              {"<"}
-            </button>
-            <button className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg">
-              {currentPage}
-            </button>
-            <button
-              onClick={nextPage}
-              className="h-5 w-5 bg-gray-600 hover:bg-gray-700 justify-center items-center flex rounded-lg"
-            >
-              {">"}
-            </button>
-          </div>
+          <VaultCardTransaction />/
+        </div>
+
+        {/* ================= PAGINATION ================= */}
+        <div className="flex w-full justify-center text-white">
+          <Pagination
+            onChange={handlePageChange}
+            page={currentPage}
+            totalPages={5}
+            scrollId="test"
+          />
         </div>
       </div>
+    </div>
+  );
+}
+
+function Info({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <div className="text-white">{label}</div>
+      <div className="text-xs text-text-foreground">{value}</div>
     </div>
   );
 }

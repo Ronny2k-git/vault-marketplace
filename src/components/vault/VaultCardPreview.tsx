@@ -4,7 +4,7 @@ import { createVaultAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { Card } from "../interface/Card";
 
-export function CardPreview() {
+export function VaultCardPreview() {
   const [
     {
       bannerUrl,
@@ -19,11 +19,7 @@ export function CardPreview() {
   ] = useAtom(createVaultAtom);
 
   return (
-    <Card
-      className="flex flex-col rounded-2xl max-[850px]:w-full size-[22rem] h-auto"
-      intent={"primary"}
-      size={"small"}
-    >
+    <Card intent={"primary"} size={"small"}>
       <div className="w-full relative">
         <img
           alt="vault-banner"
