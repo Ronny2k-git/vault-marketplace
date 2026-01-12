@@ -2,9 +2,9 @@ import { MktCapCalculator } from "@/components/mktCapCalculator";
 
 export default function MarketCapPage() {
   return (
-    <div className="min-h-screen min-w-screen flex justify-center bg-background px-12">
+    <div className="min-h-screen min-w-screen flex justify-center py-20 bg-background px-12">
       <div className="h-full w-full max-w-3xl flex flex-col">
-        <h1 className="text-white mt-10 text-3xl">Market Cap Calculator</h1>
+        <h1 className="text-white text-3xl">Market Cap Calculator</h1>
 
         {/* Divider */}
         <div className="line h-px w-full bg-gray-500 my-10" />

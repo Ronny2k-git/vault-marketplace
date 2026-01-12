@@ -14,7 +14,7 @@ import { useAccount } from "wagmi";
 import { readContract } from "wagmi/actions";
 import { swapAtom, vaultAtom } from "../../utils/atom";
 import { Button } from "../interface/button";
-import { Card } from "../interface/card";
+import { Card } from "../interface/Card";
 import { wagmiConfig } from "../Providers";
 
 interface CustomVault extends vault {

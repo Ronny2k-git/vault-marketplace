@@ -11,7 +11,7 @@ import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import { readContract } from "wagmi/actions";
 import { Button } from "../interface/button";
-import { Card } from "../interface/card";
+import { Card } from "../interface/Card";
 import { wagmiConfig } from "../Providers";
 
 interface CustomVault extends vault {

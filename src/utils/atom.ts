@@ -1,4 +1,5 @@
 import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
+import { FormValues } from "@/global/types";
 import { vault } from "@prisma/client";
 import { atom } from "jotai";
 
@@ -12,11 +13,16 @@ export const swapAtom = atom<any[]>([]);
 export const getVaults = atom<vault[] | null>(null);
 
 //Create Page
-export const selectedNetworkAtom = atom<string>("");
-export const vaultNameAtom = atom<string>("");
-export const vaultLogoAtom = atom<string>("");
-export const bannerUrlAtom = atom<string>("");
-export const minDepositAtomCreate = atom<bigint>(0n);
-export const maxDepositAtomCreate = atom<bigint>(0n);
-export const startDateAtom = atom<Date | null>(null);
-export const endDateAtom = atom<Date | null>(null);
+
+export const createVaultAtom = atom<Partial<FormValues>>({
+  network: "",
+  vaultName: "",
+  vaultLogo: "",
+  bannerUrl: "",
+  assetToken: "" as `0x${string}`,
+  salt: BigInt(0),
+  minDeposit: BigInt(0),
+  maxDeposit: BigInt(0),
+  startDate: null,
+  endDate: null,
+});

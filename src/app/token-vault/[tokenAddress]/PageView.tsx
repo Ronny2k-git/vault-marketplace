@@ -1,7 +1,7 @@
 "use client";
 
 import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
-import { Card } from "@/components/interface/card";
+import { Card } from "@/components/interface/Card";
 import { CardTransaction } from "@/components/vault/vaultCardTransaction";
 import { useHydrateAtoms } from "jotai/utils";
 

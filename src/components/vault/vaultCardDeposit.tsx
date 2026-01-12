@@ -1,24 +1,6 @@
 "use client";
 
-import {
-  erc20Abi,
-  Hex,
-  parseUnits,
-  formatUnits,
-  Address,
-  isAddress,
-} from "viem";
-import { Button } from "../interface/button";
-import { Card } from "../interface/card";
-import { Input } from "../interface/input";
-import {
-  readContract,
-  simulateContract,
-  waitForTransactionReceipt,
-  writeContract,
-} from "wagmi/actions";
-import { wagmiConfig } from "../Providers";
-import { sepolia } from "viem/chains";
+import { abiVault } from "@/utils/abiVault";
 import {
   maxDepositAtom,
   minDepositAtom,
@@ -26,9 +8,20 @@ import {
   vaultAtom,
 } from "@/utils/atom";
 import { useAtom } from "jotai";
-import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
-import { abiVault } from "@/utils/abiVault";
+import { erc20Abi, formatUnits, Hex, isAddress, parseUnits } from "viem";
+import { sepolia } from "viem/chains";
+import { useAccount } from "wagmi";
+import {
+  readContract,
+  simulateContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "wagmi/actions";
+import { Button } from "../interface/button";
+import { Card } from "../interface/Card";
+import { Input } from "../interface/input";
+import { wagmiConfig } from "../Providers";
 
 export function CardDeposit() {
   const [vaultData] = useAtom(vaultAtom);

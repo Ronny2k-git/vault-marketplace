@@ -1,22 +1,22 @@
 "use client";
 
-import { amountTotalDeposited, tokenDecimals, vaultAtom } from "@/utils/atom";
-import { Button } from "../interface/button";
-import { Card } from "../interface/card";
-import { Input } from "../interface/input";
-import { useAtom } from "jotai";
-import { wagmiConfig } from "../Providers";
 import { abiVault } from "@/utils/abiVault";
+import { amountTotalDeposited, tokenDecimals, vaultAtom } from "@/utils/atom";
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { erc20Abi, formatUnits, isAddress, parseUnits } from "viem";
 import { sepolia } from "viem/chains";
+import { useAccount } from "wagmi";
 import {
   readContract,
   simulateContract,
   waitForTransactionReceipt,
   writeContract,
 } from "wagmi/actions";
-import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
-import { erc20Abi, formatUnits, isAddress, parseUnits } from "viem";
+import { Button } from "../interface/button";
+import { Card } from "../interface/Card";
+import { Input } from "../interface/input";
+import { wagmiConfig } from "../Providers";
 
 export function CardRemove() {
   const [vaultData] = useAtom(vaultAtom);

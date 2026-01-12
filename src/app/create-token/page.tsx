@@ -2,9 +2,9 @@ import { CreateErc20TokenForm } from "@/components/createErc20Token";
 
 export default function CreateTokenPage() {
   return (
-    <div className="min-h-screen min-w-screen flex justify-center bg-background p-4">
+    <div className="min-h-screen min-w-screen flex justify-center py-20 bg-background p-4">
       <div className="h-full w-full max-w-3xl flex flex-col">
-        <h1 className="text-white mt-10 text-3xl">ERC-20 Token Creator</h1>
+        <h1 className="text-white text-3xl">ERC-20 Token Creator</h1>
 
         {/* Divider */}
         <div className="line h-px bg-gray-500 mb-5 mt-6" />

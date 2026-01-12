@@ -5,7 +5,7 @@ import { vaultAtom } from "@/utils/atom";
 import { Tabs } from "@radix-ui/themes";
 import { useAtom } from "jotai";
 import { CountDownClock } from "../countDownClock";
-import { Card } from "../interface/card";
+import { Card } from "../interface/Card";
 import { CardDeposit } from "./vaultCardDeposit";
 import { CardRemove } from "./vaultCardRemove";
 

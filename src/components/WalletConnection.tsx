@@ -10,7 +10,7 @@ import { Tabs } from "radix-ui";
 import { useState } from "react";
 import { FaWallet } from "react-icons/fa";
 import { Button } from "./interface/button";
-import { Card } from "./interface/card";
+import { Card } from "./interface/Card";
 
 export default function WalletConnection() {
   const [menuOpen, setMenuOpen] = useState(false);

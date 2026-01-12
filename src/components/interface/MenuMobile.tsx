@@ -21,7 +21,7 @@ export function MenuMobile() {
       </div>
       {isMenuOpen && (
         <div
-          className="absolute rounded-b-3xl md:hidden top-0 right-0 p-4 z-30 flex flex-col text-red-500
+          className="absolute rounded-b-3xl md:hidden border-b-2 border-gray-500 top-0 right-0 p-4 z-30 flex flex-col text-red-500
          bg-background-foreground h-auto w-full"
         >
           <div className="flex flex-col ml-2">

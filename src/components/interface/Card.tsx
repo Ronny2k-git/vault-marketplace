@@ -3,12 +3,23 @@ import { cva, VariantProps } from "class-variance-authority";
 const cardStyle = cva("", {
   variants: {
     intent: {
-      primary: ["bg-background-foreground", "text-text-foreground"],
+      primary: [
+        "bg-background-foreground",
+        "text-text-foreground",
+        "border",
+        "border-gray-400/80",
+      ],
       secondary: ["bg-background-alt-2"],
       tertiary: ["bg-background-alt-2", "border-border-primary"],
     },
     size: {
-      small: ["w-full", "max-w-xs", "max-h-80", "rounded-2xl", "text-[15px]"],
+      small: [
+        "w-full",
+        "max-w-[22rem]",
+        "max-h-[22rem]",
+        "rounded-2xl",
+        "text-base",
+      ],
       mediumSmall: ["w-[270px]", "h-14", "border-2", "rounded-md"],
       medium: ["w-[290px]", "h-56", "rounded-2xl"],
       mediumLarge: ["w-[290px]", "h-72", "rounded-2xl"],
@@ -48,14 +59,7 @@ const cardStyle = cva("", {
         "px-8",
         "gap-2.5",
       ],
-      extrahigh: [
-        "w-[477px]",
-        "h-[702px]",
-        "rounded-2xl",
-        "py-5",
-        "px-5",
-        "gap-2.5",
-      ],
+      extrahigh: ["w-full", "h-auto", "rounded-2xl", "p-5", "gap-2.5"],
     },
     defaultVariants: {
       intent: "primary",

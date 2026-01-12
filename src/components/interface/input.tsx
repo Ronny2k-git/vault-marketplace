@@ -10,7 +10,7 @@ const inputStyle = cva(
       },
       size: {
         medium: [
-          "w-48",
+          "w-full",
           "h-7",
           "py-2",
           "px-1.5",
@@ -27,11 +27,10 @@ const inputStyle = cva(
           "text-white",
           "rounded-xl",
           "text-sm",
-          "mb-2.5",
         ],
         large: [
-          "w-[155px]",
-          "h-5",
+          "w-full",
+          "h-12",
           "py-2",
           "px-2",
           "gap-2.5",
@@ -70,7 +69,7 @@ export function Input({
       <input
         className={twMerge(
           inputStyle({ intent, size, className }),
-          iconLeft && "pl-10"
+          iconLeft && "!pl-10"
         )}
         {...props}
       />

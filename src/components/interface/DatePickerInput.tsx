@@ -3,6 +3,7 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { MdDateRange } from "react-icons/md";
 
 interface SelectDateProps {
   position?: "top" | "bottom";
@@ -28,9 +29,9 @@ export default function DatePickerInput({
   };
 
   return (
-    <div className="Absolute text-[10px]">
+    <div>
       <button onClick={clickCalendar}>
-        <img src="/icons/calendar.png" />
+        <MdDateRange className="size-5" />
       </button>
 
       {showCalendar && (
