@@ -35,23 +35,23 @@ export function TransactionCardRow({
     <div>
       <Link href={`https://sepolia.etherscan.io/tx/${txHash}`}>
         <Card
-          className="flex gap-2 text-white text-xs hover:bg-gray-600"
+          className="flex gap-2 px-4 min-w-[32rem] rounded-lg text-white text-sm hover:bg-gray-600"
           intent={"primary"}
           size={"mediumLong"}
           title="Click to be redirected to the transaction on the blockchain"
         >
-          <div className="w-20 ml-2 text-xs">
+          <div className="flex-1 text-sm">
             {formatUnits(amount, vault.assetTokenDecimals)}
           </div>
-          <div className="w-28 text-[10.5px]">{`${sender.slice(0, 6)}...${sender
+          <div className="flex-1 text-sm">{`${sender.slice(0, 6)}...${sender
             .slice(-4)
             .toLocaleLowerCase()}`}</div>
-          <div className="w-32 text-xs">{dateRelative(dateTime)}</div>
+          <div className="flex-1 text-sm">{dateRelative(dateTime)}</div>
           <div
             className={`${
               type === "deposit"
-                ? "text-live-accent text-xs"
-                : "text-red-600 font-semibold text-xs"
+                ? "text-live-accent text-sm"
+                : "text-red-600 font-semibold text-sm"
             }`}
           >
             {type}

@@ -14,13 +14,14 @@ export function VaultCardTransaction() {
 
   return (
     <Card
-      className="flex flex-col p-2 items-center max-w-sm border bg-black/5 border-gray-500"
+      className="flex flex-col max-lg:w-full max-lg:max-w-2xl h-[26rem] p-2 lg:max-h-[23rem] items-center max-w-sm border bg-black/5 border-gray-500"
       intent={"secondary"}
       size={"medium"}
     >
       <div className="p-2 flex w-full items-center justify-between text-base text-text-foreground">
         <div className="flex gap-2">
           <p>Status:</p>
+
           <div
             className={
               getStatus(vaultData) === "Live"

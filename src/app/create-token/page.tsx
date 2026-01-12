@@ -7,7 +7,7 @@ export default function CreateTokenPage() {
         <h1 className="text-white text-3xl">ERC-20 Token Creator</h1>
 
         {/* Divider */}
-        <div className="line h-px bg-gray-500 mb-5 mt-6" />
+        <div className="line h-px bg-gray-500 my-6" />
 
         <h2 className="max-w-lg text-text-foreground mb-10">
           Create your own ERC-20 token easily with our user-friendly interface.

@@ -187,7 +187,7 @@ export function VaultCardRemove() {
 
   return (
     <div className="flex flex-col p-2 gap-4">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 max-lg:mt-6">
         <h1 className=" text-white text-xl">
           Withdraw {vaultData.assetTokenName}
         </h1>
@@ -228,24 +228,6 @@ export function VaultCardRemove() {
               />
             </div>
           </div>
-
-          {/* <div className="flex items-center justify-between gap-2">
-            <Input
-              className="text-lg text-white hover:bg-transparent border-transparent"
-              type="number"
-              intent={"primary"}
-              size={"large"}
-              placeholder="0"
-              onChange={(event) => setDepositAmount(event.target.value)}
-            />
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-nowrap text-white">
-                {vaultData.assetTokenName}
-              </span>
-
-              <img className="size-6 rounded-full" src={vaultData.logo} />
-            </div>
-          </div> */}
         </Card>
       </div>
 
@@ -253,7 +235,7 @@ export function VaultCardRemove() {
       <Button
         className={`w-full ${
           isButtonDisabled
-            ? "bg-gray-500 shadow-gray-300"
+            ? "bg-gray-500 hover:bg-gray-500 cursor-not-allowed shadow-gray-300"
             : "bg-accent hover:bg-purple-600 shadow-shadow"
         }`}
         intent={"secondary"}

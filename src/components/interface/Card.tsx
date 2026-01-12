@@ -22,7 +22,14 @@ const cardStyle = cva("", {
       ],
       mediumSmall: ["w-full", "h-auto", "border-2", "rounded-md"],
       medium: ["w-full", "h-auto", "rounded-2xl"],
-      mediumLong: ["py-2", "px-2", "items-center", "gap-2"],
+      mediumLong: [
+        "w-full",
+        "py-2",
+        "px-2",
+        "text-sm",
+        "items-center",
+        "gap-2",
+      ],
       large: ["w-full", "h-64", "rounded-2xl"],
       high: [
         "w-full",
