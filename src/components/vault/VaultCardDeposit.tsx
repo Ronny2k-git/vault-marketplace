@@ -1,19 +1,27 @@
 "use client";
 
-import { abiVault } from "@/utils/abiVault";
+import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
 import {
-  maxDepositAtom,
-  minDepositAtom,
-  tokenDecimals,
-  vaultAtom,
-} from "@/utils/atom";
+  useGetTokenBalance,
+  useGetTokenDecimals,
+  useGetVaultBalance,
+  useGetVaultDepositLimits,
+} from "@/global/hooks";
+import { abiVault } from "@/utils/abiVault";
+import { maxDepositAtom, minDepositAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { erc20Abi, formatUnits, Hex, isAddress, parseUnits } from "viem";
+import {
+  Address,
+  erc20Abi,
+  formatUnits,
+  Hex,
+  isAddress,
+  parseUnits,
+} from "viem";
 import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import {
-  readContract,
   simulateContract,
   waitForTransactionReceipt,
   writeContract,
@@ -23,102 +31,40 @@ import { Card } from "../interface/Card";
 import { Input } from "../interface/input";
 import { wagmiConfig } from "../Providers";
 
-export function VaultCardDeposit() {
-  const [vaultData] = useAtom(vaultAtom);
-  const [balance, setBalance] = useState<string>("0");
-  const [decimals, setDecimals] = useAtom(tokenDecimals);
+export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
+  // Atoms
   const [depositAmount, setDepositAmount] = useState("");
   const [, setMinDeposit] = useAtom(minDepositAtom);
   const [, setMaxDeposit] = useAtom(maxDepositAtom);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [message, setMessage] = useState("");
 
-  const { address } = useAccount();
+  // Hooks
+  const { data: tokenBalance } = useGetTokenBalance(
+    vault.assetTokenAddress as Address
+  );
+  const { data: tokenDecimals } = useGetTokenDecimals(
+    vault.assetTokenAddress as Address
+  );
+  const { minDeposit, maxDeposit } = useGetVaultDepositLimits(
+    vault.address as Address
+  );
+  const { data: vaultBalance } = useGetVaultBalance(vault.address as Address);
 
+  // Vault infos
   const currentDate = new Date();
-  const endDate = vaultData.endsAt;
-  const startDate = vaultData.startsAt;
+  const endDate = vault.endsAt;
+  const startDate = vault.startsAt;
 
-  async function fetchDecimals() {
-    if (!isAddress(vaultData.assetTokenAddress)) {
-      throw new Error("Unexpected error, assetTokenAddress is invalid");
-    }
-
-    const tokenDecimals = await readContract(wagmiConfig, {
-      abi: erc20Abi,
-      address: vaultData.assetTokenAddress,
-      functionName: "decimals",
-      chainId: sepolia.id,
-      args: [],
-    });
-
-    setDecimals(tokenDecimals);
-  }
-
-  async function fetchBalance() {
-    if (!isAddress(vaultData.assetTokenAddress)) {
-      throw new Error("Unexpected error, assetToken is invalid");
-    }
-
-    const balance = await readContract(wagmiConfig, {
-      abi: erc20Abi,
-      address: vaultData.assetTokenAddress, //token erc-20
-      functionName: "balanceOf",
-      chainId: sepolia.id,
-      args: [address!], //Address of the wallet
-    });
-
-    return balance;
-  }
-
-  async function fetchDepositDetails() {
-    if (!isAddress(vaultData.address)) {
-      throw new Error("Unexpected error, address is invalid");
-    }
-
-    const minDeposit = await readContract(wagmiConfig, {
-      abi: abiVault,
-      address: vaultData.address,
-      functionName: "minDeposit",
-      chainId: sepolia.id,
-      args: [],
-    });
-
-    const maxDeposit = await readContract(wagmiConfig, {
-      abi: abiVault,
-      address: vaultData.address,
-      functionName: "maxDepositPerWallet",
-      chainId: sepolia.id,
-      args: [],
-    });
-
-    return { minDeposit, maxDeposit };
-  }
-
-  useEffect(() => {
-    const loadBalance = async () => {
-      await fetchDecimals();
-      const fetchedBalance = await fetchBalance();
-      const formattedBalance = formatUnits(fetchedBalance, decimals);
-
-      setBalance(formattedBalance);
-
-      const { minDeposit, maxDeposit } = await fetchDepositDetails();
-      setMinDeposit(minDeposit);
-      setMaxDeposit(maxDeposit);
-    };
-    loadBalance();
-  }, [decimals]);
-
-  if (!isAddress(vaultData.address)) {
+  if (!isAddress(vault.address)) {
     throw new Error("Unexpected error, address is  invalid");
   }
-  if (!isAddress(vaultData.assetTokenAddress)) {
+  if (!isAddress(vault.assetTokenAddress)) {
     throw new Error("Unexpected error, assetTokenAddress is invalid");
   }
 
-  const tokenAddress = vaultData.assetTokenAddress;
-  const spenderAddress = vaultData.address;
+  const tokenAddress = vault.assetTokenAddress;
+  const spenderAddress = vault.address;
 
   async function approveToken(amount: bigint) {
     const tx = await writeContract(wagmiConfig, {
@@ -135,8 +81,7 @@ export function VaultCardDeposit() {
 
   useEffect(() => {
     const validateButtonState = async () => {
-      const parsedDepositAmount = parseUnits(depositAmount, decimals);
-      const currentBalance = await fetchBalance();
+      const parsedDepositAmount = parseUnits(depositAmount, tokenDecimals ?? 0);
 
       if (parsedDepositAmount === 0n) {
         setMessage("Please enter a value");
@@ -144,13 +89,11 @@ export function VaultCardDeposit() {
         return;
       }
 
-      if (parsedDepositAmount > currentBalance) {
+      if (parsedDepositAmount > vaultBalance) {
         setMessage("Insufficient balance"); //Balance for deposit
         setIsButtonDisabled(true);
         return;
       }
-
-      const { minDeposit, maxDeposit } = await fetchDepositDetails();
 
       if (parsedDepositAmount < minDeposit) {
         setMessage("The minimum deposit has not been reached"); //Minimum deposit per wallet
@@ -164,7 +107,7 @@ export function VaultCardDeposit() {
         return;
       }
 
-      if (parsedDepositAmount + currentBalance > maxDeposit) {
+      if (parsedDepositAmount + vaultBalance > maxDeposit) {
         setMessage("The maximum deposit has been exceeded"); //Balance +input > Maxium deposit per wallet
         setIsButtonDisabled(true);
         return;
@@ -175,7 +118,7 @@ export function VaultCardDeposit() {
     };
 
     validateButtonState();
-  }, [depositAmount, decimals]);
+  }, [depositAmount]);
 
   async function onSubmit() {
     try {
@@ -197,7 +140,7 @@ export function VaultCardDeposit() {
         return;
       }
 
-      const parsedDepositAmount = parseUnits(depositAmount, decimals);
+      const parsedDepositAmount = parseUnits(depositAmount, tokenDecimals ?? 0);
 
       const approveTxHash = await approveToken(parsedDepositAmount);
 
@@ -207,13 +150,13 @@ export function VaultCardDeposit() {
         hash: approveTxHash,
       });
 
-      if (!vaultData) {
+      if (!vault) {
         return "Loading vault data";
       }
 
       const simulateDeposit = await simulateContract(wagmiConfig, {
         abi: abiVault,
-        address: vaultData.address as Hex,
+        address: vault.address as Hex,
         functionName: "deposit",
         chainId: sepolia.id,
         args: [parsedDepositAmount],
@@ -223,7 +166,7 @@ export function VaultCardDeposit() {
 
       const depositTx = await writeContract(wagmiConfig, {
         abi: abiVault,
-        address: vaultData.address as Hex, //Address of contract
+        address: vault.address as Hex, //Address of contract
         functionName: "deposit",
         chainId: sepolia.id,
         args: [parsedDepositAmount], //Amount to be deposited
@@ -245,7 +188,7 @@ export function VaultCardDeposit() {
           type: simulateDeposit.request.functionName,
           txHash: depositTx,
           sender: simulateDeposit.request.account?.address,
-          vaultId: vaultData.id,
+          vaultId: vault.id,
         }),
       });
       const data = await response.json();
@@ -257,18 +200,16 @@ export function VaultCardDeposit() {
     }
   }
 
-  if (!vaultData) {
+  if (!vault) {
     return <p className="text-red-500">Loading vault data ...</p>;
   }
 
   return (
     <div className="flex flex-col p-2 gap-4">
       <div className="flex flex-col gap-2 max-lg:mt-6">
-        <h1 className=" text-white text-xl">
-          Deposit {vaultData.assetTokenName}
-        </h1>
+        <h1 className=" text-white text-xl">Deposit {vault.assetTokenName}</h1>
         <h2 className="text-sm text-gray-300">
-          Deposit yours tokens into a {vaultData.name} for safety!
+          Deposit yours tokens into a {vault.name} for safety!
         </h2>
       </div>
 
@@ -276,9 +217,14 @@ export function VaultCardDeposit() {
         <Card className="py-4 px-2" intent={"tertiary"} size={"mediumSmall"}>
           <div className="flex justify-between items-center">
             <h1 className="text-base text-gray-300">Vault token</h1>
-            <h2 className="text-sm text-gray-300">
-              Balance: {Number(balance || 0).toFixed(0)}
-            </h2>
+            <div className="text-sm text-gray-300">
+              Balance:{" "}
+              <span className="text-green-400 font-semibold">
+                {Number(
+                  formatUnits(tokenBalance ?? 0n, tokenDecimals ?? 0) || 0
+                ).toFixed(0)}
+              </span>
+            </div>
           </div>
 
           <div className="flex items-center justify-between gap-2">
@@ -292,13 +238,13 @@ export function VaultCardDeposit() {
             />
             <div className="flex items-center gap-2">
               <span className="text-xs text-nowrap text-white">
-                {vaultData.assetTokenName}
+                {vault.assetTokenName}
               </span>
 
               <img
                 alt="vault-logo"
                 className="size-6 rounded-full"
-                src={vaultData.logo}
+                src={vault.logo}
               />
             </div>
           </div>
@@ -317,7 +263,7 @@ export function VaultCardDeposit() {
         onClick={onSubmit}
         disabled={isButtonDisabled}
       >
-        {message || `Deposit ${vaultData.assetTokenName}`}
+        {message || `Deposit ${vault.assetTokenName}`}
       </Button>
     </div>
   );

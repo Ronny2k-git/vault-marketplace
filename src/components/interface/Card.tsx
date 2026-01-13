@@ -9,7 +9,7 @@ const cardStyle = cva("", {
         "border",
         "border-gray-400/80",
       ],
-      secondary: ["bg-background-alt-2"],
+      secondary: ["bg-black/5"],
       tertiary: ["bg-background-alt-2", "border-border-primary"],
     },
     size: {

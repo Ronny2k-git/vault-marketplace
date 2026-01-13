@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <div className="min-w-full min-h-full bg-background pt-8 px-2">
       {/* Divider */}
-      <div className="line h-0.5 bg-gray-500 my-8" />
+      <div className="border border-dashed border-gray-500 my-8" />
 
       <section className="flex flex-wrap px-4 md:px-8 items-center max-[840px]:justify-center gap-2">
         <p className="text-sm text-gray-400">
@@ -20,7 +20,7 @@ export function Footer() {
       </section>
 
       {/* Divider */}
-      <div className="line h-0.5 bg-gray-500 my-8" />
+      <div className="border border-dashed border-gray-500 my-8" />
 
       <section className="flex px-4 md:px-8 max-[840px]:flex-col items-center justify-between gap-2 text-gray-400 pb-8">
         <div className="flex flex-wrap items-center justify-center gap-2 max-[840px]:mb-4 text-sm">

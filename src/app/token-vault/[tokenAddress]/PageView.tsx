@@ -8,27 +8,31 @@ import { useHydrateAtoms } from "jotai/utils";
 import { Card } from "@/components/interface/Card";
 import { Swap, TransactionCardRow } from "@/components/swap/TransactionCardRow";
 import { Pagination } from "@/global/components";
+import { useGetTokenDecimals } from "@/global/hooks";
 import {
   maxDepositAtom,
   minDepositAtom,
   swapAtom,
-  tokenDecimals,
   vaultAtom,
 } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { formatUnits } from "viem";
+import { Address, formatUnits } from "viem";
 
 export function PageView({ vault }: { vault: VaultFromDb }) {
   useHydrateAtoms([[vaultAtom, vault]]);
+  // Atoms
   const [swaps] = useAtom<Swap[]>(swapAtom);
-
   const [minDeposit] = useAtom(minDepositAtom);
   const [maxDeposit] = useAtom(maxDepositAtom);
-  const [decimals] = useAtom(tokenDecimals);
   const [currentPage, setCurrentPage] = useState(1);
   const [, setSwaps] = useAtom(swapAtom);
+
+  // Hooks
+  const { data: tokenDecimals } = useGetTokenDecimals(
+    vault.assetTokenAddress as Address
+  );
 
   const { tokenAddress } = useParams();
 
@@ -60,6 +64,7 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
     }
   }, [tokenAddress, currentPage, fetchSwapData]);
 
+  // Formatted vault dates
   const formatStartDate = new Date(vault.startsAt).toLocaleDateString("en-US");
   const formatEndDate = new Date(vault.endsAt).toLocaleDateString("en-US");
 
@@ -68,6 +73,8 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
   // 1 VAULT CARD DEPOSIT - DEPOSIT FUNCTIONALITY
   // 2 VAULT CARD REMOVE  - WITHDRAW FUNCTIONALITY
   // 3 INTERFACE COMPONENTS
+  // 4 TYPE THE FUNCTIONS THAT ARE FROM TYPE ANY (atom.ts file)
+  // 5 TEST ALL THE SITE FEATURES ("The responsibility is working well")
 
   return (
     <div className="min-h-screen p-4 bg-background font-SpaceGrotesk flex justify-center py-12">
@@ -93,11 +100,15 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
         <div className="flex flex-wrap gap-8 text-sm max-lg:justify-center w-full">
           <Info
             label="Min deposit per wallet"
-            value={`${formatUnits(minDeposit, decimals)} ${vault.name}`}
+            value={`${formatUnits(minDeposit, tokenDecimals ?? 0)} ${
+              vault.name
+            }`}
           />
           <Info
             label="Max deposit per wallet"
-            value={`${formatUnits(maxDeposit, decimals)} ${vault.name}`}
+            value={`${formatUnits(maxDeposit, tokenDecimals ?? 0)} ${
+              vault.name
+            }`}
           />
           <Info label="Start date" value={formatStartDate} />
           <Info label="End date" value={formatEndDate} />
@@ -139,7 +150,7 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
             </Card>
           </div>
           {/* Card used to deposit or withdraw in a vault */}
-          <VaultCardTransaction />/
+          <VaultCardTransaction vault={vault} />/
         </div>
 
         {/* ================= PAGINATION ================= */}

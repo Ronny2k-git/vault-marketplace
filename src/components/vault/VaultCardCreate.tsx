@@ -29,7 +29,7 @@ export function VaultCardCreate({ form }: CardCreateProps) {
 
   return (
     <Card
-      className="flex flex-col gap-4 w-full max-w-xl"
+      className="flex flex-col gap-4 w-full"
       intent={"primary"}
       size={"extrahigh"}
     >

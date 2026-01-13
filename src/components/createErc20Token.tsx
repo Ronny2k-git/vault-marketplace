@@ -196,7 +196,8 @@ export function CreateErc20TokenForm() {
             src={tokenBanner || "/backgroundCard.png"}
           />
         </div>
-        <div className="flex flex-col my-2 mx-2 gap-0.5 text-sm">
+
+        <div className="flex flex-col p-4 gap-1 text-base">
           <div className="flex items-center gap-2 font-SpaceGrotesk mb-2 max-md:-mt-6">
             <img
               alt="Token symbol"

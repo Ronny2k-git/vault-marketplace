@@ -1,20 +1,19 @@
 "use client";
 
+import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
 import { getStatus } from "@/global/utils";
-import { vaultAtom } from "@/utils/atom";
 import { Tabs } from "@radix-ui/themes";
-import { useAtom } from "jotai";
 import { CountDownClock } from "../countDownClock";
 import { Card } from "../interface/Card";
 import { VaultCardDeposit } from "./VaultCardDeposit";
 import { VaultCardRemove } from "./VaultCardRemove";
 
-export function VaultCardTransaction() {
-  const [vaultData] = useAtom(vaultAtom);
+export function VaultCardTransaction({ vault }: { vault: VaultFromDb }) {
+  // const [vault] = useAtom(vaultAtom);
 
   return (
     <Card
-      className="flex flex-col max-lg:w-full max-lg:max-w-2xl h-[26rem] p-2 lg:max-h-[23rem] items-center max-w-sm border bg-black/5 border-gray-500"
+      className="flex flex-col max-lg:w-full max-lg:max-w-2xl h-[26rem] p-2 lg:max-h-[23rem] items-center max-w-sm border border-gray-500"
       intent={"secondary"}
       size={"medium"}
     >
@@ -24,12 +23,12 @@ export function VaultCardTransaction() {
 
           <div
             className={
-              getStatus(vaultData) === "Live"
+              getStatus(vault) === "Live"
                 ? "text-live-accent ml-1"
                 : "text-blue-400 ml-1"
             }
           >
-            {getStatus(vaultData)}
+            {getStatus(vault)}
           </div>
         </div>
 
@@ -38,7 +37,7 @@ export function VaultCardTransaction() {
 
       <Card
         className="flex flex-col pb-2 h-full"
-        intent={"secondary"}
+        intent={"primary"}
         size={"medium"}
       >
         <Tabs.Root defaultValue="Deposit">
@@ -63,10 +62,10 @@ export function VaultCardTransaction() {
             </Tabs.Trigger>
           </Tabs.List>
           <Tabs.Content value="Deposit">
-            <VaultCardDeposit />
+            <VaultCardDeposit vault={vault} />
           </Tabs.Content>
           <Tabs.Content value="Withdraw">
-            <VaultCardRemove />
+            <VaultCardRemove vault={vault} />
           </Tabs.Content>
         </Tabs.Root>
       </Card>

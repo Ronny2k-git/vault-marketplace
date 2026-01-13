@@ -1,14 +1,17 @@
 "use client";
 
+import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
+import {
+  useGetTokenBalance,
+  useGetTokenDecimals,
+  useGetVaultBalance,
+} from "@/global/hooks";
 import { abiVault } from "@/utils/abiVault";
-import { amountTotalDeposited, tokenDecimals, vaultAtom } from "@/utils/atom";
-import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { erc20Abi, formatUnits, isAddress, parseUnits } from "viem";
+import { Address, erc20Abi, formatUnits, isAddress, parseUnits } from "viem";
 import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import {
-  readContract,
   simulateContract,
   waitForTransactionReceipt,
   writeContract,
@@ -18,51 +21,37 @@ import { Card } from "../interface/Card";
 import { Input } from "../interface/input";
 import { wagmiConfig } from "../Providers";
 
-export function VaultCardRemove() {
-  const [vaultData] = useAtom(vaultAtom);
-  const [totalDeposited, setTotalDeposited] = useAtom(amountTotalDeposited);
-  const [decimals] = useAtom(tokenDecimals);
+export function VaultCardRemove({ vault }: { vault: VaultFromDb }) {
   const [removeAmount, setRemoveAmount] = useState("");
   const [message, setMessage] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  const { address } = useAccount();
+  //Hooks
+  const { data: tokenBalance } = useGetTokenBalance(
+    vault.assetTokenAddress as Address
+  );
+  const { data: tokenDecimals } = useGetTokenDecimals(
+    vault.assetTokenAddress as Address
+  );
+  const { data: vaultBalance } = useGetVaultBalance(vault.address as Address);
 
   const currentDate = new Date();
-  const endDate = vaultData.endsAt;
-  const startDate = vaultData.startsAt;
-
-  async function totalAmountDeposited() {
-    if (!isAddress(vaultData.address)) {
-      throw new Error("Unexpected error, address is invalid");
-    }
-
-    const amountDeposited = await readContract(wagmiConfig, {
-      abi: abiVault,
-      address: vaultData.address,
-      functionName: "deposited",
-      chainId: sepolia.id,
-      args: [address!],
-    });
-    const depositedValue = BigInt(amountDeposited);
-
-    setTotalDeposited(depositedValue);
-    return depositedValue;
-  }
+  const endDate = vault.endsAt;
+  const startDate = vault.startsAt;
 
   async function approveToken(amount: bigint) {
-    if (!isAddress(vaultData.address)) {
+    if (!isAddress(vault.address)) {
       throw new Error("Unexpected error, address is invalid");
     }
 
-    if (!isAddress(vaultData.assetTokenAddress)) {
+    if (!isAddress(vault.assetTokenAddress)) {
       throw new Error("Unexpected error, assetToken is invalid");
     }
-    const spenderAddress = vaultData.address;
+    const spenderAddress = vault.address;
 
     const tx = await writeContract(wagmiConfig, {
       abi: erc20Abi,
-      address: vaultData.assetTokenAddress,
+      address: vault.assetTokenAddress,
       functionName: "approve",
       chainId: sepolia.id,
       args: [spenderAddress, amount],
@@ -71,11 +60,8 @@ export function VaultCardRemove() {
   }
 
   useEffect(() => {
-    totalAmountDeposited();
-
     const validateButton = async () => {
-      const parsedDepositAmount = parseUnits(removeAmount, decimals);
-      const amountDeposited = await totalAmountDeposited();
+      const parsedDepositAmount = parseUnits(removeAmount, tokenDecimals ?? 0);
 
       if (parsedDepositAmount === 0n) {
         setMessage("Please enter a value");
@@ -83,13 +69,13 @@ export function VaultCardRemove() {
         return;
       }
 
-      if (amountDeposited === 0n) {
+      if (vaultBalance ?? 0n === 0n) {
         setMessage("No amount deposited");
         setIsButtonDisabled(true);
         return;
       }
 
-      if (parsedDepositAmount > amountDeposited) {
+      if (parsedDepositAmount > vaultBalance) {
         setMessage("Insufficient balance");
         setIsButtonDisabled(true);
         return;
@@ -98,13 +84,13 @@ export function VaultCardRemove() {
       setMessage("");
     };
     validateButton();
-  }, [removeAmount, decimals]);
+  }, [removeAmount]);
 
   const { isConnected } = useAccount();
 
   async function onSubmit() {
     try {
-      if (!vaultData) {
+      if (!vault) {
         return;
       }
 
@@ -126,7 +112,7 @@ export function VaultCardRemove() {
         return;
       }
 
-      const parsedDepositAmount = parseUnits(removeAmount, decimals);
+      const parsedDepositAmount = parseUnits(removeAmount, tokenDecimals ?? 0);
 
       const approveTxHash = await approveToken(parsedDepositAmount);
 
@@ -136,13 +122,13 @@ export function VaultCardRemove() {
         hash: approveTxHash,
       });
 
-      if (!isAddress(vaultData.address)) {
+      if (!isAddress(vault.address)) {
         throw new Error("Unexpected error, assetToken is invalid");
       }
 
       const simulateTx = await simulateContract(wagmiConfig, {
         abi: abiVault,
-        address: vaultData.address, //Address of contract
+        address: vault.address, //Address of contract
         functionName: "withdraw",
         chainId: sepolia.id,
         args: [parsedDepositAmount],
@@ -152,7 +138,7 @@ export function VaultCardRemove() {
 
       const removeTx = await writeContract(wagmiConfig, {
         abi: abiVault,
-        address: vaultData.address, //Address of contract
+        address: vault.address, //Address of contract
         functionName: "withdraw",
         chainId: sepolia.id,
         args: [parsedDepositAmount],
@@ -172,7 +158,7 @@ export function VaultCardRemove() {
           type: simulateTx.request.functionName,
           txHash: removeTx,
           sender: simulateTx.request.account?.address,
-          vaultId: vaultData.id,
+          vaultId: vault.id,
         }),
       });
 
@@ -188,9 +174,7 @@ export function VaultCardRemove() {
   return (
     <div className="flex flex-col p-2 gap-4">
       <div className="flex flex-col gap-2 max-lg:mt-6">
-        <h1 className=" text-white text-xl">
-          Withdraw {vaultData.assetTokenName}
-        </h1>
+        <h1 className=" text-white text-xl">Withdraw {vault.assetTokenName}</h1>
         <h2 className="text-sm flex flex-wrap items-center gap-2 text-gray-300">
           Claim yours tokens right now!
         </h2>
@@ -200,10 +184,14 @@ export function VaultCardRemove() {
         <Card className="py-4 px-2" intent={"tertiary"} size={"mediumSmall"}>
           <div className="flex justify-between items-center">
             <h1 className="text-base text-gray-300">Vault token</h1>
-            <h2 className="text-sm text-gray-300">
+            <div className="text-sm text-gray-300">
               Deposited:{" "}
-              {formatUnits(totalDeposited, decimals) || "Loading ..."}
-            </h2>
+              <span className="text-green-400 font-semibold">
+                {Number(
+                  formatUnits(vaultBalance ?? 0n, tokenDecimals ?? 0) || 0
+                ).toFixed(0)}
+              </span>
+            </div>
           </div>
 
           <div className="flex items-center justify-between gap-2">
@@ -218,13 +206,13 @@ export function VaultCardRemove() {
             />
             <div className="flex items-center gap-2">
               <span className="text-xs text-nowrap text-white">
-                {vaultData.assetTokenName}
+                {vault.assetTokenName}
               </span>
 
               <img
                 alt="vault-logo"
                 className="size-6 rounded-full"
-                src={vaultData.logo}
+                src={vault.logo}
               />
             </div>
           </div>
@@ -243,7 +231,7 @@ export function VaultCardRemove() {
         onClick={onSubmit}
         disabled={isButtonDisabled}
       >
-        {message || `Withdraw ${vaultData.assetTokenName}`}
+        {message || `Withdraw ${vault.assetTokenName}`}
       </Button>
     </div>
   );
