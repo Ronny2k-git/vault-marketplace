@@ -5,6 +5,7 @@ export type useValidateVaultTransactionParams = {
   mode: "deposit" | "withdraw";
   amount: string;
   tokenDecimals?: number;
+  userTokenBalance?: bigint;
   vaultBalance?: bigint;
   minDeposit?: bigint;
   maxDeposit?: bigint;
@@ -14,6 +15,7 @@ export function useValidateVaultTransaction({
   mode,
   amount,
   tokenDecimals,
+  userTokenBalance,
   vaultBalance,
   minDeposit,
   maxDeposit,
@@ -25,6 +27,7 @@ export function useValidateVaultTransaction({
 
     const parsedAmount = parseUnits(amount, tokenDecimals ?? 0);
     const balance = vaultBalance ?? 0n;
+    const userBalance = userTokenBalance ?? 0n;
 
     // ---------- COMMON ----------
     if (parsedAmount === 0n) {
@@ -33,7 +36,7 @@ export function useValidateVaultTransaction({
 
     // ---------- WITHDRAW ----------
     if (mode === "withdraw") {
-      if (vaultBalance === 0n) {
+      if (balance === 0n) {
         return { isButtonDisabled: true, message: "No amount deposited" };
       }
 
@@ -46,7 +49,7 @@ export function useValidateVaultTransaction({
 
     // ---------- DEPOSIT ----------
     if (mode === "deposit") {
-      if (parsedAmount > balance) {
+      if (parsedAmount > userBalance) {
         return { isButtonDisabled: true, message: "Insufficient balance" };
       }
 
@@ -69,5 +72,15 @@ export function useValidateVaultTransaction({
 
       return { isButtonDisabled: false, message: "" };
     }
-  }, [mode, amount, vaultBalance, tokenDecimals, minDeposit, maxDeposit]);
+
+    return { isButtonDisabled: true, message: "" };
+  }, [
+    mode,
+    amount,
+    userTokenBalance,
+    vaultBalance,
+    tokenDecimals,
+    minDeposit,
+    maxDeposit,
+  ]);
 }

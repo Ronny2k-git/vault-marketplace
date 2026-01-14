@@ -26,6 +26,8 @@ export const getEndVaultsInDb = async (currentPage: number = 1) => {
       skip,
       orderBy: { startsAt: "desc" },
     }),
+
+    // Total vaults
     prisma.vault.count({
       where: {
         endsAt: { lt: currentDate },

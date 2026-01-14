@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -15,9 +14,21 @@
   }
 }
 
+@layer utilities {
+  .no-spinner {
+    -moz-appearance: textfield;
+  }
+
+  .no-spinner::-webkit-inner-spin-button,
+  .no-spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
 @font-face {
   font-family: "SpaceGrotesk";
-  src: url('/fonts/SpaceGrotesk.ttf') format('truetype');
+  src: url("/fonts/SpaceGrotesk.ttf") format("truetype");
 }
 
 body {
@@ -26,36 +37,42 @@ body {
   font-family: "SpaceGrotesk", Arial, Helvetica, sans-serif;
 }
 
-.react-datepicker { /*General styles*/
+.react-datepicker {
+  /*General styles*/
   @apply bg-background-foreground text-white border-border-primary rounded-lg shadow-lg !important;
 }
 
-.react-datepicker .react-datepicker__day { /*Color of days */
-  @apply text-white !important; 
-}
-
-.react-datepicker__day-name { /*Days week*/
+.react-datepicker .react-datepicker__day {
+  /*Color of days */
   @apply text-white !important;
 }
 
-.react-datepicker__header { /*Header of calendar*/
+.react-datepicker__day-name {
+  /*Days week*/
+  @apply text-white !important;
+}
+
+.react-datepicker__header {
+  /*Header of calendar*/
   @apply bg-background-foreground border-border-primary text-white !important;
 }
 
-.react-datepicker__day:hover { /*Everyday hover*/
+.react-datepicker__day:hover {
+  /*Everyday hover*/
   @apply bg-background-alt text-white !important;
 }
 
-.react-datepicker__day--selected { /*Day selected*/
+.react-datepicker__day--selected {
+  /*Day selected*/
   @apply bg-background-alt text-white !important;
 }
 
-.react-datepicker__current-month { /*Current month */
+.react-datepicker__current-month {
+  /*Current month */
   @apply text-white font-normal text-base font-SpaceGrotesk !important;
 }
 
-.react-datepicker__day--today { /*Today*/
+.react-datepicker__day--today {
+  /*Today*/
   @apply text-white bg-background-alt !important;
 }
-
-

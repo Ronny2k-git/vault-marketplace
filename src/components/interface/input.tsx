@@ -2,7 +2,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
 const inputStyle = cva(
-  "!px-4 flex justify-center border-2 border-border-primary items-center",
+  "!px-4 flex justify-center border-2 border-border-primary items-center no-spinner",
   {
     variants: {
       intent: {

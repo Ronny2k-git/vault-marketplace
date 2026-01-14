@@ -1,14 +1,22 @@
 import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export const getSwapsInDb = async (currentPage: number = 1) => {
-  try {
-    const limit = 10;
-    const skip = limit * (currentPage - 1);
+export const getSwapsInDb = async ({
+  vaultId,
+  currentPage = 1,
+}: {
+  vaultId: number;
+  currentPage: number;
+}) => {
+  const limit = 10;
+  const skip = limit * (currentPage - 1);
+  const where = { vaultId };
 
-    const swaps = await prisma.swap.findMany({
+  const [swaps, total] = await Promise.all([
+    // Fetch swaps
+    prisma.swap.findMany({
+      where,
       select: {
         amount: true,
         sender: true,
@@ -17,16 +25,15 @@ export const getSwapsInDb = async (currentPage: number = 1) => {
         txHash: true,
       },
       take: limit,
-      skip: skip,
+      skip,
       orderBy: {
         dateTime: "desc",
       },
-    });
-    return NextResponse.json({ success: true, swaps }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, message: "Error getting in the database", error },
-      { status: 500 }
-    );
-  }
+    }),
+
+    // Total swaps
+    prisma.swap.count({ where }),
+  ]);
+
+  return { swaps, total, limit };
 };

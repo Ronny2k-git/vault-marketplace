@@ -5,20 +5,17 @@ import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
 import { VaultCardTransaction } from "@/components/vault/VaultCardTransaction";
 
 import { Card } from "@/components/interface/Card";
-import { Swap, TransactionCardRow } from "@/components/swap/TransactionCardRow";
+import { TransactionCardRow } from "@/components/swap";
+import { useGetSwaps } from "@/components/swap/hooks";
 import { Pagination } from "@/global/components";
 import { useGetTokenDecimals, useGetVaultDepositLimits } from "@/global/hooks";
-import { swapAtom } from "@/utils/atom";
-import { useAtom } from "jotai";
-import { useParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { Address, formatUnits } from "viem";
 
 export function PageView({ vault }: { vault: VaultFromDb }) {
   // Atoms
-  const [swaps] = useAtom<Swap[]>(swapAtom);
+  // const [swaps] = useAtom<Swap[]>(swapAtom);
   const [currentPage, setCurrentPage] = useState(1);
-  const [, setSwaps] = useAtom(swapAtom);
 
   // Hooks
   const { data: tokenDecimals } = useGetTokenDecimals(
@@ -28,47 +25,26 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
     vault.address as Address
   );
 
-  const { tokenAddress } = useParams();
-
-  const fetchSwapData = useCallback(
-    async (page: number = 1) => {
-      const response = await fetch(`/api/getSwaps?page=${page}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setSwaps(data.swaps);
-      } else {
-        console.error("Error getting in the database", data.message);
-      }
-    },
-    [setSwaps]
-  );
+  const { data } = useGetSwaps({ page: currentPage, vaultId: vault.id });
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  useEffect(() => {
-    if (tokenAddress) {
-      fetchSwapData(currentPage);
-    }
-  }, [tokenAddress, currentPage, fetchSwapData]);
-
-  // Formatted vault dates
+  // Vault Infos
   const formatStartDate = new Date(vault.startsAt).toLocaleDateString("en-US");
   const formatEndDate = new Date(vault.endsAt).toLocaleDateString("en-US");
+  const swaps = data?.swaps ?? [];
+  const total = data?.total ?? 0;
+  const limit = data?.limit ?? 10;
+  const totalPages = Math.max(1, Math.ceil(total / limit));
 
   // REFACTOR LATER:
 
-  // 1 VAULT CARD DEPOSIT - DEPOSIT FUNCTIONALITY
-  // 2 VAULT CARD REMOVE  - WITHDRAW FUNCTIONALITY
-  // 3 INTERFACE COMPONENTS
-  // 4 TYPE THE FUNCTIONS THAT ARE FROM TYPE ANY (atom.ts file)
-  // 5 TEST ALL THE SITE FEATURES ("The responsibility is working well")
+  // 1 INTERFACE COMPONENTS
+  // 2 TYPE THE FUNCTIONS THAT ARE FROM TYPE ANY (atom.ts file)
+  // 3 TEST ALL THE SITE FEATURES ("The responsibility is working well")
+  // 4 UPDATE ALL FILES THAT ARE USING THE ATOMS TO FETCH THE VAULT DATA ("Check one by one")
 
   return (
     <div className="min-h-screen p-4 bg-background font-SpaceGrotesk flex justify-center py-12">
@@ -91,7 +67,10 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
         </Card>
 
         {/* ================= VAULT INFO ================= */}
-        <div className="flex flex-wrap gap-8 text-sm max-lg:justify-center w-full">
+        <div
+          id="vault-info"
+          className="flex flex-wrap gap-8 text-sm max-lg:justify-center w-full"
+        >
           <Info
             label="Min deposit per wallet"
             value={`${formatUnits(minDeposit, tokenDecimals ?? 0)} ${
@@ -128,34 +107,50 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
               </Card>
             </div>
             <Card
-              className=" flex flex-col min-w-[34rem] overflow-y-ato p-4 gap-1.5 rounded-b-xl text-sm bg-black/5 border-b border-x "
+              className=" flex min-h-[23rem] flex-col min-w-[34rem] p-4 gap-1.5 rounded-b-xl text-sm bg-black/5 border-b border-x "
               intent={"tertiary"}
             >
-              {swaps.map((swap, index) => (
-                <TransactionCardRow
-                  key={index}
-                  amount={swap.amount}
-                  dateTime={swap.dateTime}
-                  sender={swap.sender}
-                  txHash={swap.txHash}
-                  type={swap.type}
-                />
-              ))}
+              {swaps.length > 0 ? (
+                swaps.map((swap, index) => (
+                  <TransactionCardRow
+                    key={index}
+                    amount={swap.amount}
+                    dateTime={swap.dateTime}
+                    sender={swap.sender}
+                    txHash={swap.txHash}
+                    type={swap.type}
+                    vault={vault}
+                  />
+                ))
+              ) : (
+                <div className="flex flex-col gap-4 h-full items-center justify-center text-white">
+                  <p className="text-3xl text-blue-400 font-semibold">
+                    No Swaps found
+                  </p>
+
+                  <span className="text-gray-300 text-base text-center max-w-sm">
+                    There are no transactions for this vault yet. Once a deposit
+                    or withdrawal is made, it will appear here.
+                  </span>
+                </div>
+              )}
             </Card>
           </div>
           {/* Card used to deposit or withdraw in a vault */}
-          <VaultCardTransaction vault={vault} />/
+          <VaultCardTransaction className="lg:min-h-[23rem]" vault={vault} />/
         </div>
 
         {/* ================= PAGINATION ================= */}
-        <div className="flex w-full justify-center max-w-[40rem] lg:max-w-[37rem] text-white">
-          <Pagination
-            onChange={handlePageChange}
-            page={currentPage}
-            totalPages={5}
-            scrollId="test"
-          />
-        </div>
+        {data?.swaps && totalPages > 1 && (
+          <div className="flex w-full justify-center max-w-[40rem] lg:max-w-[37rem] text-white">
+            <Pagination
+              onChange={handlePageChange}
+              page={currentPage}
+              totalPages={totalPages}
+              scrollId="vault-info"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

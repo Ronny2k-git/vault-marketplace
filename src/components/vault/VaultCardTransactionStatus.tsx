@@ -4,27 +4,38 @@ export type VaultCardTransactionStatusProps = {
   status: "Coming" | "Finished";
   title?: string;
   description?: string;
+  handleWithdraw?: () => void;
 };
 
 export function VaultCardTransactionStatus({
   status,
   title,
   description,
+  handleWithdraw,
 }: VaultCardTransactionStatusProps) {
   return (
-    <div className="flex flex-col max-lg:p-8 items-center justify-center h-full gap-4 text-center px-4">
-      <div
-        className={`text-2xl font-semibold ${
-          status === "Coming" ? "text-live-accent" : "text-blue-400"
-        }`}
-      >
-        {title}
+    <div className="flex flex-col max-lg:px-4 items-center justify-end h-full max-lg:gap-8 text-center px-4">
+      <div className="flex flex-col gap-4 h-full w-full items-center justify-center">
+        <div
+          className={`text-2xl sm:text-3xl font-semibold max-lg:pt-4 ${
+            status === "Coming" ? "text-live-accent" : "text-blue-400"
+          }`}
+        >
+          {title}
+        </div>
+
+        <p className="text-sm sm:text-base max-w-[15rem]  text-gray-300">
+          {description}
+        </p>
       </div>
 
-      <p className="text-sm max-w-[15rem] text-gray-300">{description}</p>
-
       {status === "Finished" && (
-        <Button intent={"glow"} size={"large"}>
+        <Button
+          className=" w-full"
+          onClick={handleWithdraw}
+          intent={"glow"}
+          size={"large"}
+        >
           Redeem your tokens
         </Button>
       )}

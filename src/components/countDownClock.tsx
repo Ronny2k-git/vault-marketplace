@@ -1,29 +1,27 @@
 "use client";
 
+import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
 import { getStatus } from "@/global/utils";
-import { vaultAtom } from "@/utils/atom";
-import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 
-export function CountDownClock() {
-  const [vaultData] = useAtom(vaultAtom);
+export function CountDownClock({ vault }: { vault: VaultFromDb }) {
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
   const calculateTimeLeft = useCallback(() => {
     const currentDate = new Date();
-    const startDate = new Date(vaultData.startsAt);
-    const endDate = new Date(vaultData.endsAt);
+    const startDate = new Date(vault.startsAt);
+    const endDate = new Date(vault.endsAt);
 
-    if (!vaultData) return;
+    if (!vault) return;
 
-    if (getStatus(vaultData) === "Coming") {
+    if (getStatus(vault) === "Coming") {
       setTimeLeft(startDate.getTime() - currentDate.getTime());
-    } else if (getStatus(vaultData) === "Live") {
+    } else if (getStatus(vault) === "Live") {
       setTimeLeft(endDate.getTime() - currentDate.getTime());
     } else {
       setTimeLeft(0);
     }
-  }, [vaultData]);
+  }, [vault]);
 
   const days = Math.max(Math.floor(timeLeft / 1000 / 60 / 60 / 24), 0);
   const hours = Math.max(Math.floor(timeLeft / 1000 / 60 / 60) % 24, 0);

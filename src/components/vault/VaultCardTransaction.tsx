@@ -3,16 +3,27 @@
 import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
 import { getStatus } from "@/global/utils";
 import { Tabs } from "@radix-ui/themes";
+import { twMerge } from "tailwind-merge";
 import { CountDownClock } from "../countDownClock";
 import { Card } from "../interface/Card";
 import { VaultCardDeposit } from "./VaultCardDeposit";
 import { VaultCardRemove } from "./VaultCardRemove";
 import { VaultCardTransactionStatus } from "./VaultCardTransactionStatus";
 
-export function VaultCardTransaction({ vault }: { vault: VaultFromDb }) {
+export function VaultCardTransaction({
+  vault,
+  className,
+}: {
+  vault: VaultFromDb;
+  className?: string;
+}) {
   return (
     <Card
-      className="flex flex-col max-lg:w-full max-lg:max-w-2xl h-[26rem] p-2 lg:max-h-[23rem] items-center max-w-sm border border-gray-500"
+      className={twMerge(
+        `flex flex-col max-lg:w-full max-lg:max-w-2xl h-[26rem] p-2 lg:max-h-[23rem] 
+        items-center max-w-sm border border-gray-500`,
+        className
+      )}
       intent={"secondary"}
       size={"medium"}
     >
@@ -31,7 +42,7 @@ export function VaultCardTransaction({ vault }: { vault: VaultFromDb }) {
           </div>
         </div>
 
-        <CountDownClock />
+        <CountDownClock key={vault.id} vault={vault} />
       </div>
 
       <Card
@@ -43,7 +54,7 @@ export function VaultCardTransaction({ vault }: { vault: VaultFromDb }) {
           <Tabs.Root defaultValue="Deposit">
             <Tabs.List
               size="2"
-              color="gold"
+              color="green"
               className="h-10 text-sm data-[state=active]:bg-button-bg-primary "
             >
               <Tabs.Trigger
@@ -72,7 +83,7 @@ export function VaultCardTransaction({ vault }: { vault: VaultFromDb }) {
           <VaultCardTransactionStatus
             status={status === "Coming" ? "Coming" : "Finished"}
             title={
-              status === "Coming" ? "Vault not stated yet" : "Vault has ended"
+              status === "Coming" ? "Vault not started yet" : "Vault has ended"
             }
             description={
               status === "Upcoming"

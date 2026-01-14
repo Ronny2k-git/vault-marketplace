@@ -1,45 +1,20 @@
 "use client";
 
+import { useGetVaultBalance } from "@/global/hooks";
 import { getStatus } from "@/global/utils";
-import { abiVault } from "@/utils/abiVault";
 import { vault } from "@prisma/client";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { formatUnits, isAddress } from "viem";
-import { sepolia } from "viem/chains";
-import { useAccount } from "wagmi";
-import { readContract } from "wagmi/actions";
+import { Address, formatUnits } from "viem";
 import { Button } from "../interface/Button";
 import { Card } from "../interface/Card";
-import { wagmiConfig } from "../Providers";
 
 interface CustomVault extends vault {
   participants?: number;
 }
 
 export function CardLive({ vault }: { vault: CustomVault }) {
-  const [totalDeposited, setTotalDeposited] = useState(0n);
-
-  const { address } = useAccount();
-
-  const totalAmountDeposited = useCallback(async () => {
-    if (!address) return;
-    if (!isAddress(vault.address)) return;
-
-    const deposited = await readContract(wagmiConfig, {
-      abi: abiVault,
-      address: vault.address,
-      functionName: "deposited",
-      chainId: sepolia.id,
-      args: [address],
-    });
-    setTotalDeposited(deposited);
-  }, [vault.address, address]);
-
-  useEffect(() => {
-    totalAmountDeposited();
-  }, [totalAmountDeposited]);
+  const { data: vaultBalance } = useGetVaultBalance(vault.address as Address);
 
   return (
     <Card className="h-auto rounded-xl" intent={"primary"}>
@@ -95,7 +70,7 @@ export function CardLive({ vault }: { vault: CustomVault }) {
             />
             Total deposited:
           </div>
-          <div>{formatUnits(totalDeposited, vault.assetTokenDecimals)}</div>
+          <div>{formatUnits(vaultBalance ?? 0n, vault.assetTokenDecimals)}</div>
         </div>
         {/* Status */}
         <div className="flex justify-between">
@@ -112,14 +87,12 @@ export function CardLive({ vault }: { vault: CustomVault }) {
           </div>
         </div>
         {/*  View the vault on your specific page */}
-        <div>
-          <Link href={`/token-vault/${vault.address}`}>
-            <Button intent={"primary"} size={"small"}>
-              View now
-              <FaArrowRightLong />
-            </Button>
-          </Link>
-        </div>
+        <Link className="mt-4" href={`/token-vault/${vault.address}`}>
+          <Button intent={"primary"} size={"small"}>
+            View now
+            <FaArrowRightLong />
+          </Button>
+        </Link>
       </div>
     </Card>
   );
