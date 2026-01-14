@@ -3,7 +3,7 @@
 import { abreviateAddress } from "@/global/utils";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { FaWallet } from "react-icons/fa";
-import { Button } from "./interface/button";
+import { Button } from "./interface/Button";
 
 export const ButtonStyle = () => {
   return (

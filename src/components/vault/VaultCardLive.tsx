@@ -10,7 +10,7 @@ import { formatUnits, isAddress } from "viem";
 import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import { readContract } from "wagmi/actions";
-import { Button } from "../interface/button";
+import { Button } from "../interface/Button";
 import { Card } from "../interface/Card";
 import { wagmiConfig } from "../Providers";
 

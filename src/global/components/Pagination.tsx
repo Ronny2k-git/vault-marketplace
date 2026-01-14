@@ -1,4 +1,4 @@
-import { Button } from "@/components/interface/button";
+import { Button } from "@/components/interface/Button";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 import { scrollToContainer } from "../utils";
 

@@ -1,6 +1,6 @@
 import { FaDiscord } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { Button } from "./interface/button";
+import { Button } from "./interface/Button";
 
 export function Footer() {
   return (

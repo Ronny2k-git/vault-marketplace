@@ -3,7 +3,7 @@
 import { APP_ROUTES } from "@/global/constants";
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "./button";
+import { Button } from "./Button";
 
 export function MenuMobile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

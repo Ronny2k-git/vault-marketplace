@@ -3,35 +3,29 @@
 import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
 
 import { VaultCardTransaction } from "@/components/vault/VaultCardTransaction";
-import { useHydrateAtoms } from "jotai/utils";
 
 import { Card } from "@/components/interface/Card";
 import { Swap, TransactionCardRow } from "@/components/swap/TransactionCardRow";
 import { Pagination } from "@/global/components";
-import { useGetTokenDecimals } from "@/global/hooks";
-import {
-  maxDepositAtom,
-  minDepositAtom,
-  swapAtom,
-  vaultAtom,
-} from "@/utils/atom";
+import { useGetTokenDecimals, useGetVaultDepositLimits } from "@/global/hooks";
+import { swapAtom } from "@/utils/atom";
 import { useAtom } from "jotai";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Address, formatUnits } from "viem";
 
 export function PageView({ vault }: { vault: VaultFromDb }) {
-  useHydrateAtoms([[vaultAtom, vault]]);
   // Atoms
   const [swaps] = useAtom<Swap[]>(swapAtom);
-  const [minDeposit] = useAtom(minDepositAtom);
-  const [maxDeposit] = useAtom(maxDepositAtom);
   const [currentPage, setCurrentPage] = useState(1);
   const [, setSwaps] = useAtom(swapAtom);
 
   // Hooks
   const { data: tokenDecimals } = useGetTokenDecimals(
     vault.assetTokenAddress as Address
+  );
+  const { minDeposit, maxDeposit } = useGetVaultDepositLimits(
+    vault.address as Address
   );
 
   const { tokenAddress } = useParams();

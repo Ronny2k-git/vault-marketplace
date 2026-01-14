@@ -9,7 +9,7 @@ import { abreviateAddress } from "@/global/utils";
 import { Tabs } from "radix-ui";
 import { useState } from "react";
 import { FaWallet } from "react-icons/fa";
-import { Button } from "./interface/button";
+import { Button } from "./interface/Button";
 import { Card } from "./interface/Card";
 
 export default function WalletConnection() {

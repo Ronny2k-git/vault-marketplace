@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/interface/button";
+import { Button } from "@/components/interface/Button";
 import { VaultCardCreate } from "@/components/vault/VaultCardCreate";
 import { VaultCardPreview } from "@/components/vault/VaultCardPreview";
 import { CreateVaultEvm } from "@/global/functions/CreateVaultEvm";

@@ -1,6 +1,6 @@
-import { useAccount } from "wagmi";
-import { useWallet as useSolanaWallet } from "@solana/wallet-adapter-react";
 import { useWallet as useAptosWallet } from "@aptos-labs/wallet-adapter-react";
+import { useWallet as useSolanaWallet } from "@solana/wallet-adapter-react";
+import { useAccount } from "wagmi";
 
 export function useMultiWallet() {
   const eth = useAccount();

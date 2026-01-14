@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/interface/button";
+import { Button } from "@/components/interface/Button";
 import { abreviateAddress } from "@/global/utils";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 

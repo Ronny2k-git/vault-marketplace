@@ -2,13 +2,13 @@
 
 import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
 import {
-  useGetTokenBalance,
+  useApproveToken,
   useGetTokenDecimals,
   useGetVaultBalance,
 } from "@/global/hooks";
 import { abiVault } from "@/utils/abiVault";
 import { useEffect, useState } from "react";
-import { Address, erc20Abi, formatUnits, isAddress, parseUnits } from "viem";
+import { Address, formatUnits, isAddress, parseUnits } from "viem";
 import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import {
@@ -16,7 +16,7 @@ import {
   waitForTransactionReceipt,
   writeContract,
 } from "wagmi/actions";
-import { Button } from "../interface/button";
+import { Button } from "../interface/Button";
 import { Card } from "../interface/Card";
 import { Input } from "../interface/input";
 import { wagmiConfig } from "../Providers";
@@ -27,42 +27,20 @@ export function VaultCardRemove({ vault }: { vault: VaultFromDb }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   //Hooks
-  const { data: tokenBalance } = useGetTokenBalance(
-    vault.assetTokenAddress as Address
-  );
   const { data: tokenDecimals } = useGetTokenDecimals(
     vault.assetTokenAddress as Address
   );
   const { data: vaultBalance } = useGetVaultBalance(vault.address as Address);
 
+  const { approve } = useApproveToken();
+
   const currentDate = new Date();
   const endDate = vault.endsAt;
   const startDate = vault.startsAt;
-
-  async function approveToken(amount: bigint) {
-    if (!isAddress(vault.address)) {
-      throw new Error("Unexpected error, address is invalid");
-    }
-
-    if (!isAddress(vault.assetTokenAddress)) {
-      throw new Error("Unexpected error, assetToken is invalid");
-    }
-    const spenderAddress = vault.address;
-
-    const tx = await writeContract(wagmiConfig, {
-      abi: erc20Abi,
-      address: vault.assetTokenAddress,
-      functionName: "approve",
-      chainId: sepolia.id,
-      args: [spenderAddress, amount],
-    });
-    return tx;
-  }
+  const parsedDepositAmount = parseUnits(removeAmount, tokenDecimals ?? 0);
 
   useEffect(() => {
     const validateButton = async () => {
-      const parsedDepositAmount = parseUnits(removeAmount, tokenDecimals ?? 0);
-
       if (parsedDepositAmount === 0n) {
         setMessage("Please enter a value");
         setIsButtonDisabled(true);
@@ -75,7 +53,7 @@ export function VaultCardRemove({ vault }: { vault: VaultFromDb }) {
         return;
       }
 
-      if (parsedDepositAmount > vaultBalance) {
+      if (parsedDepositAmount > (vaultBalance ?? 0n)) {
         setMessage("Insufficient balance");
         setIsButtonDisabled(true);
         return;
@@ -84,7 +62,7 @@ export function VaultCardRemove({ vault }: { vault: VaultFromDb }) {
       setMessage("");
     };
     validateButton();
-  }, [removeAmount]);
+  }, [removeAmount, tokenDecimals, vaultBalance, parsedDepositAmount]);
 
   const { isConnected } = useAccount();
 
@@ -112,9 +90,11 @@ export function VaultCardRemove({ vault }: { vault: VaultFromDb }) {
         return;
       }
 
-      const parsedDepositAmount = parseUnits(removeAmount, tokenDecimals ?? 0);
-
-      const approveTxHash = await approveToken(parsedDepositAmount);
+      const approveTxHash = await approve({
+        amount: parsedDepositAmount,
+        spenderAddress: vault.address as Address,
+        tokenAddress: vault.assetTokenAddress as Address,
+      });
 
       setMessage("Waiting for transaction");
 

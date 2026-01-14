@@ -2,23 +2,15 @@
 
 import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
 import {
+  useApproveToken,
   useGetTokenBalance,
   useGetTokenDecimals,
   useGetVaultBalance,
   useGetVaultDepositLimits,
 } from "@/global/hooks";
 import { abiVault } from "@/utils/abiVault";
-import { maxDepositAtom, minDepositAtom } from "@/utils/atom";
-import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import {
-  Address,
-  erc20Abi,
-  formatUnits,
-  Hex,
-  isAddress,
-  parseUnits,
-} from "viem";
+import { Address, formatUnits, Hex, parseUnits } from "viem";
 import { sepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import {
@@ -26,7 +18,7 @@ import {
   waitForTransactionReceipt,
   writeContract,
 } from "wagmi/actions";
-import { Button } from "../interface/button";
+import { Button } from "../interface/Button";
 import { Card } from "../interface/Card";
 import { Input } from "../interface/input";
 import { wagmiConfig } from "../Providers";
@@ -34,8 +26,6 @@ import { wagmiConfig } from "../Providers";
 export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
   // Atoms
   const [depositAmount, setDepositAmount] = useState("");
-  const [, setMinDeposit] = useAtom(minDepositAtom);
-  const [, setMaxDeposit] = useAtom(maxDepositAtom);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -51,31 +41,12 @@ export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
   );
   const { data: vaultBalance } = useGetVaultBalance(vault.address as Address);
 
+  const { approve } = useApproveToken();
+
   // Vault infos
   const currentDate = new Date();
   const endDate = vault.endsAt;
   const startDate = vault.startsAt;
-
-  if (!isAddress(vault.address)) {
-    throw new Error("Unexpected error, address is  invalid");
-  }
-  if (!isAddress(vault.assetTokenAddress)) {
-    throw new Error("Unexpected error, assetTokenAddress is invalid");
-  }
-
-  const tokenAddress = vault.assetTokenAddress;
-  const spenderAddress = vault.address;
-
-  async function approveToken(amount: bigint) {
-    const tx = await writeContract(wagmiConfig, {
-      abi: erc20Abi,
-      address: tokenAddress, //Token tUSDT
-      functionName: "approve",
-      chainId: sepolia.id,
-      args: [spenderAddress, amount],
-    });
-    return tx;
-  }
 
   const { isConnected } = useAccount();
 
@@ -89,26 +60,26 @@ export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
         return;
       }
 
-      if (parsedDepositAmount > vaultBalance) {
-        setMessage("Insufficient balance"); //Balance for deposit
+      if (parsedDepositAmount > (vaultBalance ?? 0n)) {
+        setMessage("Insufficient balance"); // Balance for deposit
         setIsButtonDisabled(true);
         return;
       }
 
       if (parsedDepositAmount < minDeposit) {
-        setMessage("The minimum deposit has not been reached"); //Minimum deposit per wallet
+        setMessage("The minimum deposit has not been reached"); // Minimum deposit per wallet
         setIsButtonDisabled(true);
         return;
       }
 
       if (parsedDepositAmount > maxDeposit) {
-        setMessage("the maximum deposit has been exceeded"); //Maximum deposit per wallet
+        setMessage("the maximum deposit has been exceeded"); // Maximum deposit per wallet
         setIsButtonDisabled(true);
         return;
       }
 
-      if (parsedDepositAmount + vaultBalance > maxDeposit) {
-        setMessage("The maximum deposit has been exceeded"); //Balance +input > Maxium deposit per wallet
+      if (parsedDepositAmount + (vaultBalance ?? 0n) > maxDeposit) {
+        setMessage("The maximum deposit has been exceeded"); // Balance +input > Maximum deposit per wallet
         setIsButtonDisabled(true);
         return;
       }
@@ -118,7 +89,7 @@ export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
     };
 
     validateButtonState();
-  }, [depositAmount]);
+  }, [depositAmount, tokenDecimals, vaultBalance, minDeposit, maxDeposit]);
 
   async function onSubmit() {
     try {
@@ -142,7 +113,11 @@ export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
 
       const parsedDepositAmount = parseUnits(depositAmount, tokenDecimals ?? 0);
 
-      const approveTxHash = await approveToken(parsedDepositAmount);
+      const approveTxHash = await approve({
+        amount: parsedDepositAmount,
+        spenderAddress: vault.address as Address,
+        tokenAddress: vault.assetTokenAddress as Address,
+      });
 
       setMessage("Waiting for approval receipt");
 

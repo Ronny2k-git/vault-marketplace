@@ -1,4 +1,4 @@
-import { Button } from "@/components/interface/button";
+import { Button } from "@/components/interface/Button";
 import { abreviateAddress } from "@/global/utils";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 

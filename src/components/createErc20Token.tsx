@@ -5,7 +5,7 @@ import { FaArrowAltCircleUp } from "react-icons/fa";
 import { GiToken } from "react-icons/gi";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { TbNumber16Small } from "react-icons/tb";
-import { Button } from "./interface/button";
+import { Button } from "./interface/Button";
 import { Card } from "./interface/Card";
 import { Input } from "./interface/input";
 
