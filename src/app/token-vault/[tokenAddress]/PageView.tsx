@@ -38,13 +38,6 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
   const limit = data?.limit ?? 10;
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
-  // REFACTOR LATER:
-
-  // 1 INTERFACE COMPONENTS
-  // 2 TYPE THE FUNCTIONS THAT ARE FROM TYPE ANY (atom.ts file)
-  // 3 TEST ALL THE SITE FEATURES ("The responsibility is working well")
-  // 4 UPDATE ALL FILES THAT ARE USING THE ATOMS TO FETCH THE VAULT DATA ("Check one by one")
-
   return (
     <div className="min-h-screen p-4 bg-background font-SpaceGrotesk flex justify-center py-12">
       <div className="w-full max-w-2xl lg:max-w-5xl flex flex-col items-start gap-6">
