@@ -7,7 +7,7 @@ import { MdDriveFileRenameOutline } from "react-icons/md";
 import { TbNumber16Small } from "react-icons/tb";
 import { Button } from "./interface/Button";
 import { Card } from "./interface/Card";
-import { Input } from "./interface/input";
+import { Input } from "./interface/Input";
 
 type TokenForm = {
   network: string;

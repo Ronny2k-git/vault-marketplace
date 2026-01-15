@@ -5,7 +5,7 @@ import { GiToken } from "react-icons/gi";
 import { LuDollarSign } from "react-icons/lu";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { Card } from "./interface/Card";
-import { Input } from "./interface/input";
+import { Input } from "./interface/Input";
 
 export function MktCapCalculator() {
   const [currentPrice, setCurrentPrice] = useState("");

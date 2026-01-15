@@ -39,12 +39,14 @@ body {
 
 .react-datepicker {
   /*General styles*/
-  @apply bg-background-foreground text-white border-border-primary rounded-lg shadow-lg !important;
+  @apply bg-background-foreground text-white border-gray-400/90
+  h-72 w-72 flex items-center justify-center rounded-lg shadow-lg 
+  !important;
 }
 
 .react-datepicker .react-datepicker__day {
   /*Color of days */
-  @apply text-white !important;
+  @apply text-white border border-gray-400/70 !important;
 }
 
 .react-datepicker__day-name {
@@ -54,7 +56,7 @@ body {
 
 .react-datepicker__header {
   /*Header of calendar*/
-  @apply bg-background-foreground border-border-primary text-white !important;
+  @apply bg-background-foreground text-white !important;
 }
 
 .react-datepicker__day:hover {
@@ -74,5 +76,5 @@ body {
 
 .react-datepicker__day--today {
   /*Today*/
-  @apply text-white bg-background-alt !important;
+  @apply text-white bg-background-alt  !important;
 }

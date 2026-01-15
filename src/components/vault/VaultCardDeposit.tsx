@@ -13,13 +13,14 @@ import { Address, formatUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { Button } from "../interface/Button";
 import { Card } from "../interface/Card";
-import { Input } from "../interface/input";
+import { Input } from "../interface/Input";
 import { useDeposit } from "../swap/hooks";
 
 export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
   // States
   const [depositAmount, setDepositAmount] = useState("");
   const [submitMessage, setSubmitMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { address: userAddress } = useAccount();
 
@@ -52,6 +53,8 @@ export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
 
   async function onSubmit() {
     try {
+      setIsSubmitting(true);
+
       // Hook used to deposit in a vault
       const txHash = await deposit({
         message: setSubmitMessage,
@@ -84,6 +87,8 @@ export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
     } catch (error) {
       setSubmitMessage("");
       console.error("❌ Error Depositing:", error);
+    } finally {
+      setIsSubmitting(true);
     }
   }
 
@@ -141,12 +146,14 @@ export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
       {/* Action */}
       <Button
         className={`border border-gray-400 ${
-          isButtonDisabled ? "cursor-not-allowed" : "cursor-pointer"
+          isButtonDisabled || isSubmitting
+            ? "cursor-not-allowed"
+            : "cursor-pointer"
         }`}
-        intent={isButtonDisabled ? "primary" : "secondary"}
+        intent={isButtonDisabled || isSubmitting ? "primary" : "secondary"}
         size={"mediumLarge"}
         onClick={onSubmit}
-        disabled={isButtonDisabled}
+        disabled={isButtonDisabled || isSubmitting}
       >
         {submitMessage || message || `Deposit ${vault.assetTokenName}`}
       </Button>

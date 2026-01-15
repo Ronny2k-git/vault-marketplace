@@ -74,6 +74,7 @@ export function useDeposit() {
       }, 1500);
       return { hash: depositTx };
     } catch (error) {
+      message("");
       console.error("❌ Error Depositing:", error);
     }
   };

@@ -13,13 +13,14 @@ import { Address, formatUnits, parseUnits } from "viem";
 import { useAccount } from "wagmi";
 import { Button } from "../interface/Button";
 import { Card } from "../interface/Card";
-import { Input } from "../interface/input";
+import { Input } from "../interface/Input";
 import { useWithdraw } from "../swap/hooks";
 
 export function VaultCardRemove({ vault }: { vault: VaultFromDb }) {
   // States
   const [removeAmount, setRemoveAmount] = useState("");
   const [submitMessage, setSubmitMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { address: userAddress } = useAccount();
 
@@ -52,6 +53,8 @@ export function VaultCardRemove({ vault }: { vault: VaultFromDb }) {
 
   async function onSubmit() {
     try {
+      setIsSubmitting(true);
+
       // Hook used to withdraw in a vault
       const txHash = await withdraw({
         message: setSubmitMessage,
@@ -85,6 +88,8 @@ export function VaultCardRemove({ vault }: { vault: VaultFromDb }) {
     } catch (error) {
       setSubmitMessage("");
       console.error("❌ Error Withdrawing:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -138,12 +143,14 @@ export function VaultCardRemove({ vault }: { vault: VaultFromDb }) {
       {/* Action */}
       <Button
         className={`border border-gray-400 ${
-          isButtonDisabled ? "cursor-not-allowed" : "cursor-pointer"
+          isButtonDisabled || isSubmitting
+            ? "cursor-not-allowed"
+            : "cursor-pointer"
         }`}
-        intent={isButtonDisabled ? "primary" : "secondary"}
+        intent={isButtonDisabled || isSubmitting ? "primary" : "secondary"}
         size={"mediumLarge"}
         onClick={onSubmit}
-        disabled={isButtonDisabled}
+        disabled={isButtonDisabled || isSubmitting}
       >
         {message || submitMessage || `Withdraw ${vault.assetTokenName}`}
       </Button>

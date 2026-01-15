@@ -4,7 +4,7 @@ import { FormValues } from "@/global/types";
 import { Controller, UseFormReturn } from "react-hook-form";
 import { Card } from "../interface/Card";
 import DatePickerInput from "../interface/DatePickerInput";
-import { Input } from "../interface/input";
+import { Input } from "../interface/Input";
 
 type CardCreateProps = {
   form: UseFormReturn<FormValues>;
@@ -207,11 +207,11 @@ export function VaultCardCreate({ form }: CardCreateProps) {
           <div className="flex flex-col gap-2">
             <h3 className="text-white text-sm flex">
               Minimum Deposit per wallet
-              <div className="text-[10px] text-text-foreground ml-1">
+              <div className="text-xs text-text-foreground ml-1">
                 (optional)
               </div>
             </h3>
-            <h4 className="text-text-foreground text-[10px]">
+            <h4 className="text-text-foreground text-xs">
               The minimum amount that can be deposited per transaction
             </h4>
             <Input
@@ -225,11 +225,11 @@ export function VaultCardCreate({ form }: CardCreateProps) {
           <div className="flex flex-col gap-2">
             <h3 className="text-white text-sm flex">
               Maximum Deposit per wallet
-              <div className="text-[10px] text-text-foreground ml-1">
+              <div className="text-xs text-text-foreground ml-1">
                 (optional)
               </div>
             </h3>
-            <h4 className="text-text-foreground text-[10px]">
+            <h4 className="text-text-foreground text-xs">
               The maximum amount that can be deposited per transaction
             </h4>
             <Input
@@ -245,7 +245,7 @@ export function VaultCardCreate({ form }: CardCreateProps) {
 
           <div className="flex flex-col col-span-full">
             <h3 className=" text-base font-semibold text-indigo-200"> Dates</h3>
-            <h4 className="text-[10px] text-text-foreground">
+            <h4 className="text-xs text-text-foreground">
               Chose the period when your vault will be available for do
               deposits. (Withdraw can be done anytime since user has balance
               deposited)
@@ -255,11 +255,25 @@ export function VaultCardCreate({ form }: CardCreateProps) {
           {/* Start Date */}
           <div className="flex flex-col relative gap-2">
             <h3 className="text-white text-sm">Start date</h3>
+
             <Input
               value={startDate ? formatDate(startDate) : ""}
               placeholder="00/00/0000 00:00"
               intent={"primary"}
               size={"mediumLarge"}
+              iconRight={
+                <Controller
+                  control={control}
+                  name="startDate"
+                  render={({ field: { value, onChange } }) => (
+                    <DatePickerInput
+                      position="top"
+                      selectedDate={value}
+                      onDateChange={onChange}
+                    />
+                  )}
+                />
+              }
             />
 
             {errors.network && (
@@ -267,30 +281,30 @@ export function VaultCardCreate({ form }: CardCreateProps) {
                 {errors.network.message}
               </p>
             )}
-
-            <Controller
-              control={control}
-              name="startDate"
-              render={({ field: { value, onChange } }) => (
-                <div className="absolute right-4 mt-9">
-                  <DatePickerInput
-                    position="top"
-                    selectedDate={value}
-                    onDateChange={onChange}
-                  />
-                </div>
-              )}
-            />
           </div>
 
           {/* End Date */}
           <div className="flex flex-col relative gap-2">
             <h3 className="text-white text-sm">End date</h3>
+
             <Input
               value={endDate ? formatDate(endDate) : ""}
               placeholder="00/00/0000 00:00"
               intent={"primary"}
               size={"mediumLarge"}
+              iconRight={
+                <Controller
+                  control={control}
+                  name="endDate"
+                  render={({ field: { value, onChange } }) => (
+                    <DatePickerInput
+                      position="top"
+                      selectedDate={value}
+                      onDateChange={onChange}
+                    />
+                  )}
+                />
+              }
             />
 
             {errors.network && (
@@ -298,20 +312,6 @@ export function VaultCardCreate({ form }: CardCreateProps) {
                 {errors.network.message}
               </p>
             )}
-
-            <Controller
-              control={control}
-              name="endDate"
-              render={({ field: { value, onChange } }) => (
-                <div className="absolute right-4 mt-9">
-                  <DatePickerInput
-                    position="top"
-                    selectedDate={value}
-                    onDateChange={onChange}
-                  />
-                </div>
-              )}
-            />
           </div>
         </div>
       </section>

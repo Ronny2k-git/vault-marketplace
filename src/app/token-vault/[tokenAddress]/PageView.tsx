@@ -13,8 +13,7 @@ import { useState } from "react";
 import { Address, formatUnits } from "viem";
 
 export function PageView({ vault }: { vault: VaultFromDb }) {
-  // Atoms
-  // const [swaps] = useAtom<Swap[]>(swapAtom);
+  // States
   const [currentPage, setCurrentPage] = useState(1);
 
   // Hooks
@@ -31,7 +30,7 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
     setCurrentPage(page);
   };
 
-  // Vault Infos
+  // Vault infos
   const formatStartDate = new Date(vault.startsAt).toLocaleDateString("en-US");
   const formatEndDate = new Date(vault.endsAt).toLocaleDateString("en-US");
   const swaps = data?.swaps ?? [];

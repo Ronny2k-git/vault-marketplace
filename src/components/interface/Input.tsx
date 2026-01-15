@@ -54,10 +54,12 @@ export interface InputProps
   placeholder?: string;
   size?: "medium" | "mediumLarge" | "large";
   iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
 }
 
 export function Input({
   iconLeft,
+  iconRight,
   className,
   intent,
   size,
@@ -68,13 +70,17 @@ export function Input({
       <input
         className={twMerge(
           inputStyle({ intent, size, className }),
-          iconLeft && "!pl-10"
+          iconLeft && "!pl-10",
+          iconRight && "!pr-10"
         )}
         {...props}
       />
 
       {iconLeft && (
-        <span className="absolute left-0 top-2.5 pl-2">{iconLeft}</span>
+        <span className="absolute left-0 top-3 pl-3">{iconLeft}</span>
+      )}
+      {iconRight && (
+        <span className="absolute right-0 top-3 pr-3">{iconRight}</span>
       )}
     </div>
   );

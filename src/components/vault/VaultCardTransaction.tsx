@@ -1,14 +1,26 @@
 "use client";
 
 import { VaultFromDb } from "@/app/api/getTokenAddress/prisma";
+import { useGetVaultBalance } from "@/global/hooks";
 import { getStatus } from "@/global/utils";
 import { Tabs } from "@radix-ui/themes";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { Address, formatUnits, parseUnits } from "viem";
+import { useAccount } from "wagmi";
 import { CountDownClock } from "../countDownClock";
+import { Button } from "../interface/Button";
 import { Card } from "../interface/Card";
+import { useWithdraw } from "../swap/hooks";
 import { VaultCardDeposit } from "./VaultCardDeposit";
 import { VaultCardRemove } from "./VaultCardRemove";
 import { VaultCardTransactionStatus } from "./VaultCardTransactionStatus";
+
+export const statusClasses: Record<string, string> = {
+  Live: "text-live-accent ml-1",
+  Coming: "text-blue-400 ml-1",
+  Finished: "text-red-400 ml-1",
+};
 
 export function VaultCardTransaction({
   vault,
@@ -17,10 +29,72 @@ export function VaultCardTransaction({
   vault: VaultFromDb;
   className?: string;
 }) {
+  // Hooks
+  const { data: vaultBalance, refetch: refetchBalance } = useGetVaultBalance(
+    vault.address as Address
+  );
+  const { withdraw } = useWithdraw();
+
+  // State
+  const [withdrawAllMessage, setWithdrawAllMessage] = useState("");
+  const [isWithdrawing, setIsWithdrawing] = useState(false);
+
+  const { address: userAddress } = useAccount();
+
+  const depositedValue = formatUnits(
+    vaultBalance ?? 0n,
+    vault.assetTokenDecimals
+  );
+
+  const statusClass = statusClasses[getStatus(vault)] ?? "text-gray-400 ml-1";
+
+  const onWithdrawAll = async () => {
+    try {
+      setIsWithdrawing(true);
+
+      const txHash = await withdraw({
+        amount: depositedValue,
+        message: setWithdrawAllMessage,
+        tokenDecimals: vault.assetTokenDecimals ?? 0,
+        vault,
+      });
+
+      if (!txHash) return;
+
+      const parsedDepositAmount = parseUnits(
+        depositedValue,
+        vault.assetTokenDecimals ?? 0
+      );
+
+      // Save the transaction to the database
+      const response = await fetch("/api/createSwap", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: parsedDepositAmount.toString(),
+          type: "withdraw",
+          txHash: txHash.hash,
+          sender: userAddress,
+          vaultId: vault.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      setWithdrawAllMessage("Transaction successfull");
+      refetchBalance();
+      return data;
+    } catch (error) {
+      console.log("❌ Error Withdrawing:", error);
+    } finally {
+      setIsWithdrawing(false);
+    }
+  };
+
   return (
     <Card
       className={twMerge(
-        `flex flex-col max-lg:w-full max-lg:max-w-2xl h-[26rem] p-2 lg:max-h-[23rem] 
+        `flex flex-col max-lg:w-full max-lg:max-w-2xl min-h-[23rem] max-h-[23rem] 
         items-center max-w-sm border border-gray-500`,
         className
       )}
@@ -31,15 +105,7 @@ export function VaultCardTransaction({
         <div className="flex gap-2">
           <p>Status:</p>
 
-          <div
-            className={
-              getStatus(vault) === "Live"
-                ? "text-live-accent ml-1"
-                : "text-blue-400 ml-1"
-            }
-          >
-            {getStatus(vault)}
-          </div>
+          <span className={`${statusClass}`}>{getStatus(vault)}</span>
         </div>
 
         <CountDownClock key={vault.id} vault={vault} />
@@ -89,6 +155,21 @@ export function VaultCardTransaction({
               status === "Upcoming"
                 ? "You will be able to deposit once the vault is live."
                 : "Deposits and withdrawals are no longer available."
+            }
+            vault={vault}
+            vaultBalance={depositedValue}
+            handleWithdraw={
+              <Button
+                className=" w-full border border-gray-950"
+                onClick={onWithdrawAll}
+                disabled={isWithdrawing || vaultBalance === 0n}
+                intent={
+                  isWithdrawing || vaultBalance === 0n ? "primary" : "glow"
+                }
+                size={"large"}
+              >
+                {withdrawAllMessage || "Withdraw all your tokens"}
+              </Button>
             }
           />
         )}

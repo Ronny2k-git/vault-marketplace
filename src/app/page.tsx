@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/interface/Button";
-import { ErrorDatabase } from "@/components/interface/errorDatabase";
+import { ErrorDatabase } from "@/components/interface/ErrorDatabase";
 import { CardLive } from "@/components/vault/VaultCardLive";
 import { VaultCardRow } from "@/components/vault/VaultCardRow";
 import { Pagination } from "@/global/components/Pagination";

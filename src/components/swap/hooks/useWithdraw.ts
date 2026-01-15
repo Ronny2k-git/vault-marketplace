@@ -74,6 +74,7 @@ export function useWithdraw() {
       }, 1500);
       return { hash: withdrawTx };
     } catch (error) {
+      message("");
       console.error("❌ Error withdrawing:", error);
     }
   };
