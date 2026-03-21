@@ -16,24 +16,24 @@ type createVaultInDbProps = {
   assetTokenAddress: string;
 };
 
-export const createVaultInDb = async (vaultDate: createVaultInDbProps) => {
+export const createVaultInDb = async (vault: createVaultInDbProps) => {
   try {
-    const vault = await prisma.vault.create({
+    const vaultData = await prisma.vault.create({
       data: {
-        address: vaultDate.address,
-        name: vaultDate.vaultName,
-        logo: vaultDate.vaultLogo,
-        banner: vaultDate.bannerUrl,
-        startsAt: vaultDate.startDate,
-        endsAt: vaultDate.endDate,
-        chainId: vaultDate.chainId,
-        assetTokenDecimals: vaultDate.assetTokenDecimals,
-        assetTokenName: vaultDate.assetTokenName,
-        assetTokenSymbol: vaultDate.assetTokenSymbol,
-        assetTokenAddress: vaultDate.assetTokenAddress,
+        address: vault.address,
+        name: vault.vaultName,
+        logo: vault.vaultLogo,
+        banner: vault.bannerUrl,
+        startsAt: vault.startDate,
+        endsAt: vault.endDate,
+        chainId: vault.chainId,
+        assetTokenDecimals: vault.assetTokenDecimals,
+        assetTokenName: vault.assetTokenName,
+        assetTokenSymbol: vault.assetTokenSymbol,
+        assetTokenAddress: vault.assetTokenAddress,
       },
     });
-    return vault;
+    return vaultData;
   } catch (error) {
     console.error("Error saving vault to DB", error);
     throw new Error("Failed to save vault to database");

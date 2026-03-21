@@ -18,10 +18,10 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
 
   // Hooks
   const { data: tokenDecimals } = useGetTokenDecimals(
-    vault.assetTokenAddress as Address
+    vault.assetTokenAddress as Address,
   );
   const { minDeposit, maxDeposit } = useGetVaultDepositLimits(
-    vault.address as Address
+    vault.address as Address,
   );
 
   const { data } = useGetSwaps({ page: currentPage, vaultId: vault.id });
@@ -80,7 +80,7 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
         </div>
 
         {/* ================= TRANSACTIONS ================= */}
-        <div className="flex max-lg:flex-col-reverse lg:gap-2 w-full justify-center max-lg:items-center ">
+        <div className="flex max-lg:flex-col-reverse max-lg:gap-12 lg:gap-2 w-full justify-center ">
           <div className="flex w-full flex-col overflow-x-auto">
             <div className="flex flex-col gap-4 max-lg:mt-12">
               <p className="lg:hidden text-white text-2xl font-semibold">
@@ -88,7 +88,7 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
               </p>
 
               <Card
-                className=" rounded-t-xl px-4 text-sm  flex min-w-[34rem]"
+                className=" rounded-t-xl px-4 text-sm flex min-w-[34rem]"
                 intent="primary"
                 size="mediumLong"
               >

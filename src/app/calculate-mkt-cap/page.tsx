@@ -39,7 +39,7 @@ export default function MarketCapPage() {
           <h3 className="text-white">500,000,000 * $100 = </h3>
           <div className="text-green-500 flex gap-2">
             $ 50,000,000,000
-            <div className="text-white mb-20">is this the market cap.</div>
+            <div className="text-white mb-20">this is the market cap.</div>
           </div>
         </div>
       </div>

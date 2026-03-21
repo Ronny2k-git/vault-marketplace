@@ -27,15 +27,15 @@ export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
   // Vault hooks
   const { data: vaultBalance } = useGetVaultBalance(vault.address as Address);
   const { minDeposit, maxDeposit } = useGetVaultDepositLimits(
-    vault.address as Address
+    vault.address as Address,
   );
 
   // Token hooks
   const { data: tokenBalance } = useGetTokenBalance(
-    vault.assetTokenAddress as Address
+    vault.assetTokenAddress as Address,
   );
   const { data: tokenDecimals } = useGetTokenDecimals(
-    vault.assetTokenAddress as Address
+    vault.assetTokenAddress as Address,
   );
 
   // Transaction hooks
@@ -97,11 +97,11 @@ export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
   }
 
   return (
-    <div className="flex flex-col p-2 gap-4">
+    <div className="flex h-full w-full flex-col p-2 gap-4">
       <div className="flex flex-col gap-2 max-lg:mt-6">
         <h1 className=" text-white text-xl">Deposit {vault.assetTokenName}</h1>
         <h2 className="text-sm text-gray-300">
-          Deposit yours tokens into a {vault.name} for safety!
+          Deposit into a {vault.name} for safety!
         </h2>
       </div>
 
@@ -113,7 +113,7 @@ export function VaultCardDeposit({ vault }: { vault: VaultFromDb }) {
               Balance:{" "}
               <span className="text-green-400 font-semibold">
                 {Number(
-                  formatUnits(tokenBalance ?? 0n, tokenDecimals ?? 0) || 0
+                  formatUnits(tokenBalance ?? 0n, tokenDecimals ?? 0) || 0,
                 ).toFixed(0)}
               </span>
             </div>

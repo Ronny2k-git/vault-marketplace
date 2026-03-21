@@ -21,7 +21,7 @@ const cardStyle = cva("", {
         "text-base",
       ],
       mediumSmall: ["w-full", "h-auto", "border-2", "rounded-md"],
-      medium: ["w-full", "h-auto", "rounded-2xl"],
+      medium: ["w-full", "h-full", "rounded-2xl", "p-2"],
       mediumLong: [
         "w-full",
         "py-2",
@@ -57,7 +57,8 @@ const cardStyle = cva("", {
   },
 });
 export interface ButtonProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "disabled">,
+  extends
+    Omit<React.HTMLAttributes<HTMLDivElement>, "disabled">,
     VariantProps<typeof cardStyle> {}
 
 export const Card: React.FC<ButtonProps> = ({

@@ -31,7 +31,7 @@ export function VaultCardTransaction({
 }) {
   // Hooks
   const { data: vaultBalance, refetch: refetchBalance } = useGetVaultBalance(
-    vault.address as Address
+    vault.address as Address,
   );
   const { withdraw } = useWithdraw();
 
@@ -43,7 +43,7 @@ export function VaultCardTransaction({
 
   const depositedValue = formatUnits(
     vaultBalance ?? 0n,
-    vault.assetTokenDecimals
+    vault.assetTokenDecimals,
   );
 
   const statusClass = statusClasses[getStatus(vault)] ?? "text-gray-400 ml-1";
@@ -63,7 +63,7 @@ export function VaultCardTransaction({
 
       const parsedDepositAmount = parseUnits(
         depositedValue,
-        vault.assetTokenDecimals ?? 0
+        vault.assetTokenDecimals ?? 0,
       );
 
       // Save the transaction to the database
@@ -94,9 +94,8 @@ export function VaultCardTransaction({
   return (
     <Card
       className={twMerge(
-        `flex flex-col max-lg:w-full max-lg:max-w-2xl min-h-[23rem] max-h-[23rem] 
-        items-center max-w-sm border border-gray-500`,
-        className
+        `flex flex-col max-lg:w-full min-h-[23rem max-h-[23rem] items-center max-w-sm border border-gray-500`,
+        className,
       )}
       intent={"secondary"}
       size={"medium"}

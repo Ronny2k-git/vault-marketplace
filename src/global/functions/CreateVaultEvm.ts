@@ -3,14 +3,11 @@ import { NETWORK_TO_CHAIN_ID } from "@/utils/networks";
 import { erc20Abi, Hex, parseUnits } from "viem";
 import { readContract, simulateContract, writeContract } from "wagmi/actions";
 import { wagmiConfig } from "../../components/Providers";
-import {
-  ContractParams,
-  FormValues,
-} from "../../components/vault/VaultCardCreate";
+import { ContractParams, FormValues } from "../types";
 
 export async function CreateVaultEvm(
   formValues: FormValues,
-  isConnected: boolean
+  isConnected: boolean,
 ) {
   const chainId = NETWORK_TO_CHAIN_ID[formValues.network];
 
@@ -51,11 +48,11 @@ export async function CreateVaultEvm(
 
   const adjustedMaxDeposit = parseUnits(
     formValues.maxDeposit.toString(),
-    tokenDecimals
+    tokenDecimals,
   );
   const adjustedMinDeposit = parseUnits(
     formValues.minDeposit.toString(),
-    tokenDecimals
+    tokenDecimals,
   );
 
   const configParams: ContractParams = {
@@ -79,9 +76,9 @@ export async function CreateVaultEvm(
     return;
   }
 
-  const vaultCreate = await writeContract(wagmiConfig, configParams);
+  const create = await writeContract(wagmiConfig, configParams);
 
-  console.log("Vault creation result:", vaultCreate);
+  console.log("Vault creation result:", create);
 
   const tokenData = await getContract(formValues.assetToken);
   const { name: assetTokenName, symbol: assetTokenSymbol } = tokenData;
