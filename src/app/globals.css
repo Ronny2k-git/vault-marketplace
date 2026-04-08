@@ -37,6 +37,31 @@ body {
   font-family: "SpaceGrotesk", Arial, Helvetica, sans-serif;
 }
 
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a; /* fundo (dark) */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6b7280; /* cinza */
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af; /* cinza mais claro no hover */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6b7280 #1a1a1a;
+}
+
 .react-datepicker {
   /*General styles*/
   @apply bg-background-foreground text-white border-gray-400/90

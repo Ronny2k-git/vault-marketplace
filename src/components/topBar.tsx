@@ -23,8 +23,8 @@ export function TopBar() {
           <div className="flex items-center gap-2 lg:mr-4">
             <img
               alt="website-logo"
-              className="size-12 rounded-full border-2 border-gray-800"
-              src={"/website-logo.jpg"}
+              className="size-11 rounded-full border-2 border-gray-800"
+              src={"/website-logo.webp"}
             />
 
             <Link href="/">

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: "Vault Marketplace",
   description: "Save your tokens quickly and easily",
   icons: {
-    shortcut: "/website-logo.jpg",
+    shortcut: "/website-logo.webp",
   },
 };
 
@@ -34,7 +34,7 @@ export default async function RootLayout({
 }>) {
   const initialState = cookieToInitialState(
     getConfig(),
-    (await headers()).get("cookie")
+    (await headers()).get("cookie"),
   );
 
   return (

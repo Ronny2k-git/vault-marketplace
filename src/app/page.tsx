@@ -70,24 +70,28 @@ export default function TokenVaults() {
             <span className="text-base text-text-foreground mb-6">
               Take a glance on previous token vaults.
             </span>
-            <div className="flex justify-center items-center">
-              <div className=" flex w-full py-3 text-text-foreground max-[840px]:hidden">
-                <div className="flex-1 flex">
-                  <div className="flex-1">Vault Name</div>
-                  <div className="flex-1">Participants</div>
-                  <div className="flex-1">Total Deposited</div>
-                  <div className="flex-1">Start Date</div>
-                  <div className="mr-8">Link</div>
+            <div className="w-full overflow-y-auto">
+              <div className="min-w-[46rem]">
+                <div className="flex justify-center items-center ">
+                  <div className=" flex w-full py-3 text-text-foreground ">
+                    <div className="flex-1 flex">
+                      <div className="flex-1">Vault Name</div>
+                      <div className="flex-1">Participants</div>
+                      <div className="flex-1">Total Deposited</div>
+                      <div className="flex-1">Start Date</div>
+                      <div className="mr-8">Link</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Completed Vaults */}
-          <div className="flex flex-col gap-1 items-center overflow-y-auto">
-            {getCompletedVaults?.vaults.map((vault: vault) => (
-              <VaultCardRow key={vault.address} vault={vault} />
-            ))}
+              {/* Completed Vaults */}
+              <div className="flex flex-col gap-1 items-center">
+                {getCompletedVaults?.vaults.map((vault: vault) => (
+                  <VaultCardRow key={vault.address} vault={vault} />
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="flex justify-center text-white my-10">

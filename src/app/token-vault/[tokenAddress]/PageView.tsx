@@ -66,13 +66,13 @@ export function PageView({ vault }: { vault: VaultFromDb }) {
           <Info
             label="Min deposit per wallet"
             value={`${formatUnits(minDeposit, tokenDecimals ?? 0)} ${
-              vault.name
+              vault.assetTokenName
             }`}
           />
           <Info
             label="Max deposit per wallet"
             value={`${formatUnits(maxDeposit, tokenDecimals ?? 0)} ${
-              vault.name
+              vault.assetTokenName
             }`}
           />
           <Info label="Start date" value={formatStartDate} />
