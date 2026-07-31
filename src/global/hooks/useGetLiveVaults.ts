@@ -8,6 +8,7 @@ async function fetchLiveVaults() {
   }
 
   const data = await res.json();
+
   return data.vaults;
 }
 

@@ -8,7 +8,7 @@ type CompletedVaultsResponse = {
 };
 
 async function fetchCompletedVaults(
-  page: number
+  page: number,
 ): Promise<CompletedVaultsResponse> {
   const res = await fetch(`/api/getEndVaults?page=${page}`);
 
