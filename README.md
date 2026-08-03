@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# 🔐 Vault Marketplace
 
-First, run the development server:
+A decentralized Web3 marketplace for creating and managing token vaults on Ethereum Sepolia.
+
+![Solidity](https://img.shields.io/badge/Solidity-363636?style=flat-square&logo=solidity&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=next.js&logoColor=white)
+![Ethereum](https://img.shields.io/badge/Sepolia-Testnet-627EEA?style=flat-square&logo=ethereum&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+
+</div>
+
+---
+
+### Overview
+
+Users can deploy their own vaults, deposit and withdraw ERC-20 tokens, and explore active or completed vaults through a modern web interface — all backed by smart contracts on Sepolia.
+
+**Core features:**
+
+- Create token vaults directly on the blockchain
+- Deposit and withdraw ERC-20 tokens
+- Browse active and completed vaults
+- Wallet connection and authentication
+- Smart contract interaction on Sepolia
+- Responsive, modern UI
+
+---
+
+### Stack
+
+| Layer          | Technologies                                        |
+| -------------- | --------------------------------------------------- |
+| **Frontend**   | Next.js · React · Tailwind CSS · Wagmi · Viem · Zod |
+| **Backend**    | Prisma ORM · MySQL                                  |
+| **Blockchain** | Solidity · Ethereum Sepolia Testnet                 |
+| **Deployment** | Vercel                                              |
+
+---
+
+### Smart Contracts
+
+Solidity contracts handle:
+
+- Creating new token vaults
+- Managing deposits and withdrawals
+- Storing vault information on-chain
+
+Custom ERC-20 tokens were also developed and deployed to Sepolia for testing the marketplace and vault functionality.
+
+---
+
+### Project Architecture
+
+```text
+User
+   │
+   ▼
+
+Next.js + React
+   │
+   ├──────────────► Smart Contracts (Solidity)
+   │                    │
+   │                    ▼
+   │             Ethereum Sepolia
+   │
+   ▼
+Next.js API Routes
+   │
+   ▼
+Prisma ORM
+   │
+   ▼
+MySQL Database
+```
+
+---
+
+### Getting Started
+
+```bash
+git clone <Ronny2k-git/vault-marketplace>
+npm install
+```
+
+```env
+You'll need your own:
+
+- **MySQL database** (local or hosted — e.g. Railway, PlanetScale)
+- **Sepolia RPC URL** (free tier via [Alchemy](https://alchemy.com) or [Infura](https://infura.io))
+- **Deployed contract address** (deploy your own using the contracts in `/contracts`)
+```
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+→ `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<sub>Built for educational and portfolio purposes.</sub>
